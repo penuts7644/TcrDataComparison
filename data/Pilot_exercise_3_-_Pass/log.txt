@@ -1,0 +1,13 @@
+Chain parameter set to: alpha
+Species parameter set to: human
+Setting number of threads to: 8
+Working directory set to: "/software/galaxy/personal/woutv/galaxy_dev/database/files/000/dataset_139_files/"
+Read some model parms
+GeneChoice read
+GeneChoice read
+Deletion read
+Deletion read
+Insertion read
+DinucMarkov read
+Seed: 2101512924476655655
+Sequence generation [                                                  ] 0.000 %Sequence generation [||||||||||||||||||||||||||||||||||||||||||||||||||]  Done. 
