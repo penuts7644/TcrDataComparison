@@ -20,7 +20,8 @@ def main():
         + "_translated.csv"
     pandas.DataFrame.to_csv(df, path_or_buf=os.path.join(
         os.getcwd(), output_filename), index=False)
-    print("Written '{}' file to '{}' directory".format(output_filename, os.getcwd()))
+    print("Written '{}' file to '{}' directory".format(output_filename,
+                                                       os.getcwd()))
 
 
 if __name__ == "__main__":
