@@ -1,4 +1,10 @@
-"""Checks and locates any stop codons in the generated nt/CDR3 sequences."""
+"""Checks and locates any stop codons in the generated nt/CDR3 sequences.
+
+Usage
+-----
+    First argument points to the file containing the sequences (either
+    nt_sequence or nt_CDR3 column).
+"""
 
 import os
 import re

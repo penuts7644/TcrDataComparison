@@ -1,4 +1,11 @@
-"""Translate IGoR output realization data to human readable format."""
+"""Translate IGoR output realization data to human readable format.
+
+Usage
+-----
+    First argument points to the realizations file.
+    Second argument points to the model parameters file that was used for the
+    construction of the realizations file.
+"""
 
 import os
 import sys
