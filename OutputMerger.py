@@ -1,4 +1,4 @@
-"""Merges the output CSV files from Pygor into one.
+"""Merges the output CSV files into one.
 
 Usage
 -----
