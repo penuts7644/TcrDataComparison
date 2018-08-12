@@ -26,7 +26,7 @@ def main():
     output_filename = sys.argv[1].split("/")[-1].split(".")[0] \
         + "_translated.csv"
     pandas.DataFrame.to_csv(df, path_or_buf=os.path.join(
-        os.getcwd(), output_filename), index=False)
+        os.getcwd(), output_filename), index=False, sep=";")
     print("Written '{}' file to '{}' directory".format(output_filename,
                                                        os.getcwd()))
 
