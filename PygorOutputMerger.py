@@ -1,4 +1,4 @@
-"""Merges the output CSV files from one IGoR run into one file.
+"""Merges the output CSV files from Pygor into one.
 
 Usage
 -----
@@ -20,9 +20,6 @@ def main():
     print("Given directory path: {}".format(os.path.abspath(sys.argv[1])))
     combined_df = pandas.DataFrame()
     for csv_file in glob.glob(os.path.abspath(sys.argv[1]) + "/*.csv"):
-
-        # TODO: Some CSV files are not consistent with the separator ';' or ','
-
         df = pandas.read_csv(csv_file, sep=";", index_col="seq_index",
                              header=0)
         combined_df = pandas.concat([combined_df, df], axis=1, sort=False)
