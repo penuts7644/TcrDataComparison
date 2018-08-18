@@ -1,13 +1,0 @@
-Chain parameter set to: alpha
-Species parameter set to: human
-Setting number of threads to: 4
-Working directory set to: "/Users/Wout/PycharmProjects/TcrDataComparison/test_data/"
-Read some model parms
-GeneChoice read
-GeneChoice read
-Deletion read
-Deletion read
-Insertion read
-DinucMarkov read
-Seed: 17077918436704001606
-Sequence generation [                                                  ] 0.000 %Sequence generation [||||||||||||||||||||||||||||||||||||||||||||||||||]  Done. 
