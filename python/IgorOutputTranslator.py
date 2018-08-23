@@ -1,12 +1,8 @@
-"""Translate IGoR output realization data to human readable format.
+"""Translate IGoR output realization data to human readable format with pygor.
 
-Usage
------
-    First argument points to the realizations file.
-    Second argument points to the model parameters file that was used for the
-    construction of the realizations file.
 """
-
+import argparse
+import csv
 import os
 import sys
 
@@ -15,16 +11,40 @@ import pandas
 from pygor.counters.bestscenarios import bestscenarios
 
 
+def _parse_commandline():
+    """Parses the commandline arguments given by user.
+
+    Returns
+    -------
+    ArgumentParser
+        Object containing parsed commandline arguments.
+
+    """
+
+    # Parse the commandline arguments given by user.
+    parser = argparse.ArgumentParser(description="Translates IGoR output "
+                                                 "realization data to human "
+                                                 "readable format with pygor.")
+    parser.add_argument("realizations", metavar="R", type=str,
+                        help="Realizations data ';' separated file (required)")
+    parser.add_argument("model_parms", metavar="M", type=str,
+                        help="Model parameters text file used for generating "
+                             "the realizations file (required)")
+    return parser.parse_args()
+
+
 def main():
     """Main function when script ran through command-line."""
+
     # Convert the realizations csv output file to sensible output data using
-    # the corresponding model its parms text file.
-    print("Given realizations file path: {}".format(sys.argv[1]))
-    print("Given model parameters file path: {}".format(sys.argv[2]))
-    df = bestscenarios.read_bestscenarios_values(scenarios_file=sys.argv[1],
-                                                 model_parms_file=sys.argv[2])
-    output_filename = sys.argv[1].split("/")[-1].split(".")[0] \
+    # the corresponding model's parameters text file.
+    args = _parse_commandline()
+    df = bestscenarios.read_bestscenarios_values(
+        scenarios_file=args.realizations, model_parms_file=args.model_parms)
+    output_filename = args.realizations.split("/")[-1].split(".")[0] \
         + "_translated.csv"
+
+    # Write resulting dataframe to CSV file.
     pandas.DataFrame.to_csv(df, path_or_buf=os.path.join(
         os.getcwd(), output_filename), index=False, sep=";")
     print("Written '{}' file to '{}' directory".format(output_filename,
