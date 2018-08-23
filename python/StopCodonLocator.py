@@ -61,7 +61,7 @@ def locate_stop_codons_sequence(seq):
 
 
 def locate_stop_codons(args):
-    """Counts the combined occurrences of each Kmer for pandas.DataFrame rows.
+    """Locates the stop codons for each sequence in a dataframe.
 
     Parameters
     ----------
@@ -70,9 +70,8 @@ def locate_stop_codons(args):
 
     Returns
     -------
-    Counter
-        Object containing the combined counts of each Kmer from multiple
-        sequences.
+    list
+        Containing lists with matches and index value for the row.
 
     """
     df, kwargs = args
