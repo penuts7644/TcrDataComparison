@@ -30,11 +30,11 @@ def main():
     """Main function when script ran through command-line."""
 
     # Parse arguments from user, locate all CSV files in the given directory
-    # and merge them together. and
+    # and merge them together.
     args = _parse_commandline()
     combined_df = pandas.DataFrame()
     for csv_file in glob.glob(os.path.abspath(args.directory) + "/*.csv"):
-        df = pandas.read_csv(csv_file, sep=";", index_col="seq_index",
+        df = pandas.read_csv(csv_file, sep=";", index_col=0,
                              header=0)
         combined_df = pandas.concat([combined_df, df], axis=1, sort=False)
 
