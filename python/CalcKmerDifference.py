@@ -111,6 +111,34 @@ def multiprocess_dataframe(df, func, num_workers, **kwargs):
     return list(result)
 
 
+def calc_count_difference(c1, c2):
+    """Calculates the difference between two counters.
+
+    Parameters
+    ----------
+    c1 : Counter
+        The first Counter object with counts.
+    c2 : Counter
+        The second Counter object with counts.
+
+    Returns
+    -------
+    dict
+        Dictionary containing the count differences between the two counters.
+
+    """
+    diff_dict = {}
+    for kmer, count in c1.iteritems():
+        if kmer in c2:
+            diff_dict[kmer] = abs(count - c2[kmer])
+        else:
+            diff_dict[kmer] = count
+    for kmer, count in c2.iteritems():
+        if kmer not in c1:
+            diff_dict[kmer] = count
+    return diff_dict
+
+
 def main():
     """Main function when script ran through command-line."""
 
@@ -134,7 +162,24 @@ def main():
                                     kmer_len=args.kmer_length):
         sim_counts.update(i)
 
-    print(exp_counts, sim_counts)
+    # Calculate the count differences and create dataframe.
+    df_data, count = dict(), 0
+    for k, v in calc_count_difference(exp_counts, sim_counts).iteritems():
+        df_data[count] = [k, exp_counts[k], sim_counts[k], v]
+        count += 1
+    count_df = pandas.DataFrame.from_dict(
+        data=df_data, orient="index",
+        columns=["kmer",
+                 os.path.basename(os.path.splitext(args.experimental)[0]),
+                 os.path.basename(os.path.splitext(args.simulated)[0]),
+                 "diff_count"])
+    count_df.index.name = "index"
+
+    # Writes the new dataframe to a CSV file.
+    pandas.DataFrame.to_csv(count_df, path_or_buf=os.path.join(
+        os.getcwd(), "kmer_count.csv"), index=True, sep=";")
+    print("Written '{}' file to '{}' directory".format("kmer_count.csv",
+                                                       os.getcwd()))
 
 
 if __name__ == "__main__":
