@@ -1,12 +1,13 @@
 ### TcrDataComparison
 Master thesis (UiO) repo for TCR data comparison.
 
-The `data` directory contains experimental mouse Igm data
-obtained using sequencing. The `0_human_alpha_100seq` and
-`1_human_alpha_20000seq` directories inside the `data` directory,
-contain 100 and 20000 CDR3 sequences respectively that were
-created (simulated) using the
-[IGoR](https://github.com/qmarcou/IGoR) package.
+The `data` directory contains experimental and IGoR simulated
+data. The experimental mouse Igm data was obtained using
+sequencing. The simulated data contains two directories:
+`0_human_alpha_100seq` and `1_human_alpha_20000seq`.
+Both of these data directories contain 100 and 20000 CDR3
+sequences respectively that were created (simulated) using
+the [IGoR](https://github.com/qmarcou/IGoR) package.
 
 IGoR models (from version 1.3.0) are stored in `models` and
 are used to generate the CDR3 sequences.
