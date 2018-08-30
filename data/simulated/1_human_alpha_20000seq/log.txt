@@ -1,13 +1,0 @@
-Chain parameter set to: alpha
-Species parameter set to: human
-Setting number of threads to: 4
-Working directory set to: "/Users/Wout/PycharmProjects/TcrDataComparison/test_data/"
-Read some model parms
-GeneChoice read
-GeneChoice read
-Deletion read
-Deletion read
-Insertion read
-DinucMarkov read
-Seed: 16264108479074019797
-Sequence generation [                                                  ] 0.000 %Sequence generation [||                                                ] 5.000 %Sequence generation [|||||                                             ] 10.00 %Sequence generation [|||||||                                           ] 15.00 %Sequence generation [||||||||||                                        ] 20.00 %Sequence generation [||||||||||||                                      ] 25.00 %Sequence generation [|||||||||||||||                                   ] 30.00 %Sequence generation [|||||||||||||||||                                 ] 35.00 %Sequence generation [||||||||||||||||||||                              ] 40.00 %Sequence generation [||||||||||||||||||||||                            ] 45.00 %Sequence generation [|||||||||||||||||||||||||                         ] 50.00 %Sequence generation [|||||||||||||||||||||||||||                       ] 55.00 %Sequence generation [||||||||||||||||||||||||||||||                    ] 60.00 %Sequence generation [||||||||||||||||||||||||||||||||                  ] 65.00 %Sequence generation [|||||||||||||||||||||||||||||||||||               ] 70.00 %Sequence generation [|||||||||||||||||||||||||||||||||||||             ] 75.00 %Sequence generation [||||||||||||||||||||||||||||||||||||||||          ] 80.00 %Sequence generation [||||||||||||||||||||||||||||||||||||||||||        ] 85.00 %Sequence generation [|||||||||||||||||||||||||||||||||||||||||||||     ] 90.00 %Sequence generation [|||||||||||||||||||||||||||||||||||||||||||||||   ] 95.00 %Sequence generation [||||||||||||||||||||||||||||||||||||||||||||||||||]  Done. 
