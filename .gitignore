@@ -1,0 +1,7 @@
+# Ignore csv files in experimental data directory.
+data/experimental/*.csv
+
+# Ignore txt, out and csv files in simulated data directory.
+data/simulated/*.txt
+data/simulated/*.out
+data/simulated/*.csv
