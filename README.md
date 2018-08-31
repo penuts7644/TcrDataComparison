@@ -9,6 +9,10 @@ Both of these data directories contain 100 and 20000 CDR3
 sequences respectively that were created (simulated) using
 the [IGoR](https://github.com/qmarcou/IGoR) package.
 
+**Note:** in order to reduce storage, the data files inside
+`data/experimental` and `data/simulated` directories are
+compressed to zip archives.
+
 IGoR models (from version 1.3.0) are stored in `models` and
 are used to generate the CDR3 sequences.
 
