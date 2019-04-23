@@ -26,10 +26,10 @@ def _parse_commandline():
                                                  "realization data to human "
                                                  "readable format with pygor.")
     parser.add_argument("realizations", metavar="R", type=str,
-                        help="Realizations data ';' separated file (required)")
+                        help="Realizations data ';' separated file")
     parser.add_argument("model_parms", metavar="M", type=str,
                         help="IGoR Model parameters text file used for generating "
-                             "the realizations file (required)")
+                             "the realizations file")
     return parser.parse_args()
 
 

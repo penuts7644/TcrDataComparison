@@ -30,13 +30,13 @@ def _parse_commandline():
                                                  "experimental and simulated "
                                                  "datasets.")
     parser.add_argument("experimental", metavar="E", type=str,
-                        help="Experimental ';' separated file (required)")
+                        help="Experimental ';' separated file")
     parser.add_argument("simulated", metavar="S", type=str,
-                        help="Simulated ';' separated IGoR file (required)")
+                        help="Simulated ';' separated IGoR file")
     parser.add_argument("--kmer-length", type=int, nargs="?", default=3,
-                        help="Length of the Kmer's as integer (default: 3)")
+                        help="Length of the Kmer's as integer (default: %(default)s)")
     parser.add_argument("--num-threads", type=int, nargs="?", default=1,
-                        help="Number of threads in integer (default: 1)")
+                        help="Number of threads in integer (default: %(default)s)")
     return parser.parse_args()
 
 

@@ -1,4 +1,4 @@
-"""Checks and locates any stop codons in the generated nt/CDR3 sequences.
+"""Checks and locates any stop codons in the generated nucleotide sequences.
 
 """
 
@@ -27,13 +27,12 @@ def _parse_commandline():
     parser = argparse.ArgumentParser(description="Locates any stop codons in "
                                                  "the given sequences.")
     parser.add_argument("file", metavar="F", type=str,
-                        help="File containing sequences separeted by a ';' "
-                             "(required)")
+                        help="File containing sequences separated by a ';'")
     parser.add_argument("column", metavar="C", type=str,
                         help="The column name in the file containing the "
-                             "nucleotide of amino acid sequences (required)")
+                             "nucleotide of amino acid sequences")
     parser.add_argument("--num-threads", type=int, nargs="?", default=1,
-                        help="Number of threads in integer (default: 1)")
+                        help="Number of threads in integer (default: %(default)s)")
     return parser.parse_args()
 
 

@@ -22,7 +22,7 @@ def _parse_commandline():
     parser = argparse.ArgumentParser(description="Merges output CSV file in "
                                                  "a directory to one file.")
     parser.add_argument("directory", metavar="D", type=str,
-                        help="Directory containing input CSV files (required)")
+                        help="Directory containing input CSV files")
     return parser.parse_args()
 
 
