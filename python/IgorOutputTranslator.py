@@ -28,7 +28,7 @@ def _parse_commandline():
     parser.add_argument("realizations", metavar="R", type=str,
                         help="Realizations data ';' separated file (required)")
     parser.add_argument("model_parms", metavar="M", type=str,
-                        help="Model parameters text file used for generating "
+                        help="IGoR Model parameters text file used for generating "
                              "the realizations file (required)")
     return parser.parse_args()
 

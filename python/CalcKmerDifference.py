@@ -5,13 +5,13 @@ blood sample) data in CSV format.
 
 import argparse
 import multiprocessing
-import numpy
 from collections import Counter
 import glob
 import os
 import sys
 
 import pandas
+import numpy
 
 
 def _parse_commandline():

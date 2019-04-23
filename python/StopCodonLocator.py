@@ -5,12 +5,12 @@
 import argparse
 import itertools
 import multiprocessing
-import numpy
 import os
 import re
 import sys
 
 import pandas
+import numpy
 
 
 def _parse_commandline():
