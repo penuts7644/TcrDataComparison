@@ -6,9 +6,7 @@ blood sample) data in CSV format.
 import argparse
 import multiprocessing
 from collections import Counter
-import glob
 import os
-import sys
 
 import pandas
 import numpy
@@ -104,6 +102,11 @@ def multiprocess_dataframe(df, func, num_workers, **kwargs):
         Contains the results from each of the workers.
 
     """
+    # Check out available worker count and adjust accordingly.
+    if len(df) < num_workers:
+        num_workers = len(df)
+
+    # Divide the array into chucks for the workers.
     pool = multiprocessing.Pool(processes=num_workers)
     result = pool.map(func, [(d, kwargs)
                              for d in numpy.array_split(df, num_workers)])
