@@ -265,8 +265,8 @@ def main():
 
     # Writes the new dataframe to a CSV file.
     output_filename_base = os.path.splitext(os.path.basename(args.file))[0]
-    output_filename_1 = os.path.join(os.getcwd(), output_filename_base + "_CDR3_sequences.csv")
-    output_filename_2 = os.path.join(os.getcwd(), output_filename_base + "_sequences.csv")
+    output_filename_1 = os.path.join(os.getcwd(), output_filename_base + "_extract_CDR3.csv")
+    output_filename_2 = os.path.join(os.getcwd(), output_filename_base + "_extract.csv")
     pandas.DataFrame.to_csv(reassembled_df, path_or_buf=output_filename_1,
                             index=True, sep=",", index_label='seq_index')
     print("Written '{}' file".format(output_filename_1))
