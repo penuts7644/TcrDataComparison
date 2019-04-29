@@ -160,7 +160,7 @@ def reassemble_data(args):
                 gene_choice_v = imgt_v_gene['family'].values[0] + '-' \
                                 + imgt_v_gene['gene'].values[0] + '*01'
         else:
-            gene_choice_v = numpy.nan
+            continue
         if not imgt_j_gene.empty:
             if not isinstance(imgt_j_gene['gene'].values[0], str) and j_gene == '1':
                 gene_choice_j = imgt_j_gene['family'].values[0] + '*01'
@@ -168,7 +168,7 @@ def reassemble_data(args):
                 gene_choice_j = imgt_j_gene['family'].values[0] + '-' \
                                 + imgt_j_gene['gene'].values[0] + '*01'
         else:
-            gene_choice_j = numpy.nan
+            continue
 
         # Create the trimmed NT sequence (removing primers).
         trimmed_nt_seq = row[kwargs['col_names']['nt_seq']][
@@ -192,7 +192,7 @@ def reassemble_data(args):
             split_j = imgt_j_gene['nt_sequence'].values[0].split(dj_segment, 1)[1]
             vdj_sequence = split_v + trimmed_nt_seq + split_j
         else:
-            vdj_sequence = numpy.nan
+            continue
 
         # Add data row of full length data to the dataframe.
         full_length_df = full_length_df.append({
