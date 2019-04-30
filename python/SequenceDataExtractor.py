@@ -179,6 +179,20 @@ def reassemble_data(args):
         trimmed_nt_seq = row[kwargs['col_names']['nt_seq']][
             (81 - 3 * len(row[kwargs['col_names']['aa_seq']])): 81]
 
+        # Create the VDJ full length sequence
+        if not imgt_v_gene.empty and not imgt_j_gene.empty:
+            vd_segment = _find_longest_substring(
+                imgt_v_gene['nt_sequence'].values[0], trimmed_nt_seq)
+            dj_segment = _find_longest_substring(
+                imgt_j_gene['nt_sequence'].values[0], trimmed_nt_seq)
+            split_v = imgt_v_gene['nt_sequence'].values[0].rsplit(vd_segment, 1)
+            split_j = imgt_j_gene['nt_sequence'].values[0].split(dj_segment, 1)
+            if (len(split_v[1]) >= len(split_v[0])) or (len(split_j[0]) >= len(split_j[1])):
+                continue
+            vdj_sequence = split_v[0] + trimmed_nt_seq + split_j[1]
+        else:
+            continue
+
         # Add data row of reassembled data to the dataframe.
         reassembled_df = reassembled_df.append({
             'nt_sequence': trimmed_nt_seq,
@@ -186,18 +200,6 @@ def reassemble_data(args):
             'gene_choice_v': gene_choice_v,
             'gene_choice_j': gene_choice_j,
         }, ignore_index=True)
-
-        # Create the VDJ full length sequence
-        if not imgt_v_gene.empty and not imgt_j_gene.empty:
-            vd_segment = _find_longest_substring(
-                imgt_v_gene['nt_sequence'].values[0], trimmed_nt_seq)
-            dj_segment = _find_longest_substring(
-                imgt_j_gene['nt_sequence'].values[0], trimmed_nt_seq)
-            split_v = imgt_v_gene['nt_sequence'].values[0].rsplit(vd_segment, 1)[0]
-            split_j = imgt_j_gene['nt_sequence'].values[0].split(dj_segment, 1)[1]
-            vdj_sequence = split_v + trimmed_nt_seq + split_j
-        else:
-            continue
 
         # Add data row of full length data to the dataframe.
         full_length_df = full_length_df.append({
