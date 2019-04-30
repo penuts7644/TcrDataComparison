@@ -122,6 +122,11 @@ def reassemble_data(args):
     DataFrame
         Pandas dateframe containing the reassembled data.
 
+    Notes
+    -----
+    The gene name is separated into three sections: family, gene and allele. By
+    default, family and gene are required while for the allele '*01' is used.
+
     """
     # Setup the initial dataframe.
     df, kwargs = args
