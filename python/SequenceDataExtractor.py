@@ -131,56 +131,72 @@ def reassemble_data(args):
     # Setup the initial dataframe.
     df, kwargs = args
     reassembled_df = pandas.DataFrame(columns=[
-        'nt_sequence', 'aa_sequence', 'gene_choice_v', 'gene_choice_j'
+        'seq_index', 'nt_sequence', 'aa_sequence', 'gene_choice_v', 'gene_choice_j'
     ])
-    full_length_df = pandas.DataFrame(columns=['nt_sequence'])
+    full_length_df = pandas.DataFrame(columns=['seq_index', 'nt_sequence'])
 
-    # Drop nan rows and iterate over the rows.
-    df.dropna(subset=[kwargs['col_names']['aa_seq'],
-                      kwargs['col_names']['v_gene'],
-                      kwargs['col_names']['j_gene']], inplace=True)
-    for _, row in df.iterrows():
+    # Iterate over the rows with index value.
+    for i, row in df.iterrows():
 
-        # Pre-process the V gene.
-        v_family = row[kwargs['col_names']['v_family']].replace('TCR', 'TR').replace('V0', 'V')
-        v_gene = row[kwargs['col_names']['v_gene']].split('-')[1].split('/')[0].lstrip('0')
-        imgt_v_gene = kwargs['v_genes'][
-            (kwargs['v_genes']['family'] == v_family)
-            & ((kwargs['v_genes']['gene'] == v_gene)
-               | ((kwargs['v_genes']['gene'].isna()) & (v_gene == '1')))].head(1)
+        gene_choice_v = numpy.nan
+        imgt_v_gene = pandas.DataFrame()
+        if (isinstance(row[kwargs['col_names']['v_family']], str)
+                and isinstance(row[kwargs['col_names']['v_gene']], str)):
 
-        # Pre-process the J gene.
-        j_family = row[kwargs['col_names']['j_family']].replace('TCR', 'TR').replace('J0', 'J')
-        j_gene = row[kwargs['col_names']['j_gene']].split('-')[1].split('/')[0].lstrip('0')
-        imgt_j_gene = kwargs['j_genes'][
-            (kwargs['j_genes']['family'] == j_family)
-            & ((kwargs['j_genes']['gene'] == j_gene)
-               | ((kwargs['j_genes']['gene'].isna()) & (j_gene == '1')))].head(1)
+            # Pre-process the V gene.
+            v_family = row[kwargs['col_names']['v_family']].replace('TCR', 'TR').replace('V0', 'V')
+            v_gene = row[kwargs['col_names']['v_gene']].split('-')[1].split('/')[0].lstrip('0')
+            imgt_v_gene = kwargs['v_genes'][
+                (kwargs['v_genes']['family'] == v_family)
+                & ((kwargs['v_genes']['gene'] == v_gene)
+                   | ((kwargs['v_genes']['gene'].isna()) & (v_gene == '1')))].head(1)
 
-        # Assemble the output dataframe gene choices for the V and J genes
-        if not imgt_v_gene.empty:
-            if not isinstance(imgt_v_gene['gene'].values[0], str) and v_gene == '1':
-                gene_choice_v = imgt_v_gene['family'].values[0] + '*01'
-            else:
-                gene_choice_v = imgt_v_gene['family'].values[0] + '-' \
-                                + imgt_v_gene['gene'].values[0] + '*01'
-        else:
-            continue
-        if not imgt_j_gene.empty:
-            if not isinstance(imgt_j_gene['gene'].values[0], str) and j_gene == '1':
-                gene_choice_j = imgt_j_gene['family'].values[0] + '*01'
-            else:
-                gene_choice_j = imgt_j_gene['family'].values[0] + '-' \
-                                + imgt_j_gene['gene'].values[0] + '*01'
-        else:
-            continue
+            # Assemble the output dataframe gene choices for the V gene.
+            if not imgt_v_gene.empty:
+                if not isinstance(imgt_v_gene['gene'].values[0], str) and v_gene == '1':
+                    gene_choice_v = imgt_v_gene['family'].values[0] + '*01'
+                else:
+                    gene_choice_v = imgt_v_gene['family'].values[0] + '-' \
+                                    + imgt_v_gene['gene'].values[0] + '*01'
+
+        gene_choice_j = numpy.nan
+        imgt_j_gene = pandas.DataFrame()
+        if (isinstance(row[kwargs['col_names']['j_family']], str)
+                and isinstance(row[kwargs['col_names']['j_gene']], str)):
+
+            # Pre-process the J gene.
+            j_family = row[kwargs['col_names']['j_family']].replace('TCR', 'TR').replace('J0', 'J')
+            j_gene = row[kwargs['col_names']['j_gene']].split('-')[1].split('/')[0].lstrip('0')
+            imgt_j_gene = kwargs['j_genes'][
+                (kwargs['j_genes']['family'] == j_family)
+                & ((kwargs['j_genes']['gene'] == j_gene)
+                   | ((kwargs['j_genes']['gene'].isna()) & (j_gene == '1')))].head(1)
+
+            # Assemble the output dataframe gene choices for the J gene.
+            if not imgt_j_gene.empty:
+                if not isinstance(imgt_j_gene['gene'].values[0], str) and j_gene == '1':
+                    gene_choice_j = imgt_j_gene['family'].values[0] + '*01'
+                else:
+                    gene_choice_j = imgt_j_gene['family'].values[0] + '-' \
+                                    + imgt_j_gene['gene'].values[0] + '*01'
 
         # Create the trimmed NT sequence (removing primers).
         trimmed_nt_seq = row[kwargs['col_names']['nt_seq']][
-            (81 - 3 * len(row[kwargs['col_names']['aa_seq']])): 81]
+            (81 - int(row[kwargs['col_names']['cdr3_len']])): 81]
+
+        # Add data row of reassembled data to the dataframe.
+        reassembled_df = reassembled_df.append({
+            'seq_index': i,
+            'nt_sequence': trimmed_nt_seq,
+            'aa_sequence': row[kwargs['col_names']['aa_seq']],
+            'gene_choice_v': gene_choice_v,
+            'gene_choice_j': gene_choice_j,
+        }, ignore_index=True)
 
         # Create the VDJ full length sequence
-        if not imgt_v_gene.empty and not imgt_j_gene.empty:
+        if (not imgt_v_gene.empty
+                and not imgt_j_gene.empty
+                and isinstance(row[kwargs['col_names']['aa_seq']], str)):
             vd_segment = _find_longest_substring(
                 imgt_v_gene['nt_sequence'].values[0], trimmed_nt_seq)
             dj_segment = _find_longest_substring(
@@ -193,16 +209,9 @@ def reassemble_data(args):
         else:
             continue
 
-        # Add data row of reassembled data to the dataframe.
-        reassembled_df = reassembled_df.append({
-            'nt_sequence': trimmed_nt_seq,
-            'aa_sequence': row[kwargs['col_names']['aa_seq']],
-            'gene_choice_v': gene_choice_v,
-            'gene_choice_j': gene_choice_j,
-        }, ignore_index=True)
-
         # Add data row of full length data to the dataframe.
         full_length_df = full_length_df.append({
+            'seq_index': i,
             'nt_sequence': vdj_sequence
         }, ignore_index=True)
     return reassembled_df, full_length_df
@@ -247,6 +256,7 @@ def main():
     column_names = {
         "nt_seq": "rearrangement",
         "aa_seq": "amino_acid",
+        "cdr3_len": "cdr3_length",
         "v_family": "v_family",
         "v_gene": "v_gene",
         "j_family": "j_family",
@@ -275,10 +285,10 @@ def main():
     output_filename_1 = os.path.join(os.getcwd(), output_filename_base + "_extract_CDR3.csv")
     output_filename_2 = os.path.join(os.getcwd(), output_filename_base + "_extract.csv")
     pandas.DataFrame.to_csv(reassembled_df, path_or_buf=output_filename_1,
-                            index=True, sep=",", index_label='seq_index', na_rep='na')
+                            sep=",", na_rep='na', index=False)
     print("Written '{}' file".format(output_filename_1))
     pandas.DataFrame.to_csv(full_length_df, path_or_buf=output_filename_2,
-                            index=True, sep=",", index_label='seq_index', na_rep='na')
+                            sep=",", na_rep='na', index=False)
     print("Written '{}' file".format(output_filename_2))
 
 
