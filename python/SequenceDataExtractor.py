@@ -285,10 +285,10 @@ def main():
     output_filename_1 = os.path.join(os.getcwd(), output_filename_base + "_extract_CDR3.csv")
     output_filename_2 = os.path.join(os.getcwd(), output_filename_base + "_extract.csv")
     pandas.DataFrame.to_csv(reassembled_df, path_or_buf=output_filename_1,
-                            sep=",", na_rep='na', index=False)
+                            sep=",", na_rep="NA", index=False)
     print("Written '{}' file".format(output_filename_1))
     pandas.DataFrame.to_csv(full_length_df, path_or_buf=output_filename_2,
-                            sep=",", na_rep='na', index=False)
+                            sep=",", na_rep="NA", index=False)
     print("Written '{}' file".format(output_filename_2))
 
 
