@@ -119,8 +119,9 @@ def reassemble_data(args):
 
     Returns
     -------
-    DataFrame
-        Pandas dateframe containing the reassembled data.
+    DataFrames
+        Three pandas datframes containing the reassembled data, full length
+        productive VDJ sequences and full length unproductive VDJ sequences.
 
     Notes
     -----
@@ -133,7 +134,8 @@ def reassemble_data(args):
     reassembled_df = pandas.DataFrame(columns=[
         'seq_index', 'nt_sequence', 'aa_sequence', 'gene_choice_v', 'gene_choice_j'
     ])
-    full_length_df = pandas.DataFrame(columns=['seq_index', 'nt_sequence'])
+    full_length_prod_df = pandas.DataFrame(columns=['seq_index', 'nt_sequence'])
+    full_length_unprod_df = pandas.DataFrame(columns=['seq_index', 'nt_sequence'])
 
     # Iterate over the rows with index value.
     for i, row in df.iterrows():
@@ -195,8 +197,7 @@ def reassemble_data(args):
 
         # Create the VDJ full length sequence
         if (not imgt_v_gene.empty
-                and not imgt_j_gene.empty
-                and isinstance(row[kwargs['col_names']['aa_seq']], str)):
+                and not imgt_j_gene.empty):
             vd_segment = _find_longest_substring(
                 imgt_v_gene['nt_sequence'].values[0], trimmed_nt_seq)
             dj_segment = _find_longest_substring(
@@ -209,12 +210,20 @@ def reassemble_data(args):
         else:
             continue
 
-        # Add data row of full length data to the dataframe.
-        full_length_df = full_length_df.append({
-            'seq_index': i,
-            'nt_sequence': vdj_sequence
-        }, ignore_index=True)
-    return reassembled_df, full_length_df
+        # Add data row of full length data to the dataframe for productive or
+        # unproductive sequences.
+        if row[kwargs['col_names']['type']].lower() == 'in':
+            full_length_prod_df = full_length_prod_df.append({
+                'seq_index': i,
+                'nt_sequence': vdj_sequence
+            }, ignore_index=True)
+        elif (row[kwargs['col_names']['type']].lower() == 'out'
+              or row[kwargs['col_names']['type']].lower() == 'stop'):
+            full_length_unprod_df = full_length_unprod_df.append({
+                'seq_index': i,
+                'nt_sequence': vdj_sequence
+            }, ignore_index=True)
+    return reassembled_df, full_length_prod_df, full_length_unprod_df
 
 
 def multiprocess_dataframe(df, func, num_workers, **kwargs):
@@ -254,6 +263,7 @@ def main():
 
     # Set some default parameters for the input file.
     column_names = {
+        "type": "frame_type",
         "nt_seq": "rearrangement",
         "aa_seq": "amino_acid",
         "cdr3_len": "cdr3_length",
@@ -278,18 +288,23 @@ def main():
         df=data_df, func=reassemble_data, num_workers=args.num_threads,
         v_genes=vgene_df, j_genes=jgene_df, col_names=column_names)))
     reassembled_df = pandas.concat(results[0], axis=0, ignore_index=True, copy=False)
-    full_length_df = pandas.concat(results[1], axis=0, ignore_index=True, copy=False)
+    full_length_prod_df = pandas.concat(results[1], axis=0, ignore_index=True, copy=False)
+    full_length_unprod_df = pandas.concat(results[2], axis=0, ignore_index=True, copy=False)
 
     # Writes the new dataframe to a CSV file.
     output_filename_base = os.path.splitext(os.path.basename(args.file))[0]
-    output_filename_1 = os.path.join(os.getcwd(), output_filename_base + "_extract_CDR3.csv")
-    output_filename_2 = os.path.join(os.getcwd(), output_filename_base + "_extract.csv")
+    output_filename_1 = os.path.join(os.getcwd(), output_filename_base + "_CDR3.tsv")
+    output_filename_2 = os.path.join(os.getcwd(), output_filename_base + "_productive.tsv")
+    output_filename_3 = os.path.join(os.getcwd(), output_filename_base + "_unproductive.tsv")
     pandas.DataFrame.to_csv(reassembled_df, path_or_buf=output_filename_1,
-                            sep=",", na_rep="NA", index=False)
+                            sep="\t", na_rep="NA", index=False)
     print("Written '{}' file".format(output_filename_1))
-    pandas.DataFrame.to_csv(full_length_df, path_or_buf=output_filename_2,
-                            sep=",", na_rep="NA", index=False)
+    pandas.DataFrame.to_csv(full_length_prod_df, path_or_buf=output_filename_2,
+                            sep="\t", na_rep="NA", index=False)
     print("Written '{}' file".format(output_filename_2))
+    pandas.DataFrame.to_csv(full_length_unprod_df, path_or_buf=output_filename_3,
+                            sep="\t", na_rep="NA", index=False)
+    print("Written '{}' file".format(output_filename_3))
 
 
 if __name__ == "__main__":
