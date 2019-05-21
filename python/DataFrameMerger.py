@@ -34,8 +34,7 @@ def main():
     args = _parse_commandline()
     combined_df = pandas.DataFrame()
     for csv_file in glob.glob(os.path.abspath(args.directory) + "/*.csv"):
-        df = pandas.read_csv(csv_file, sep=";", index_col=0,
-                             header=0)
+        df = pandas.read_csv(csv_file, sep=";", index_col=0, header=0)
         combined_df = pandas.concat([combined_df, df], axis=1, sort=False)
 
     # Writes the new dataframe to a CSV file.

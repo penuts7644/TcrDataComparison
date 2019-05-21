@@ -277,7 +277,7 @@ def main():
     args = _parse_commandline()
     data_df = pandas.read_csv(
         args.file, sep=args.separator, header=0, comment='#', dtype=str,
-        na_values=['na', 'unknown', 'unresolved', 'no data'],
+        na_values=['na', 'unknown', 'unresolved', 'no data'], engine='python',
         usecols=list(column_names.values())
     )
     vgene_df = _read_fasta_as_dataframe(args.vgene)
