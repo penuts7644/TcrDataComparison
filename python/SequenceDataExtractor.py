@@ -5,8 +5,10 @@ and receptor type dependent).
 """
 
 import argparse
+import glob
 import multiprocessing
 import os
+import sys
 
 from Bio.SeqIO.FastaIO import SimpleFastaParser
 import pandas
@@ -29,8 +31,8 @@ def _parse_commandline():
                     "as well as full length VDJ sequences from given CSV/TSV " \
                     "using the given IMGT genomic templates (species and " \
                     "receptor type dependent)")
-    parser.add_argument("file", metavar="F", type=str,
-                        help="CSV or TSV file with sequence data")
+    parser.add_argument("files", metavar="F", type=str,
+                        help="CSV or TSV file with sequence data or diretory with files")
     parser.add_argument("vgene", metavar="V", type=str,
                         help="V gene IMGT fasta file")
     parser.add_argument("jgene", metavar="J", type=str,
@@ -133,11 +135,11 @@ def reassemble_data(args):
     # Setup the initial dataframe.
     df, kwargs = args
     reassembled_df = pandas.DataFrame(columns=[
-        'seq_index', 'nt_sequence', 'aa_sequence', 'gene_choice_v', 'gene_choice_j'
+        'seq_id', 'nt_sequence', 'aa_sequence', 'gene_choice_v', 'gene_choice_j'
     ])
-    full_length_prod_df = pandas.DataFrame(columns=['seq_index', 'nt_sequence'])
-    full_length_unprod_df = pandas.DataFrame(columns=['seq_index', 'nt_sequence'])
-    full_length_df = pandas.DataFrame(columns=['seq_index', 'nt_sequence'])
+    full_length_prod_df = pandas.DataFrame(columns=['seq_id', 'nt_sequence'])
+    full_length_unprod_df = pandas.DataFrame(columns=['seq_id', 'nt_sequence'])
+    full_length_df = pandas.DataFrame(columns=['seq_id', 'nt_sequence'])
 
     # Iterate over the rows with index value.
     for i, row in df.iterrows():
@@ -190,7 +192,7 @@ def reassemble_data(args):
 
         # Add data row of reassembled data to the dataframe.
         reassembled_df = reassembled_df.append({
-            'seq_index': i,
+            'seq_id': i,
             'nt_sequence': trimmed_nt_seq,
             'aa_sequence': row[kwargs['col_names']['aa_seq']],
             'gene_choice_v': gene_choice_v,
@@ -216,17 +218,17 @@ def reassemble_data(args):
         # unproductive sequences.
         if row[kwargs['col_names']['type']].lower() == 'in':
             full_length_prod_df = full_length_prod_df.append({
-                'seq_index': i,
+                'seq_id': i,
                 'nt_sequence': vdj_sequence
             }, ignore_index=True)
         elif (row[kwargs['col_names']['type']].lower() == 'out'
               or row[kwargs['col_names']['type']].lower() == 'stop'):
             full_length_unprod_df = full_length_unprod_df.append({
-                'seq_index': i,
+                'seq_id': i,
                 'nt_sequence': vdj_sequence
             }, ignore_index=True)
         full_length_df = full_length_df.append({
-            'seq_index': i,
+            'seq_id': i,
             'nt_sequence': vdj_sequence
         }, ignore_index=True)
     return reassembled_df, full_length_prod_df, full_length_unprod_df, full_length_df
@@ -281,40 +283,69 @@ def main():
 
     # Parse arguments and read in given files.
     args = _parse_commandline()
-    data_df = pandas.read_csv(
-        args.file, sep=args.separator, header=0, comment='#', dtype=str,
-        na_values=['na', 'unknown', 'unresolved', 'no data'], engine='python',
-        usecols=list(column_names.values())
-    )
+
+    # Locate the files to process.
+    if os.path.isdir(args.files):
+        if r'\t' in args.separator:
+            files = [f for f in glob.glob(os.path.join(args.files, '*.tsv'))]
+        else:
+            files = [f for f in glob.glob(os.path.join(args.files, '*.csv'))]
+    elif os.path.isfile(args.files):
+        files = [args.files]
+    if not files:
+        print('No files where found in the given directory')
+        sys.exit()
+
     vgene_df = _read_fasta_as_dataframe(args.vgene)
     jgene_df = _read_fasta_as_dataframe(args.jgene)
 
-    # Process the dataframe in various threads.
-    results = list(zip(*multiprocess_dataframe(
-        df=data_df, func=reassemble_data, num_workers=args.num_threads,
-        v_genes=vgene_df, j_genes=jgene_df, col_names=column_names)))
-    reassembled_df = pandas.concat(results[0], axis=0, ignore_index=True, copy=False)
-    full_length_prod_df = pandas.concat(results[1], axis=0, ignore_index=True, copy=False)
-    full_length_unprod_df = pandas.concat(results[2], axis=0, ignore_index=True, copy=False)
-    full_length_df = pandas.concat(results[3], axis=0, ignore_index=True, copy=False)
+    reassembled_df = pandas.DataFrame()
+    full_length_prod_df = pandas.DataFrame()
+    full_length_unprod_df = pandas.DataFrame()
+    full_length_df = pandas.DataFrame()
+
+    for file in files:
+        data_df = pandas.read_csv(
+            file, sep=args.separator, header=0, comment='#', dtype=str,
+            na_values=['na', 'unknown', 'unresolved', 'no data'], engine='python',
+            usecols=list(column_names.values())
+        )
+
+        # Process the dataframe in various threads and append results.
+        results = multiprocess_dataframe(
+            df=data_df, func=reassemble_data, num_workers=args.num_threads,
+            v_genes=vgene_df, j_genes=jgene_df, col_names=column_names)
+        for processed in results:
+            processed[0].insert(0, 'file_name', os.path.splitext(os.path.basename(file))[0])
+            processed[1].insert(0, 'file_name', os.path.splitext(os.path.basename(file))[0])
+            processed[2].insert(0, 'file_name', os.path.splitext(os.path.basename(file))[0])
+            processed[3].insert(0, 'file_name', os.path.splitext(os.path.basename(file))[0])
+            reassembled_df = reassembled_df.append(processed[0], ignore_index=True)
+            full_length_prod_df = full_length_prod_df.append(processed[1], ignore_index=True)
+            full_length_unprod_df = full_length_unprod_df.append(processed[2], ignore_index=True)
+            full_length_df = full_length_df.append(processed[3], ignore_index=True)
 
     # Writes the new dataframe to a CSV file.
-    output_filename_base = os.path.splitext(os.path.basename(args.file))[0]
+    output_filename_base = 'sequence_data_extractor'
     output_filename_1 = os.path.join(os.getcwd(), output_filename_base + "_CDR3.tsv")
-    output_filename_2 = os.path.join(os.getcwd(), output_filename_base + "_productive.tsv")
-    output_filename_3 = os.path.join(os.getcwd(), output_filename_base + "_unproductive.tsv")
-    output_filename_4 = os.path.join(os.getcwd(), output_filename_base + "_all.tsv")
+    # reassembled_df.reset_index(inplace=True)
     pandas.DataFrame.to_csv(reassembled_df, path_or_buf=output_filename_1,
-                            sep="\t", na_rep="NA", index=False)
+                            sep="\t", na_rep="NA", index=True, index_label='seq_index')
     print("Written '{}' file".format(output_filename_1))
+    output_filename_2 = os.path.join(os.getcwd(), output_filename_base + "_productive.tsv")
+    # full_length_prod_df.reset_index(inplace=True)
     pandas.DataFrame.to_csv(full_length_prod_df, path_or_buf=output_filename_2,
-                            sep="\t", na_rep="NA", index=False)
+                            sep="\t", na_rep="NA", index=True, index_label='seq_index')
     print("Written '{}' file".format(output_filename_2))
+    output_filename_3 = os.path.join(os.getcwd(), output_filename_base + "_unproductive.tsv")
+    # full_length_unprod_df.reset_index(inplace=True)
     pandas.DataFrame.to_csv(full_length_unprod_df, path_or_buf=output_filename_3,
-                            sep="\t", na_rep="NA", index=False)
+                            sep="\t", na_rep="NA", index=True, index_label='seq_index')
     print("Written '{}' file".format(output_filename_3))
+    output_filename_4 = os.path.join(os.getcwd(), output_filename_base + "_all.tsv")
+    # full_length_df.reset_index(inplace=True)
     pandas.DataFrame.to_csv(full_length_df, path_or_buf=output_filename_4,
-                            sep="\t", na_rep="NA", index=False)
+                            sep="\t", na_rep="NA", index=True, index_label='seq_index')
     print("Written '{}' file".format(output_filename_4))
 
 
