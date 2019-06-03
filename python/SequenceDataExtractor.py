@@ -41,6 +41,9 @@ def _parse_commandline():
                         help="Separator charactor for input file")
     parser.add_argument("--num-threads", type=int, nargs="?", default=1,
                         help="Number of threads in integer (default: %(default)s)")
+    parser.add_argument("--random-seqs", type=int, nargs="?",
+                        help="Number of random sequences to use from each file " \
+                             "in integer (default: all sequences)")
     return parser.parse_args()
 
 
@@ -310,6 +313,15 @@ def main():
             na_values=['na', 'unknown', 'unresolved', 'no data'], engine='python',
             usecols=list(column_names.values())
         )
+
+        # Take a random subsample of sequences in the file.
+        if args.random_seqs is not None:
+            if args.random_seqs > 0 and len(data_df) >= args.random_seqs:
+                data_df = data_df.sample(n=args.random_seqs, random_state=1)
+            else:
+                print('Number of random sequences should be higher 0 and smaller ' \
+                      'than total number of rows')
+                sys.exit()
 
         # Process the dataframe in various threads and append results.
         results = multiprocess_dataframe(
