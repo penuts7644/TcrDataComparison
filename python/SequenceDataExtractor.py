@@ -288,6 +288,7 @@ def main():
     args = _parse_commandline()
 
     # Locate the files to process.
+    files = None
     if os.path.isdir(args.files):
         if r'\t' in args.separator:
             files = [f for f in glob.glob(os.path.join(args.files, '*.tsv'))]
