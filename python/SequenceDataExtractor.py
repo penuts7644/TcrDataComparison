@@ -78,7 +78,7 @@ def _read_fasta_as_dataframe(file):
             fasta_df = fasta_df.append({
                 'family': family,
                 'gene': gene,
-                'nt_sequence': sequence.upper(),
+                'nt_sequence': ''.join(sequence.upper().split('.')),
             }, ignore_index=True)
     return fasta_df
 
