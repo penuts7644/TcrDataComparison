@@ -10,8 +10,6 @@
 
 #SBATCH --nodes=20 --ntasks-per-node=1 --cpus-per-task=32
 
-#SBATCH --mem-per-cpu=32GB
-
 # Set up job environment, load modules and setup python:
 module restore system
 module use .local/easybuild/modules/all
