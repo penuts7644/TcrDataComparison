@@ -10,12 +10,12 @@
 
 #SBATCH --nodes=20 --ntasks-per-node=1 --cpus-per-task=32
 
-# Set up job environment, load modules and setup python:
+# Set up job environment, load modules and setup python
 module restore system
 module use .local/easybuild/modules/all
 module load IGoR/1.3.0-GCC-7.3.0-2.30
 module load Python/2.7.15-intel-2018b
-pip install immuno-probs
+pip install --user immuno-probs
 
 # Set safer defaults for bash
 set -o errexit
@@ -52,9 +52,8 @@ cp ${SLURM_SUBMIT_DIR}/SequenceDataExtractor.py .
 cp -r ${SLURM_SUBMIT_DIR}/human_TRB .
 cp ${filesArray[${SLURM_ARRAY_TASK_ID}]} .
 
-# Mark the output dir for automatic copying to $SLURM_SUBMIT_DIR afterwards:
-# savefile immuno_probs_${SLURM_JOB_ID}_${SLURM_ARRAY_TASK_ID}.txt
-chkfile immuno_probs_${SLURM_JOB_ID}_${SLURM_ARRAY_TASK_ID}
+# Mark the output dir for automatic copying to $SLURM_SUBMIT_DIR afterwards
+savefile immuno_probs_${SLURM_JOB_ID}_${SLURM_ARRAY_TASK_ID}
 
 # Create the job dir for the output files
 mkdir immuno_probs_${SLURM_JOB_ID}_${SLURM_ARRAY_TASK_ID}
