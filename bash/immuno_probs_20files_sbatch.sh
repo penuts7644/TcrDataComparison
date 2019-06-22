@@ -45,6 +45,29 @@ filesArray=(
     "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_10332_TCRB.tsv"
 )
 
+namesArray=(
+    "Brusko_24583_TCRB.tsv"
+    "Brusko_7468_TCRB.tsv"
+    "Brusko_5824_TCRB.tsv"
+    "Brusko_18804_TCRB.tsv"
+    "Brusko_7273_TCRB.tsv"
+    "Brusko_7482_TCRB.tsv"
+    "Brusko_27316_TCRB.tsv"
+    "Brusko_17471_TCRB.tsv"
+    "Brusko_9542_TCRB.tsv"
+    "Brusko_6173_TCRB.tsv"
+    "Brusko_2845_TCRB.tsv"
+    "Brusko_4057_TCRB.tsv"
+    "Brusko_10232_TCRB.tsv"
+    "Brusko_23067_TCRB.tsv"
+    "Brusko_10168_TCRB.tsv"
+    "Brusko_24162_TCRB.tsv"
+    "Brusko_5549_TCRB.tsv"
+    "Brusko_16224_TCRB.tsv"
+    "Brusko_5511_TCRB.tsv"
+    "Brusko_10332_TCRB.tsv"
+)
+
 
 # Copy over files to work dir
 cd ${SCRATCH}
@@ -53,14 +76,14 @@ cp -r ${SLURM_SUBMIT_DIR}/human_TRB .
 cp ${filesArray[${SLURM_ARRAY_TASK_ID}]} .
 
 # Mark the output dir for automatic copying to $SLURM_SUBMIT_DIR afterwards
-savefile immuno_probs_${SLURM_JOB_ID}_${SLURM_ARRAY_TASK_ID}
+savefile immuno_probs_${SLURM_ARRAY_TASK_ID}
 
 # Create the job dir for the output files
-mkdir immuno_probs_${SLURM_JOB_ID}_${SLURM_ARRAY_TASK_ID}
-cd immuno_probs_${SLURM_JOB_ID}_${SLURM_ARRAY_TASK_ID}
+mkdir immuno_probs_${SLURM_ARRAY_TASK_ID}
+cd immuno_probs_${SLURM_ARRAY_TASK_ID}
 
 # Extract the data files from the Brusko data file
-python ../SequenceDataExtractor.py --num-threads ${OMP_NUM_THREADS} "../${filesArray[${SLURM_ARRAY_TASK_ID}]}" '../human_TRB/TRBV.fasta' '../human_TRB/TRBJ.fasta' '\t' &> 'log.txt'
+python ../SequenceDataExtractor.py --num-threads ${OMP_NUM_THREADS} "../${namesArray[${SLURM_ARRAY_TASK_ID}]}" '../human_TRB/TRBV.fasta' '../human_TRB/TRBJ.fasta' '\t' &> 'sequence_extract_log.txt'
 
 # Create a model (params and marginals) for each data extract
 mkdir model
