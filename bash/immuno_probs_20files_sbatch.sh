@@ -15,7 +15,8 @@ module restore system
 module use .local/easybuild/modules/all
 module load IGoR/1.3.0-GCC-7.3.0-2.30
 module load Python/2.7.15-intel-2018b
-pip install --user immuno-probs
+# Make sure to have ImmunoProbs installed for python with:
+# pip install --user immuno-probs
 
 # Set safer defaults for bash
 set -o errexit
