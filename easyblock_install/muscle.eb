@@ -1,0 +1,25 @@
+easyblock = 'Tarball'
+
+name = 'MUSCLE'
+version = '3.8.31'
+versionsuffix = '_i86linux64'
+
+homepage = 'http://www.drive5.com/muscle'
+description = "MUSCLE is a multiple sequence alignment program for analysing sequence data."
+
+# toolchain, empty
+toolchain = {'name': 'dummy', 'version': 'dummy'}
+
+# source tarball filename
+sources = ['muscle3.8.31_i86linux64.tar.gz']
+
+# download location for source files
+source_urls = ['http://www.drive5.com/muscle/downloads3.8.31/']
+
+# make sure the igor binaries are available after installation
+sanity_check_paths = {
+                      'files': ['muscle3.8.31_i86linux64'],
+                      'dirs': []
+                     }
+
+moduleclass = 'bio'
