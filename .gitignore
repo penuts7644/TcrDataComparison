@@ -5,3 +5,6 @@ example_data/experimental/**/*.csv
 example_data/simulated/**/*.txt
 example_data/simulated/**/*.out
 example_data/simulated/**/*.csv
+
+# Python related files.
+*.pyc
