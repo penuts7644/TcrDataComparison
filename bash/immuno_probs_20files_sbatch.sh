@@ -72,7 +72,7 @@ namesArray=(
 
 # Copy over files to work dir
 cd ${SCRATCH}
-cp ${SLURM_SUBMIT_DIR}/SequenceDataExtractor.py .
+cp ${SLURM_SUBMIT_DIR}/TcrDataComparison/python/SequenceDataExtractor.py .
 cp -r ${SLURM_SUBMIT_DIR}/human_TRB .
 cp ${filesArray[${SLURM_ARRAY_TASK_ID}]} .
 
