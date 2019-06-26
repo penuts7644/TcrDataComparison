@@ -27,7 +27,9 @@ cp -r "${SLURM_SUBMIT_DIR}/TcrDataComparison/python/model_processing" .
 UNPRODUCTIVE_MODELS=""
 PRODUCTIVE_MODELS=""
 ALL_MODELS=""
-for i in {0..19}
+NUMBER_OF_FILES=`ls | wc -l`
+NUMBER_OF_FILES= expr ${NUMBER_OF_FILES} - 2
+for i in {0..${NUMBER_OF_FILES}}
 do
     cp -r "${SLURM_SUBMIT_DIR}/20files_data_extract_and_models/immuno_probs_${i}/model" .
     mv model "model_${i}"
