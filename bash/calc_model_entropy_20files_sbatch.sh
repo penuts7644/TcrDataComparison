@@ -4,9 +4,11 @@
 
 #SBATCH --job-name=ImmunoProbs
 
-#SBATCH --time=0-01:00:00
+#SBATCH --time=0-02:00:00
 
-#SBATCH --nodes=1 --ntasks-per-node=1 --cpus-per-task=4
+#SBATCH --qos=preproc
+
+#SBATCH --ntasks-per-node=1 --cpus-per-task=32
 
 # Set up job environment, load modules and setup python
 module restore system
@@ -40,11 +42,11 @@ savefile model_entropy
 # Calculate entropy for all the models
 mkdir model_entropy
 cd model_entropy
-python CalcModelEntropy.py --num-threads ${OMP_NUM_THREADS} ${UNPRODUCTIVE_MODELS_VARIABLE} &> 'unproductive_model_entropy_log.txt'
+python ../model_processing/CalcModelEntropy.py --num-threads ${OMP_NUM_THREADS} ${UNPRODUCTIVE_MODELS_VARIABLE} &> 'unproductive_model_entropy_log.txt'
 mv calc_model_entropy.tsv unproductive_calc_model_entropy.tsv
-python CalcModelEntropy.py --num-threads ${OMP_NUM_THREADS} ${PRODUCTIVE_MODELS_VARIABLE} &> 'productive_model_entropy_log.txt'
+python ../model_processing/CalcModelEntropy.py --num-threads ${OMP_NUM_THREADS} ${PRODUCTIVE_MODELS_VARIABLE} &> 'productive_model_entropy_log.txt'
 mv calc_model_entropy.tsv productive_calc_model_entropy.tsv
-python CalcModelEntropy.py --num-threads ${OMP_NUM_THREADS} ${ALL_MODELS_VARIABLE} &> 'all_model_entropy_log.txt'
+python ../model_processing/CalcModelEntropy.py --num-threads ${OMP_NUM_THREADS} ${ALL_MODELS_VARIABLE} &> 'all_model_entropy_log.txt'
 mv calc_model_entropy.tsv all_calc_model_entropy.tsv
 cd ../
 
