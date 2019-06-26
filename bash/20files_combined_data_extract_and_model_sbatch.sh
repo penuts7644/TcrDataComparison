@@ -24,8 +24,8 @@ set -o nounset
 
 # Copy over files to work dir
 cd ${SCRATCH}
-cp ${SLURM_SUBMIT_DIR}/TcrDataComparison/python/SequenceDataExtractor.py .
-cp -r ${SLURM_SUBMIT_DIR}/human_TRB .
+cp "${SLURM_SUBMIT_DIR}/TcrDataComparison/python/SequenceDataExtractor.py" .
+cp -r "${SLURM_SUBMIT_DIR}/human_TRB" .
 mkdir data
 cp "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_24583_TCRB.tsv" data/.
 cp "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_7468_TCRB.tsv" data/.

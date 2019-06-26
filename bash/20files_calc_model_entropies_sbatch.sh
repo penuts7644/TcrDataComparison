@@ -21,7 +21,7 @@ set -o nounset
 
 # Copy over files to work dir
 cd ${SCRATCH}
-cp -r ${SLURM_SUBMIT_DIR}/TcrDataComparison/python/model_processing .
+cp -r "${SLURM_SUBMIT_DIR}/TcrDataComparison/python/model_processing" .
 
 # In a loop copy over necessary model files and create command string
 UNPRODUCTIVE_MODELS=""
