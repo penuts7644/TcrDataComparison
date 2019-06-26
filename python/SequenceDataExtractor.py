@@ -32,7 +32,7 @@ def _parse_commandline():
                     "using the given IMGT genomic templates (species and " \
                     "receptor type dependent)")
     parser.add_argument("files", metavar="F", type=str,
-                        help="CSV or TSV file with sequence data or diretory with files")
+                        help="CSV or TSV file with sequence data or directory with files")
     parser.add_argument("vgene", metavar="V", type=str,
                         help="V gene IMGT fasta file")
     parser.add_argument("jgene", metavar="J", type=str,
