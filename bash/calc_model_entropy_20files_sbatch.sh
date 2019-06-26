@@ -29,8 +29,8 @@ PRODUCTIVE_MODELS=""
 ALL_MODELS=""
 for i in {0..19}
 do
-    mkdir "model_${i}"
-    cp "${SLURM_SUBMIT_DIR}/immuno_probs_20files_models/immuno_probs_${i}/model/*" "model_${i}"
+    cp -r "${SLURM_SUBMIT_DIR}/20files_data_extract_and_models/immuno_probs_${i}/model" .
+    mv model "model_${i}"
     UNPRODUCTIVE_MODELS+=" -model ${i}_unproductive ../model_${i}/unproductive_params.txt ../model_${i}/unproductive_marginals.txt"
     PRODUCTIVE_MODELS+=" -model ${i}_productive ../model_${i}/productive_params.txt ../model_${i}/productive_marginals.txt"
     ALL_MODELS+=" -model ${i}_all ../model_${i}/all_params.txt ../model_${i}/all_marginals.txt"
