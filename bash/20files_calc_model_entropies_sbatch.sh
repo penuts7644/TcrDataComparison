@@ -48,6 +48,7 @@ python ../model_processing/CalcModelEntropy.py --num-threads ${OMP_NUM_THREADS} 
 mv calc_model_entropy.tsv productive_calc_model_entropy.tsv
 python ../model_processing/CalcModelEntropy.py --num-threads ${OMP_NUM_THREADS} ${ALL_MODELS} &> 'all_model_entropy_log.txt'
 mv calc_model_entropy.tsv all_calc_model_entropy.tsv
+python ../model_processing/CalcModelEntropy.py --num-threads ${OMP_NUM_THREADS} ${UNPRODUCTIVE_MODELS} ${PRODUCTIVE_MODELS} ${ALL_MODELS} &> 'model_entropy_log.txt'
 cd ../
 
 # Exit succesfully
