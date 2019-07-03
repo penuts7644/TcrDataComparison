@@ -22,7 +22,6 @@ module load Python/2.7.15-intel-2018b
 set -o errexit
 set -o nounset
 
-
 filesArray=(
     "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_24583_TCRB.tsv"
     "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_7468_TCRB.tsv"
@@ -46,30 +45,6 @@ filesArray=(
     "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_10332_TCRB.tsv"
 )
 
-namesArray=(
-    "Brusko_24583_TCRB.tsv"
-    "Brusko_7468_TCRB.tsv"
-    "Brusko_5824_TCRB.tsv"
-    "Brusko_18804_TCRB.tsv"
-    "Brusko_7273_TCRB.tsv"
-    "Brusko_7482_TCRB.tsv"
-    "Brusko_27316_TCRB.tsv"
-    "Brusko_17471_TCRB.tsv"
-    "Brusko_9542_TCRB.tsv"
-    "Brusko_6173_TCRB.tsv"
-    "Brusko_2845_TCRB.tsv"
-    "Brusko_4057_TCRB.tsv"
-    "Brusko_10232_TCRB.tsv"
-    "Brusko_23067_TCRB.tsv"
-    "Brusko_10168_TCRB.tsv"
-    "Brusko_24162_TCRB.tsv"
-    "Brusko_5549_TCRB.tsv"
-    "Brusko_16224_TCRB.tsv"
-    "Brusko_5511_TCRB.tsv"
-    "Brusko_10332_TCRB.tsv"
-)
-
-
 # Copy over files to work dir
 cd ${SCRATCH}
 cp "${SLURM_SUBMIT_DIR}/TcrDataComparison/python/SequenceDataExtractor.py" .
@@ -86,7 +61,8 @@ mkdir immuno_probs_${SLURM_ARRAY_TASK_ID}
 cd immuno_probs_${SLURM_ARRAY_TASK_ID}
 
 # Extract the data files from the Brusko data file
-python ../../SequenceDataExtractor.py --num-threads ${OMP_NUM_THREADS} "../../${namesArray[${SLURM_ARRAY_TASK_ID}]}" '../../human_TRB/TRBV.fasta' '../../human_TRB/TRBJ.fasta' '\t' &> 'sequence_extract_log.txt'
+FILE_BASENAME=`basename ${filesArray[${SLURM_ARRAY_TASK_ID}]}`
+python ../../SequenceDataExtractor.py --num-threads ${OMP_NUM_THREADS} "../../${FILE_BASENAME}" '../../human_TRB/TRBV.fasta' '../../human_TRB/TRBJ.fasta' '\t' &> 'sequence_extract_log.txt'
 
 # Create a model (params and marginals) for each data extract
 mkdir model

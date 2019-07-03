@@ -22,11 +22,13 @@ set -o nounset
 # Copy over files to work dir
 cd ${SCRATCH}
 cp -r "${SLURM_SUBMIT_DIR}/TcrDataComparison/python/model_processing" .
+cp -r "${SLURM_SUBMIT_DIR}/20files_data_extract_and_models/immuno_probs_combined/model" .
+mv model model_combined
 
 # In a loop copy over necessary model files and create command string
-UNPRODUCTIVE_MODELS=""
-PRODUCTIVE_MODELS=""
-ALL_MODELS=""
+UNPRODUCTIVE_MODELS="-model combined_unproductive ../model_combined/unproductive_params.txt ../model_combined/unproductive_marginals.txt"
+PRODUCTIVE_MODELS="-model combined_productive ../model_combined/productive_params.txt ../model_combined/productive_marginals.txt"
+ALL_MODELS="-model combined_all ../model_combined/all_params.txt ../model_combined/all_marginals.txt"
 NUMBER_OF_FILES=`ls | wc -l`
 NUMBER_OF_FILES= expr ${NUMBER_OF_FILES} - 2
 for i in {0..${NUMBER_OF_FILES}}

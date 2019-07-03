@@ -32,12 +32,11 @@ savefile evaluated_CDR3
 
 # Calculate entropy for all the models
 mkdir evaluated_CDR3
-
-# In a loop copy over necessary model files and create command string
 cd evaluated_CDR3
 cp -r "${SLURM_SUBMIT_DIR}/20files_data_extract_and_models/immuno_probs_combined/evaluate" .
 mv evaluate evaluate_combined
 
+# In a loop copy over necessary model files and create command string
 NUMBER_OF_FILES=`ls | wc -l`
 NUMBER_OF_FILES= expr ${NUMBER_OF_FILES} - 2
 for i in {0..${NUMBER_OF_FILES}}
