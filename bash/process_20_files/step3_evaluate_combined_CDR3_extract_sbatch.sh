@@ -28,13 +28,21 @@ cp "${SLURM_SUBMIT_DIR}/20files_data_extract_and_models/immuno_probs_combined/se
 cp -r "${SLURM_SUBMIT_DIR}/human_TRB" .
 
 # Mark the output dir for automatic copying to $SLURM_SUBMIT_DIR afterwards
-savefile evaluated_CDR3
+savefile 20files_evaluated_CDR3
 
 # Calculate entropy for all the models
-mkdir evaluated_CDR3
-cd evaluated_CDR3
+mkdir 20files_evaluated_CDR3
+cd 20files_evaluated_CDR3
 cp -r "${SLURM_SUBMIT_DIR}/20files_data_extract_and_models/immuno_probs_combined/evaluate" .
 mv evaluate evaluate_combined
+
+# Evaluate using the build-in igor model
+mkdir evaluate_igor
+cd evaluate_igor
+cp -r "${SLURM_SUBMIT_DIR}/igor_human_TCRB_model" .
+immuno-probs -threads ${OMP_NUM_THREADS} -out-name 'pgen_estimate_CDR3' evaluate-seqs -custom-model 'igor_human_TCRB_model/model_params.txt' 'igor_human_TCRB_model/model_marginals.txt' -seqs '../../sequence_data_extractor_CDR3.tsv' -type 'beta' -cdr3 -anchor V '../../human_TRB/V_gene_CDR3_anchors.tsv' -anchor J '../../human_TRB/J_gene_CDR3_anchors.tsv' &> 'unproductive_log.txt'
+rm -r igor_human_TCRB_model
+cd ../
 
 # In a loop copy over necessary model files and create command string
 NUMBER_OF_FILES=`ls | wc -l`
