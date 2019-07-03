@@ -20,6 +20,7 @@
 #   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import copy
+import re
 
 import numpy
 from pylab import find
@@ -348,7 +349,7 @@ def compute_event_entropy(event_name, model, debug_output=False):
 
 def compute_event_dkl(event_name, model1, model2, debug_output=False):
     """Compute the Kullback Leibler divergence for the specified event and
-    provided models. Returns  D_KL(model1||model2) for the considered event.
+    provided models. Returns D_KL(model1||model2) for the considered event.
 
     """
     return compute_cross_entropy_subparts(event_name, model1, model2, debug_output) - compute_event_entropy(event_name, model1, debug_output)
@@ -363,8 +364,9 @@ def compute_models_dkl(model1, model2, type_list=None):
     total_dkl = 0
     if type_list:
         for event in model1.events:
-            if (numpy.asarray(type_list) == event.event_type).any():
-                total_dkl += compute_event_dkl(event.name, model1, model2)
+            for value in type_list:
+                if re.search(value, event.name):
+                    total_dkl += compute_event_dkl(event.name, model1, model2)
     else:
         for event in model1.events:
             total_dkl += compute_event_dkl(event.name, model1, model2)
