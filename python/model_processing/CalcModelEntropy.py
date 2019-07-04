@@ -114,17 +114,17 @@ def main():
     model_permutations = list(itertools.permutations(args.model, 2))
     model_identifiers = [model[0] for model in args.model]
     dkl_comparisons = {
-        'D_trim_5': [r'Deletion_D_gene_Five_prime_.*'],
-        'dinuc_markov_VD': [r'DinucMarkov_VD_genes_Undefined_side_.*'],
-        'J_trim_5': [r'Deletion_J_gene_Five_prime_.*'],
-        'DJ_insert_length': [r'Insertion_DJ_gene_Undefined_side_.*'],
-        'D_trim_3': [r'Deletion_D_gene_Three_prime_.*'],
-        'J': [r'GeneChoice_J_gene_Undefined_side_.*'],
-        'VD_insert_length': [r'Insertion_VD_genes_Undefined_side_.*'],
         'V': [r'GeneChoice_V_gene_Undefined_side_.*'],
-        'dinuc_markov_DJ': [r'DinucMarkov_DJ_gene_Undefined_side_.*'],
         'V_trim_3': [r'Deletion_V_gene_Three_prime_.*'],
         'D': [r'GeneChoice_D_gene_Undefined_side_.*'],
+        'D_trim_3': [r'Deletion_D_gene_Three_prime_.*'],
+        'D_trim_5': [r'Deletion_D_gene_Five_prime_.*'],
+        'J': [r'GeneChoice_J_gene_Undefined_side_.*'],
+        'J_trim_5': [r'Deletion_J_gene_Five_prime_.*'],
+        'dinuc_markov_VD': [r'DinucMarkov_VD_genes_Undefined_side_.*'],
+        'dinuc_markov_DJ': [r'DinucMarkov_DJ_gene_Undefined_side_.*'],
+        'insert_length_VD': [r'Insertion_VD_genes_Undefined_side_.*'],
+        'insert_length_DJ': [r'Insertion_DJ_gene_Undefined_side_.*'],
         'total': None
     }
 
