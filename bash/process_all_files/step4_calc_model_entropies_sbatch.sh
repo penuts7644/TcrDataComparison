@@ -4,7 +4,7 @@
 
 #SBATCH --job-name=ImmunoProbs
 
-#SBATCH --time=0-02:00:00
+#SBATCH --time=1-00:00:00
 
 #SBATCH --qos=preproc
 
