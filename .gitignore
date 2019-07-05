@@ -1,10 +1,8 @@
-# Ignore csv files in experimental data directory.
-example_data/experimental/**/*.csv
-
-# Ignore txt, out and csv files in simulated data directory.
-example_data/simulated/**/*.txt
-example_data/simulated/**/*.out
-example_data/simulated/**/*.csv
-
-# Python related files.
+# Python related files
 *.pyc
+
+# System files
+.DS_store
+
+# R history files
+.Rhistory
