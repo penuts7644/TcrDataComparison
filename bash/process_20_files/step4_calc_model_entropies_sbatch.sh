@@ -33,7 +33,7 @@ PRODUCTIVE_MODELS="-model combined ../model_combined/productive_params.txt ../mo
 ALL_MODELS="-model combined ../model_combined/all_params.txt ../model_combined/all_marginals.txt"
 NUMBER_OF_FILES=`ls | wc -l`
 NUMBER_OF_FILES= expr ${NUMBER_OF_FILES} - 2
-for i in {0..${NUMBER_OF_FILES}}
+for i in $(seq 0 $NUMBER_OF_FILES)
 do
     cp -r "${SLURM_SUBMIT_DIR}/20files_data_extract_and_models/immuno_probs_${i}/model" .
     mv model "model_${i}"

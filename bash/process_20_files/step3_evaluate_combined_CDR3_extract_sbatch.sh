@@ -47,7 +47,7 @@ cd ../
 # In a loop copy over necessary model files and create command string
 NUMBER_OF_FILES=`ls | wc -l`
 NUMBER_OF_FILES= expr ${NUMBER_OF_FILES} - 2
-for i in {0..${NUMBER_OF_FILES}}
+for i in $(seq 0 $NUMBER_OF_FILES)
 do
     mkdir "evaluate_${i}"
     cd "evaluate_${i}"
