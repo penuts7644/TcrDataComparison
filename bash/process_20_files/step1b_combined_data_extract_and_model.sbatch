@@ -10,7 +10,7 @@
 
 #SBATCH --nodes=1 --ntasks-per-node=1 --cpus-per-task=32
 
-#SBATCH --mem-per-cpu=16G
+#SBATCH --mem-per-cpu=64G
 
 # Set up job environment, load modules and setup python
 module restore system
