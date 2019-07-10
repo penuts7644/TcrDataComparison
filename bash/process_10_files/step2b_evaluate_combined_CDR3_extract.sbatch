@@ -35,7 +35,7 @@ mkdir 10files_evaluated_CDR3
 cd 10files_evaluated_CDR3
 
 # In a loop copy over necessary model files and create command string
-NUMBER_OF_FILES=`ls | wc -l`
+NUMBER_OF_FILES=`ls "${SLURM_SUBMIT_DIR}/10files_data_extract_and_models" | wc -l`
 NUMBER_OF_FILES= expr ${NUMBER_OF_FILES} - 1
 for i in $(seq 0 $NUMBER_OF_FILES)
 do

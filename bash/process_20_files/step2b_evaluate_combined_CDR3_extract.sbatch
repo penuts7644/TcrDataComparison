@@ -4,11 +4,11 @@
 
 #SBATCH --job-name=ImmunoProbs
 
-#SBATCH --time=1-00:00:00
+#SBATCH --array=0-19
 
-#SBATCH --qos=preproc
+#SBATCH --time=7-00:00:00
 
-#SBATCH --ntasks-per-node=1 --cpus-per-task=32
+#SBATCH --nodes=20 --ntasks-per-node=1 --cpus-per-task=32
 
 # Set up job environment, load modules and setup python
 module restore system
@@ -24,7 +24,7 @@ set -o nounset
 
 # Copy over files to work dir
 cd ${SCRATCH}
-cp "${SLURM_SUBMIT_DIR}/20files_data_extract_and_models/immuno_probs_combined/sequence_data_extractor_CDR3.tsv" .
+cp "${SLURM_SUBMIT_DIR}/20files_combined_data_extract_and_models/sequence_data_extractor_CDR3.tsv" .
 cp -r "${SLURM_SUBMIT_DIR}/human_TRB" .
 
 # Mark the output dir for automatic copying to $SLURM_SUBMIT_DIR afterwards
@@ -33,20 +33,10 @@ savefile 20files_evaluated_CDR3
 # Calculate entropy for all the models
 mkdir 20files_evaluated_CDR3
 cd 20files_evaluated_CDR3
-cp -r "${SLURM_SUBMIT_DIR}/20files_data_extract_and_models/immuno_probs_combined/evaluate" .
-mv evaluate evaluate_combined
-
-# Evaluate using the build-in igor model
-mkdir evaluate_igor
-cd evaluate_igor
-cp -r "${SLURM_SUBMIT_DIR}/igor_human_TCRB_model" .
-immuno-probs -threads ${OMP_NUM_THREADS} -out-name 'pgen_estimate_CDR3' evaluate-seqs -custom-model 'igor_human_TCRB_model/model_params.txt' 'igor_human_TCRB_model/model_marginals.txt' -seqs '../../sequence_data_extractor_CDR3.tsv' -type 'beta' -cdr3 -anchor V '../../human_TRB/V_gene_CDR3_anchors.tsv' -anchor J '../../human_TRB/J_gene_CDR3_anchors.tsv' &> 'unproductive_log.txt'
-rm -r igor_human_TCRB_model
-cd ../
 
 # In a loop copy over necessary model files and create command string
-NUMBER_OF_FILES=`ls | wc -l`
-NUMBER_OF_FILES= expr ${NUMBER_OF_FILES} - 2
+NUMBER_OF_FILES=`ls "${SLURM_SUBMIT_DIR}/20files_data_extract_and_models" | wc -l`
+NUMBER_OF_FILES= expr ${NUMBER_OF_FILES} - 1
 for i in $(seq 0 $NUMBER_OF_FILES)
 do
     mkdir "evaluate_${i}"
