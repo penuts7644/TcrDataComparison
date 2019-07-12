@@ -18,7 +18,6 @@ module load Python/2.7.15-intel-2018b
 set -o errexit
 set -o nounset
 
-
 # Copy over files to work dir
 cd ${SCRATCH}
 cp -r "${SLURM_SUBMIT_DIR}/TcrDataComparison/python/model_processing" .
