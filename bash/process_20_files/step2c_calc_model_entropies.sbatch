@@ -31,7 +31,7 @@ UNPRODUCTIVE_MODELS="-model combined ../../model_combined/unproductive_params.tx
 PRODUCTIVE_MODELS="-model combined ../../model_combined/productive_params.txt ../../model_combined/productive_marginals.txt"
 ALL_MODELS="-model combined ../../model_combined/all_params.txt ../../model_combined/all_marginals.txt"
 NUMBER_OF_FILES=`ls "${SLURM_SUBMIT_DIR}/20files_data_extract_and_models" | wc -l`
-NUMBER_OF_FILES= expr ${NUMBER_OF_FILES} - 1
+NUMBER_OF_FILES=`expr ${NUMBER_OF_FILES} - 1`
 for i in $(seq 0 $NUMBER_OF_FILES)
 do
     cp -r "${SLURM_SUBMIT_DIR}/20files_data_extract_and_models/immuno_probs_${i}/model" .
