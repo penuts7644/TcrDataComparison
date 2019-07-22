@@ -49,15 +49,15 @@ mkdir 20files_model_entropies
 cd 20files_model_entropies
 mkdir unproductive
 cd unproductive
-python ../../model_processing/CalcModelEntropy.py --num-threads ${OMP_NUM_THREADS} ${UNPRODUCTIVE_MODELS} -model 'default' '../../model_igor/model_params.txt' '../../model_igor/model_marginals.txt' &> 'unproductive_model_entropy_log.txt'
+python ../../model_processing/CalcModelEntropy.py --num-threads ${OMP_NUM_THREADS} ${UNPRODUCTIVE_MODELS} -model 'default' '../../model_igor/model_params.txt' '../../model_igor/model_marginals.txt'
 cd ../
 mkdir productive
 cd productive
-python ../../model_processing/CalcModelEntropy.py --num-threads ${OMP_NUM_THREADS} ${PRODUCTIVE_MODELS} -model 'default' '../../model_igor/model_params.txt' '../../model_igor/model_marginals.txt' &> 'productive_model_entropy_log.txt'
+python ../../model_processing/CalcModelEntropy.py --num-threads ${OMP_NUM_THREADS} ${PRODUCTIVE_MODELS} -model 'default' '../../model_igor/model_params.txt' '../../model_igor/model_marginals.txt'
 cd ../
 mkdir all
 cd all
-python ../../model_processing/CalcModelEntropy.py --num-threads ${OMP_NUM_THREADS} ${ALL_MODELS} -model 'default' '../../model_igor/model_params.txt' '../../model_igor/model_marginals.txt' &> 'all_model_entropy_log.txt'
+python ../../model_processing/CalcModelEntropy.py --num-threads ${OMP_NUM_THREADS} ${ALL_MODELS} -model 'default' '../../model_igor/model_params.txt' '../../model_igor/model_marginals.txt'
 cd ../../
 
 # Exit succesfully
