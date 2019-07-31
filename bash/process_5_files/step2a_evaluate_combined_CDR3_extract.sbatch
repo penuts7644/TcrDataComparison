@@ -27,16 +27,16 @@ set -o nounset
 # Copy over files to work dir
 cd ${SCRATCH}
 cp "${SLURM_SUBMIT_DIR}/TcrDataComparison/immuno_probs_config.ini" .
-cp "${SLURM_SUBMIT_DIR}/10files_combined_data_extract_and_models/sequence_data_extractor_CDR3.tsv" .
+cp "${SLURM_SUBMIT_DIR}/5files_combined_data_extract_and_models/sequence_data_extractor_CDR3.tsv" .
 cp -r "${SLURM_SUBMIT_DIR}/human_TRB" .
 
 # Mark the output dir for automatic copying to $SLURM_SUBMIT_DIR afterwards
-savefile 10files_evaluated_CDR3
+savefile 5files_evaluated_CDR3
 
 # Calculate entropy for all the models
-mkdir 10files_evaluated_CDR3
-cd 10files_evaluated_CDR3
-cp -r "${SLURM_SUBMIT_DIR}/10files_combined_data_extract_and_models/evaluate" .
+mkdir 5files_evaluated_CDR3
+cd 5files_evaluated_CDR3
+cp -r "${SLURM_SUBMIT_DIR}/5files_combined_data_extract_and_models/evaluate" .
 mv evaluate evaluate_combined
 
 # Evaluate using the build-in igor model

@@ -30,23 +30,18 @@ cp "${SLURM_SUBMIT_DIR}/TcrDataComparison/immuno_probs_config.ini" .
 cp "${SLURM_SUBMIT_DIR}/TcrDataComparison/python/SequenceDataExtractor.py" .
 cp -r "${SLURM_SUBMIT_DIR}/human_TRB" .
 mkdir data
-cp "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_13524_TCRB.tsv" data/.
-cp "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_9374_TCRB.tsv" data/.
-cp "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_22340_TCRB.tsv" data/.
-cp "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_29173_TCRB.tsv" data/.
-cp "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_7122_TCRB.tsv" data/.
-cp "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_17842_TCRB.tsv" data/.
-cp "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_26184_TCRB.tsv" data/.
-cp "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_4162_TCRB.tsv" data/.
-cp "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_10571_TCRB.tsv" data/.
-cp "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_26852_TCRB.tsv" data/.
+cp "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_20428_TCRB.tsv" data/.
+cp "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_2195_TCRB.tsv" data/.
+cp "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_7693_TCRB.tsv" data/.
+cp "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_12471_TCRB.tsv" data/.
+cp "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_8014_TCRB.tsv" data/.
 
 # Mark the output dir for automatic copying to $SLURM_SUBMIT_DIR afterwards
-savefile 10files_combined_data_extract_and_models
+savefile 5files_combined_data_extract_and_models
 
 # Create the job dir for the output files
-mkdir 10files_combined_data_extract_and_models
-cd 10files_combined_data_extract_and_models
+mkdir 5files_combined_data_extract_and_models
+cd 5files_combined_data_extract_and_models
 
 # Extract the data files from the Brusko data file
 python ../SequenceDataExtractor.py --num-threads ${OMP_NUM_THREADS} "../data" '../human_TRB/TRBV.fasta' '../human_TRB/TRBJ.fasta' '\t'

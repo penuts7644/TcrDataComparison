@@ -4,11 +4,11 @@
 
 #SBATCH --job-name=ImmunoProbs
 
-#SBATCH --array=0-9
+#SBATCH --array=0-4
 
 #SBATCH --time=0-04:00:00
 
-#SBATCH --nodes=10 --ntasks-per-node=1 --cpus-per-task=32
+#SBATCH --nodes=5 --ntasks-per-node=1 --cpus-per-task=32
 
 # Set up job environment, load modules and setup python
 module restore system
@@ -23,16 +23,11 @@ set -o errexit
 set -o nounset
 
 filesArray=(
-    "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_13524_TCRB.tsv"
-    "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_9374_TCRB.tsv"
-    "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_22340_TCRB.tsv"
-    "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_29173_TCRB.tsv"
-    "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_7122_TCRB.tsv"
-    "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_17842_TCRB.tsv"
-    "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_26184_TCRB.tsv"
-    "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_4162_TCRB.tsv"
-    "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_10571_TCRB.tsv"
-    "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_26852_TCRB.tsv"
+    "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_20428_TCRB.tsv"
+    "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_2195_TCRB.tsv"
+    "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_7693_TCRB.tsv"
+    "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_12471_TCRB.tsv"
+    "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_8014_TCRB.tsv"
 )
 
 # Copy over files to work dir
@@ -43,11 +38,11 @@ cp -r "${SLURM_SUBMIT_DIR}/human_TRB" .
 cp ${filesArray[${SLURM_ARRAY_TASK_ID}]} .
 
 # Mark the output dir for automatic copying to $SLURM_SUBMIT_DIR afterwards
-savefile 10files_data_extract_and_models
+savefile 5files_data_extract_and_models
 
 # Create the job dir for the output files
-mkdir 10files_data_extract_and_models
-cd 10files_data_extract_and_models
+mkdir 5files_data_extract_and_models
+cd 5files_data_extract_and_models
 mkdir immuno_probs_${SLURM_ARRAY_TASK_ID}
 cd immuno_probs_${SLURM_ARRAY_TASK_ID}
 

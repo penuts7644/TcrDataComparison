@@ -21,7 +21,7 @@ set -o nounset
 # Copy over files to work dir
 cd ${SCRATCH}
 cp -r "${SLURM_SUBMIT_DIR}/TcrDataComparison/python/model_processing" .
-cp -r "${SLURM_SUBMIT_DIR}/10files_combined_data_extract_and_models/model" .
+cp -r "${SLURM_SUBMIT_DIR}/5files_combined_data_extract_and_models/model" .
 mv model model_combined
 cp -r "${SLURM_SUBMIT_DIR}/igor_human_TCRB_model" .
 mv igor_human_TCRB_model model_igor
@@ -34,7 +34,7 @@ NUMBER_OF_FILES=`ls "${SLURM_SUBMIT_DIR}/10files_data_extract_and_models" | wc -
 NUMBER_OF_FILES=`expr ${NUMBER_OF_FILES} - 1`
 for i in $(seq 0 $NUMBER_OF_FILES)
 do
-    cp -r "${SLURM_SUBMIT_DIR}/10files_data_extract_and_models/immuno_probs_${i}/model" .
+    cp -r "${SLURM_SUBMIT_DIR}/5files_data_extract_and_models/immuno_probs_${i}/model" .
     mv model "model_${i}"
     UNPRODUCTIVE_MODELS+=" -model ${i} ../../model_${i}/unproductive_params.txt ../../model_${i}/unproductive_marginals.txt"
     PRODUCTIVE_MODELS+=" -model ${i} ../../model_${i}/productive_params.txt ../../model_${i}/productive_marginals.txt"
@@ -42,11 +42,11 @@ do
 done
 
 # Mark the output dir for automatic copying to $SLURM_SUBMIT_DIR afterwards
-savefile 10files_model_entropies
+savefile 5files_model_entropies
 
 # Calculate entropy for all the models
-mkdir 10files_model_entropies
-cd 10files_model_entropies
+mkdir 5files_model_entropies
+cd 5files_model_entropies
 mkdir unproductive
 cd unproductive
 python ../../model_processing/CalcModelEntropy.py --num-threads ${OMP_NUM_THREADS} ${UNPRODUCTIVE_MODELS} -model 'default' '../../model_igor/model_params.txt' '../../model_igor/model_marginals.txt'
