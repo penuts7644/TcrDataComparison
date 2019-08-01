@@ -1,0 +1,131 @@
+library(ggplot2)
+library(GGally)
+library(reshape2)
+library(gtable)
+library(gridExtra)
+
+# ----------
+# READ IN DATA FOR PRODUCTIVE, UNPRODUCTIVE AND ALL MODELS, 'plot_total_variables.R'
+# ----------
+
+# Build the facet wrap plot from the models
+eval_compare <-
+  ggplot(
+    data = models,
+  ) +
+  geom_point(
+    aes(
+      x = NT.x,
+      y = NT.y,
+      col = 'NT'
+    ),
+    size = 1,
+    alpha = 0.4,
+  ) +
+  geom_point(
+    aes(
+      x = AA.x,
+      y = AA.y,
+      col = 'AA'
+    ),
+    size = 1,
+    alpha = 0.4,
+  ) +
+  geom_smooth(
+    aes(
+      x = NT.x,
+      y = NT.y,
+      col = 'NT'
+    ),
+    size = 1,
+    method = lm,
+    se = FALSE,
+    fullrange = TRUE,
+    show.legend = FALSE
+  ) +
+  geom_smooth(
+    aes(
+      x = AA.x,
+      y = AA.y,
+      col = 'AA'
+    ),
+    size = 1,
+    method = lm,
+    se = FALSE,
+    fullrange = TRUE,
+    show.legend = FALSE
+  ) +
+  geom_label(
+    aes(
+      x = 0,
+      y = 1,
+      label = round(NT.corr, digits = 4),
+      col = 'NT'
+    ),
+    hjust = 0,
+    vjust = 1,
+    size = 6,
+    fontface = "bold",
+    show.legend = FALSE
+  ) +
+  geom_label(
+    aes(
+      x = 0,
+      y = 0.8,
+      label = round(AA.corr, digits = 4),
+      col = 'AA'
+    ),
+    hjust = 0,
+    vjust = 1,
+    size = 6,
+    fontface = "bold",
+    show.legend = FALSE
+  ) +
+  theme(
+    plot.title = element_text(
+      size = 20
+    ),
+    plot.caption = element_text(
+      hjust = 0,
+      size = 15
+    ),
+    legend.text = element_text(
+      size = 15
+    ),
+    axis.title.x = element_blank(),
+    axis.title.y = element_blank(),
+    axis.text.x = element_text(
+      size = 11,
+      angle = 45,
+      hjust = 1
+    ),
+    axis.text.y=element_text(
+      size = 11
+    ),
+    strip.text.x = element_text(
+      size = 15
+    ),
+    strip.text.y = element_text(
+      size = 15
+    ),
+    legend.position = 'bottom',
+    legend.title = element_blank(),
+    legend.direction = 'horizontal'
+  ) +
+  xlim(0, 1) +
+  ylim(0, 1) +
+  labs(
+    title = plot_title,
+    caption = plot_caption
+  ) +
+  facet_grid(
+    name ~ combination
+  ) +
+  scale_color_manual(
+    values=c('#af8dc3', '#7fbf7b') # PRGn
+  )
+
+# Write out our plot png
+jpeg(output_filename, width = 3000, height = 4000, res = 300)
+eval_compare
+dev.off()
