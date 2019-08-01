@@ -58,7 +58,7 @@ entr_compare <-
     y = plot_y
   ) +
   scale_color_manual(
-    values=c('#af8dc3', '#7fbf7b') # PRGn
+    values = c('#1f78b4', '#d95f02')
   )
 
 jpeg(output_filename, width = 4000, height = 4000, res = 300)

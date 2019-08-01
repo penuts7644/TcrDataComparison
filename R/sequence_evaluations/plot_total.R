@@ -1,14 +1,9 @@
 library(ggplot2)
-library(GGally)
-library(reshape2)
-library(gtable)
-library(gridExtra)
 
 # ----------
 # READ IN DATA FOR PRODUCTIVE, UNPRODUCTIVE AND ALL MODELS, 'plot_total_variables.R'
 # ----------
 
-# Build the facet wrap plot from the models
 eval_compare <-
   ggplot(
     data = models,
@@ -19,7 +14,7 @@ eval_compare <-
       y = NT.y,
       col = 'NT'
     ),
-    size = 1,
+    size = 2,
     alpha = 0.4,
   ) +
   geom_point(
@@ -28,7 +23,7 @@ eval_compare <-
       y = AA.y,
       col = 'AA'
     ),
-    size = 1,
+    size = 2,
     alpha = 0.4,
   ) +
   geom_smooth(
@@ -122,10 +117,9 @@ eval_compare <-
     name ~ combination
   ) +
   scale_color_manual(
-    values=c('#af8dc3', '#7fbf7b') # PRGn
+    values = c('#1f78b4', '#d95f02')
   )
 
-# Write out our plot png
 jpeg(output_filename, width = 3000, height = 4000, res = 300)
 eval_compare
 dev.off()

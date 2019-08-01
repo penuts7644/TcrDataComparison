@@ -1,35 +1,9 @@
-library(ggplot2)
 library(GGally)
-library(reshape2)
-library(gtable)
-library(gridExtra)
 
 # ----------
 # READ IN DATA FOR GIVEN PRODUCTIVE, UNPRODUCTIVE OR ALL MODELS, 'plot_evaluated_variables.R'
 # ----------
 
-# Combine the model dataframes together on the sequence index and type
-models <- na.omit(do.call('cbind', list(
-  model_0, model_1[2], model_2[2], model_3[2],
-  model_4[2], model_combined[2], model_default[2]
-)))
-rm(model_0, model_1, model_2, model_3, model_4, model_combined, model_default)
-
-# Rename the sequence type column and values
-names(models) <- c('type', '0', '1', '2', '3', '4', 'combined', 'default')
-models$type <- as.character(models$type)
-models$type[models$type == 'nt_pgen_estimate'] <- 'NT'
-models$type[models$type == 'aa_pgen_estimate'] <- 'AA'
-models$type <- as.factor(models$type)
-
-# Apply simple min-max normalize to scale NT and AA values accordingly
-normalize <- function(x) {
-  return ((x - min(x)) / (max(x) - min(x)))
-}
-models[models$type == 'NT', -1] <- apply(models[models$type == 'NT', -1], 2, normalize)
-models[models$type == 'AA', -1] <- apply(models[models$type == 'AA', -1], 2, normalize)
-
-# Function for plotting the upper half of the graph
 upper_plot_fn <- function(data, mapping, ...){
   ggally_cor(
     data = data,
@@ -49,19 +23,18 @@ upper_plot_fn <- function(data, mapping, ...){
     )
   ) +
   scale_color_manual(
-    values = c('#af8dc3', '#7fbf7b'), # PRGn
+    values = c('#1f78b4', '#d95f02')
   )
 }
 
-# Function for plotting the lower half of the graph
 lower_plot_fn <- function(data, mapping, ...){
   ggplot(
     data = data,
     mapping = mapping
   ) +
   geom_point(
-    size = 1,
-    alpha = 0.4,
+    size = 2,
+    alpha = 0.4
   ) +
   geom_smooth(
     size = 1,
@@ -72,11 +45,10 @@ lower_plot_fn <- function(data, mapping, ...){
   xlim(0, 1) +
   ylim(0, 1) +
   scale_color_manual(
-    values = c('#af8dc3', '#7fbf7b') # PRGn
+    values = c('#1f78b4', '#d95f02')
   )
 }
 
-# Plot one graph to collect the legend from
 legend_plot <- ggplot(data = models) +
   geom_point(
     aes(x = `0`, y = `1`, color = type)
@@ -90,10 +62,9 @@ legend_plot <- ggplot(data = models) +
     legend.direction = 'horizontal'
   ) +
   scale_color_manual(
-    values = c('#af8dc3', '#7fbf7b'), # PRGn
+    values = c('#1f78b4', '#d95f02')
   )
 
-# Create the ggpairs combined graph and print
 eval_compare <-
   ggpairs(
     models,
@@ -136,7 +107,6 @@ eval_compare <-
     caption = plot_caption
   )
 
-# Write out our plot png
 jpeg(output_filename, width = 4000, height = 4000, res = 300)
 eval_compare
 dev.off()
