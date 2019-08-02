@@ -22,24 +22,30 @@ module load Python/2.7.15-intel-2018b
 set -o errexit
 set -o nounset
 
+FILE_SUBSET='all'
+
 # Copy over files to work dir
 cd ${SCRATCH}
 cp "${SLURM_SUBMIT_DIR}/TcrDataComparison/immuno_probs_config.ini" .
-cp "${SLURM_SUBMIT_DIR}/5files_combined_data_extract_and_models/sequence_data_extractor_CDR3.tsv" .
+cp "${SLURM_SUBMIT_DIR}/process_5_files/${FILE_SUBSET}/combined_data_extract_and_models/sequence_data_extractor_CDR3.tsv" .
 cp -r "${SLURM_SUBMIT_DIR}/human_TRB" .
 
 # Mark the output dir for automatic copying to $SLURM_SUBMIT_DIR afterwards
-savefile 5files_evaluated_CDR3
+savefile process_5_files
 
 # Evaluate the sequences for given model in array
-mkdir 5files_evaluated_CDR3
-cd 5files_evaluated_CDR3
+mkdir process_5_files
+cd process_5_files
+mkdir ${FILE_SUBSET}
+cd ${FILE_SUBSET}
+mkdir evaluated_CDR3
+cd evaluated_CDR3
 mkdir "evaluate_${SLURM_ARRAY_TASK_ID}"
 cd "evaluate_${SLURM_ARRAY_TASK_ID}"
-cp -r "${SLURM_SUBMIT_DIR}/5files_data_extract_and_models/immuno_probs_${SLURM_ARRAY_TASK_ID}/model" .
-immuno-probs -threads ${OMP_NUM_THREADS} -out-name 'pgen_estimate_unproductive_CDR3' -config-file '../../immuno_probs_config.ini' evaluate -custom-model 'model/unproductive_params.txt' 'model/unproductive_marginals.txt' -seqs '../../sequence_data_extractor_CDR3.tsv' -type 'beta' -cdr3 -anchor V '../../human_TRB/V_gene_CDR3_anchors.tsv' -anchor J '../../human_TRB/J_gene_CDR3_anchors.tsv'
-immuno-probs -threads ${OMP_NUM_THREADS} -out-name 'pgen_estimate_productive_CDR3' -config-file '../../immuno_probs_config.ini' evaluate -custom-model 'model/productive_params.txt' 'model/productive_marginals.txt' -seqs '../../sequence_data_extractor_CDR3.tsv' -type 'beta' -cdr3 -anchor V '../../human_TRB/V_gene_CDR3_anchors.tsv' -anchor J '../../human_TRB/J_gene_CDR3_anchors.tsv'
-immuno-probs -threads ${OMP_NUM_THREADS} -out-name 'pgen_estimate_all_CDR3' -config-file '../../immuno_probs_config.ini' evaluate -custom-model 'model/all_params.txt' 'model/all_marginals.txt' -seqs '../../sequence_data_extractor_CDR3.tsv' -type 'beta' -cdr3 -anchor V '../../human_TRB/V_gene_CDR3_anchors.tsv' -anchor J '../../human_TRB/J_gene_CDR3_anchors.tsv'
+cp -r "${SLURM_SUBMIT_DIR}/process_5_files/${FILE_SUBSET}/data_extract_and_models/immuno_probs_${SLURM_ARRAY_TASK_ID}/model" .
+immuno-probs -threads ${OMP_NUM_THREADS} -out-name 'pgen_estimate_unproductive_CDR3' -config-file '../../../../immuno_probs_config.ini' evaluate -custom-model 'model/unproductive_params.txt' 'model/unproductive_marginals.txt' -seqs '../../../../sequence_data_extractor_CDR3.tsv' -type 'beta' -cdr3 -anchor V '../../../../human_TRB/V_gene_CDR3_anchors.tsv' -anchor J '../../../../human_TRB/J_gene_CDR3_anchors.tsv'
+immuno-probs -threads ${OMP_NUM_THREADS} -out-name 'pgen_estimate_productive_CDR3' -config-file '../../../../immuno_probs_config.ini' evaluate -custom-model 'model/productive_params.txt' 'model/productive_marginals.txt' -seqs '../../../../sequence_data_extractor_CDR3.tsv' -type 'beta' -cdr3 -anchor V '../../../../human_TRB/V_gene_CDR3_anchors.tsv' -anchor J '../../../../human_TRB/J_gene_CDR3_anchors.tsv'
+immuno-probs -threads ${OMP_NUM_THREADS} -out-name 'pgen_estimate_all_CDR3' -config-file '../../../../immuno_probs_config.ini' evaluate -custom-model 'model/all_params.txt' 'model/all_marginals.txt' -seqs '../../../../sequence_data_extractor_CDR3.tsv' -type 'beta' -cdr3 -anchor V '../../../../human_TRB/V_gene_CDR3_anchors.tsv' -anchor J '../../../../human_TRB/J_gene_CDR3_anchors.tsv'
 rm -r model
 cd ../
 
