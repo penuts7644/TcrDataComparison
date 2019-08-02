@@ -27,7 +27,7 @@ process_model <- function(x, y, combination, name) {
 # ----------
 # MODEL DATA
 # ----------
-cc <- c(NA, rep("NULL", 6), rep(NA, 2))  # For AA and NT comparison
+cc <- c(NA, rep("NULL", 6), rep(NA, 2))
 
 model_0_productive <- data.frame(read.table('~/Downloads/evaluated_seqs/evaluate_0/pgen_estimate_productive_CDR3.tsv', header=TRUE, row.names=1, sep='\t', check.names=FALSE, colClasses=cc))
 model_0_unproductive <- data.frame(read.table('~/Downloads/evaluated_seqs/evaluate_0/pgen_estimate_unproductive_CDR3.tsv', header=TRUE, row.names=1, sep='\t', check.names=FALSE, colClasses=cc))
@@ -85,4 +85,3 @@ rm(model_combined_productive, model_combined_unproductive, model_combined_all, m
 
 models <- do.call('rbind', list(model_0, model_1, model_2, model_3, model_4, model_combined))
 rm(cc, model_0, model_1, model_2, model_3, model_4, model_combined)
-

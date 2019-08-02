@@ -11,7 +11,7 @@ normalize <- function(x) {
 }
 
 process_model <- function(type) {
-  cc <- c(NA, rep("NULL", 6), rep(NA, 2))  # For AA and NT comparison
+  cc <- c(NA, rep("NULL", 6), rep(NA, 2))
   if (type == 'productive') {
     model_0 <- melt(data.frame(read.table('~/Downloads/evaluated_seqs/evaluate_0/pgen_estimate_productive_CDR3.tsv', header=TRUE, row.names=1, sep='\t', check.names=FALSE, colClasses=cc)))
     model_1 <- melt(data.frame(read.table('~/Downloads/evaluated_seqs/evaluate_1/pgen_estimate_productive_CDR3.tsv', header=TRUE, row.names=1, sep='\t', check.names=FALSE, colClasses=cc)))

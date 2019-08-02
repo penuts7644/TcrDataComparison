@@ -7,7 +7,7 @@ library(reshape2)
 # PLOT VARIABLES
 # ----------
 plot_title <- 'Normalized subject-specific complete model entropies'
-plot_caption <- 'Subject-specific models compared against other subject-specific, combined and default models that were trained using productive,\nunproductive or all sequences from each dataset.'
+plot_caption <- 'Subject-specific models compared against other subject-specific and combined models that were trained using productive, unproductive\nor all sequences from each dataset.'
 plot_y <- 'combined KL divergence\n(complete models)'
 output_filename <- '~/Downloads/entropy_total_rplot.png'
 
@@ -31,10 +31,9 @@ models <- melt(list(
   'all' = all
 ))
 models <- models[models$Var1 != models$Var2, ]
-models <- models[models$Var1 != 'combined' & models$Var1 != 'default', ]
+models <- models[models$Var1 != 'combined', ]
 models$L2 <- 'subject'
 models$L2[models$Var2 == 'combined'] <- 'combined'
-models$L2[models$Var2 == 'default'] <- 'default'
 models <- models[order(models$L2, decreasing = TRUE), ]
 models[, 3] <- apply(models[3], 2, normalize)
 rm(productive, unproductive, all)
