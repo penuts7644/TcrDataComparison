@@ -18,12 +18,12 @@ module load Python/2.7.15-intel-2018b
 set -o errexit
 set -o nounset
 
-FILE_SUBSET='all'
+SUBSET_ID='all'
 
 # Copy over files to work dir
 cd ${SCRATCH}
 cp -r "${SLURM_SUBMIT_DIR}/TcrDataComparison/python/model_processing" .
-cp -r "${SLURM_SUBMIT_DIR}/process_5_files/${FILE_SUBSET}/combined_data_extract_and_models/model" .
+cp -r "${SLURM_SUBMIT_DIR}/process_5_files/${SUBSET_ID}/combined_data_extract_and_models/model" .
 mv model model_combined
 
 # In a loop copy over necessary model files and create command string (already include the combined models)
@@ -34,7 +34,7 @@ NUMBER_OF_FILES=`ls "${SLURM_SUBMIT_DIR}/5files_data_extract_and_models" | wc -l
 NUMBER_OF_FILES=`expr ${NUMBER_OF_FILES} - 1`
 for i in $(seq 0 $NUMBER_OF_FILES)
 do
-    cp -r "${SLURM_SUBMIT_DIR}/process_5_files/${FILE_SUBSET}/data_extract_and_models/immuno_probs_${i}/model" .
+    cp -r "${SLURM_SUBMIT_DIR}/process_5_files/${SUBSET_ID}/data_extract_and_models/immuno_probs_${i}/model" .
     mv model "model_${i}"
     UNPRODUCTIVE_MODELS+=" -model ${i} ../../../../model_${i}/unproductive_params.txt ../../../../model_${i}/unproductive_marginals.txt"
     PRODUCTIVE_MODELS+=" -model ${i} ../../../../model_${i}/productive_params.txt ../../../../model_${i}/productive_marginals.txt"
@@ -47,8 +47,8 @@ savefile process_5_files
 # Calculate entropy for all the models
 mkdir process_5_files
 cd process_5_files
-mkdir ${FILE_SUBSET}
-cd ${FILE_SUBSET}
+mkdir ${SUBSET_ID}
+cd ${SUBSET_ID}
 mkdir model_entropies
 cd model_entropies
 mkdir unproductive

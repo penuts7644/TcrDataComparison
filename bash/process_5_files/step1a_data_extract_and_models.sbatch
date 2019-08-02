@@ -22,7 +22,7 @@ module load Python/2.7.15-intel-2018b
 set -o errexit
 set -o nounset
 
-FILE_SUBSET='all'
+SUBSET_ID='all'
 
 filesArray=(
     "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_20428_TCRB.tsv"
@@ -45,8 +45,8 @@ savefile process_5_files
 # Create the job dir for the output files
 mkdir process_5_files
 cd process_5_files
-mkdir ${FILE_SUBSET}
-cd ${FILE_SUBSET}
+mkdir ${SUBSET_ID}
+cd ${SUBSET_ID}
 mkdir data_extract_and_models
 cd data_extract_and_models
 mkdir immuno_probs_${SLURM_ARRAY_TASK_ID}

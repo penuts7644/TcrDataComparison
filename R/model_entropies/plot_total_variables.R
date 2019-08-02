@@ -2,6 +2,8 @@
 # GENERAL
 # ----------
 library(reshape2)
+SUBSET_ID <- 'all'
+
 
 # ----------
 # PLOT VARIABLES
@@ -9,7 +11,7 @@ library(reshape2)
 plot_title <- 'Normalized subject-specific complete model entropies'
 plot_caption <- 'Subject-specific models compared against other subject-specific and combined models that were trained using productive, unproductive\nor all sequences from each dataset.'
 plot_y <- 'combined KL divergence\n(complete models)'
-output_filename <- '~/Downloads/entropy_total_rplot.png'
+output_filename <- paste('~/Downloads/process_5_files/', SUBSET_ID, '/model_entropies/entropy_total_rplot_', SUBSET_ID, '.png', sep = '')
 
 # ----------
 # FUNCTIONS FOR PRE-PROCESSING
@@ -21,9 +23,9 @@ normalize <- function(x) {
 # ----------
 # MODEL DATA
 # ----------
-productive <- data.matrix(read.table('~/Downloads/model_entropies/productive/calc_model_entropy_total.tsv', header=TRUE, row.names=1, sep='\t', check.names=FALSE))
-unproductive <- data.matrix(read.table('~/Downloads/model_entropies/unproductive/calc_model_entropy_total.tsv', header=TRUE, row.names=1, sep='\t', check.names=FALSE))
-all <- data.matrix(read.table('~/Downloads/model_entropies/all/calc_model_entropy_total.tsv', header=TRUE, row.names=1, sep='\t', check.names=FALSE))
+productive <- data.matrix(read.table(paste('~/Downloads/process_5_files/', SUBSET_ID, '/model_entropies/productive/calc_model_entropy_total.tsv', sep = ''), header=TRUE, row.names=1, sep='\t', check.names=FALSE))
+unproductive <- data.matrix(read.table(paste('~/Downloads/process_5_files/', SUBSET_ID, '/model_entropies/unproductive/calc_model_entropy_total.tsv', sep = ''), header=TRUE, row.names=1, sep='\t', check.names=FALSE))
+all <- data.matrix(read.table(paste('~/Downloads/process_5_files/', SUBSET_ID, '/model_entropies/all/calc_model_entropy_total.tsv', sep = ''), header=TRUE, row.names=1, sep='\t', check.names=FALSE))
 
 models <- melt(list(
   'productive' = productive,

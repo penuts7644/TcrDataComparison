@@ -24,7 +24,7 @@ module load Python/2.7.15-intel-2018b
 set -o errexit
 set -o nounset
 
-FILE_SUBSET='all'
+SUBSET_ID='all'
 
 # Copy over files to work dir
 cd ${SCRATCH}
@@ -44,8 +44,8 @@ savefile process_5_files
 # Create the job dir for the output files
 mkdir process_5_files
 cd process_5_files
-mkdir ${FILE_SUBSET}
-cd ${FILE_SUBSET}
+mkdir ${SUBSET_ID}
+cd ${SUBSET_ID}
 mkdir combined_data_extract_and_models
 cd combined_data_extract_and_models
 

@@ -24,12 +24,12 @@ module load Python/2.7.15-intel-2018b
 set -o errexit
 set -o nounset
 
-FILE_SUBSET='all'
+SUBSET_ID='all'
 
 # Copy over files to work dir
 cd ${SCRATCH}
 cp "${SLURM_SUBMIT_DIR}/TcrDataComparison/immuno_probs_config.ini" .
-cp "${SLURM_SUBMIT_DIR}/process_5_files/${FILE_SUBSET}/combined_data_extract_and_models/sequence_data_extractor_CDR3.tsv" .
+cp "${SLURM_SUBMIT_DIR}/process_5_files/${SUBSET_ID}/combined_data_extract_and_models/sequence_data_extractor_CDR3.tsv" .
 cp -r "${SLURM_SUBMIT_DIR}/human_TRB" .
 
 # Mark the output dir for automatic copying to $SLURM_SUBMIT_DIR afterwards
@@ -38,11 +38,11 @@ savefile process_5_files
 # Calculate entropy for all the models
 mkdir process_5_files
 cd process_5_files
-mkdir ${FILE_SUBSET}
-cd ${FILE_SUBSET}
+mkdir ${SUBSET_ID}
+cd ${SUBSET_ID}
 mkdir evaluated_CDR3
 cd evaluated_CDR3
-cp -r "${SLURM_SUBMIT_DIR}/process_5_files/${FILE_SUBSET}/combined_data_extract_and_models/evaluate" .
+cp -r "${SLURM_SUBMIT_DIR}/process_5_files/${SUBSET_ID}/combined_data_extract_and_models/evaluate" .
 mv evaluate evaluate_combined
 
 # Evaluate using the build-in igor model
