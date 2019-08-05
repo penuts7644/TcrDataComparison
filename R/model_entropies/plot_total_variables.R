@@ -9,7 +9,7 @@ SUBSET_ID <- 'all'
 # PLOT VARIABLES
 # ----------
 plot_title <- 'Normalized subject-specific complete model entropies'
-plot_caption <- 'Subject-specific models compared against other subject-specific and combined models that were trained using productive, unproductive\nor all sequences from each dataset.'
+plot_caption <- 'Subject-specific models compared against other subject-specific and combined models that were trained using productive,\nunproductive or all sequences from each dataset.'
 plot_y <- 'combined KL divergence\n(complete models)'
 output_filename <- paste('~/Downloads/process_5_files/', SUBSET_ID, '/model_entropies/entropy_total_rplot_', SUBSET_ID, '.png', sep = '')
 

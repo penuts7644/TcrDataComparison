@@ -78,7 +78,7 @@ process_model <- function(type) {
 # ----------
 models <- process_model('productive')
 plot_title <- 'Normalized subject-specific event-level entropies'
-plot_caption <- 'Subject-specific models compared against other subject-specific and combined models that were trained using productive sequences\nfrom each dataset.'
+plot_caption <- 'Subject-specific models compared against other subject-specific and combined models that were trained using productive\nsequences from each dataset.'
 plot_y <- 'combined KL divergence'
 output_filename <- paste('~/Downloads/process_5_files/', SUBSET_ID, '/model_entropies/entropy_event_productive_rplot_', SUBSET_ID, '.png', sep = '')
 
@@ -87,7 +87,7 @@ output_filename <- paste('~/Downloads/process_5_files/', SUBSET_ID, '/model_entr
 # ----------
 models <- process_model('unproductive')
 plot_title <- 'Normalized subject-specific event-level entropies'
-plot_caption <- 'Subject-specific models compared against other subject-specific and combined models that were trained using unproductive sequences\nfrom each dataset.'
+plot_caption <- 'Subject-specific models compared against other subject-specific and combined models that were trained using unproductive\nsequences from each dataset.'
 plot_y <- 'combined KL divergence'
 output_filename <- paste('~/Downloads/process_5_files/', SUBSET_ID, '/model_entropies/entropy_event_unproductive_rplot_', SUBSET_ID, '.png', sep = '')
 
@@ -96,6 +96,6 @@ output_filename <- paste('~/Downloads/process_5_files/', SUBSET_ID, '/model_entr
 # ----------
 models <- process_model('all')
 plot_title <- 'Normalized subject-specific event-level entropies'
-plot_caption <- 'Subject-specific models compared against other subject-specific and combined models that were trained using all sequences (productive\nand unproductive) from each dataset.'
+plot_caption <- 'Subject-specific models compared against other subject-specific and combined models that were trained using all sequences\n(productive and unproductive) from each dataset.'
 plot_y <- 'combined KL divergence'
 output_filename <- paste('~/Downloads/process_5_files/', SUBSET_ID, '/model_entropies/entropy_event_all_rplot_', SUBSET_ID, '.png', sep = '')
