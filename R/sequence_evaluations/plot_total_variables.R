@@ -1,6 +1,7 @@
 # ----------
 # GENERAL
 # ----------
+library(reshape2)
 SUBSET_ID <- 'all'
 
 # ----------
@@ -18,11 +19,17 @@ normalize <- function(x) {
 }
 
 process_model <- function(x, y, combination, name) {
-  model <- na.omit(cbind(x, y))
-  colnames(model) <- c('NT.x', 'AA.x', 'NT.y', 'AA.y')
-  model$NT.corr <- cor(model$NT.x, model$NT.y, method = 'spearman')
-  model$AA.corr <- cor(model$AA.x, model$AA.y, method = 'spearman')
-  model[, 1:4] <- apply(model[1:4], 2, normalize)
+  newX <- melt(x, variable.name = 'type', value.name = 'X')
+  newY <- melt(y, variable.name = 'type', value.name = 'Y')
+  model <- na.omit(cbind(newX, newY['Y']))
+  model$type <- as.character(model$type)
+  model$type[model$type == 'nt_pgen_estimate'] <- 'NT'
+  model$type[model$type == 'aa_pgen_estimate'] <- 'AA'
+  model$type <- as.factor(model$type)
+  model[model$type == 'NT', -1] <- apply(model[model$type == 'NT', -1], 2, normalize)
+  model[model$type == 'AA', -1] <- apply(model[model$type == 'AA', -1], 2, normalize)
+  model$corr.NT[model$type == 'NT'] <- c(cor(model[model$type == 'NT', 2], model[model$type == 'NT', 3], method = 'spearman'), rep(NA, nrow(model[model$type == 'NT', ]) - 1))
+  model$corr.AA[model$type == 'AA'] <- c(cor(model[model$type == 'AA', 2], model[model$type == 'AA', 3], method = 'spearman'), rep(NA, nrow(model[model$type == 'AA', ]) - 1))
   model$combination <- combination
   model$name <- name
   model <- model[sample(nrow(model)), ]

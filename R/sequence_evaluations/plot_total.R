@@ -7,43 +7,17 @@ library(ggplot2)
 eval_compare <-
   ggplot(
     data = models,
+    aes(
+      x = X,
+      y = Y,
+      color = type
+    )
   ) +
   geom_point(
-    aes(
-      x = NT.x,
-      y = NT.y,
-      col = 'NT'
-    ),
-    size = 2,
-    alpha = 0.4,
-  ) +
-  geom_point(
-    aes(
-      x = AA.x,
-      y = AA.y,
-      col = 'AA'
-    ),
     size = 2,
     alpha = 0.4,
   ) +
   geom_smooth(
-    aes(
-      x = NT.x,
-      y = NT.y,
-      col = 'NT'
-    ),
-    size = 1,
-    method = lm,
-    se = FALSE,
-    fullrange = TRUE,
-    show.legend = FALSE
-  ) +
-  geom_smooth(
-    aes(
-      x = AA.x,
-      y = AA.y,
-      col = 'AA'
-    ),
     size = 1,
     method = lm,
     se = FALSE,
@@ -54,7 +28,7 @@ eval_compare <-
     aes(
       x = 0,
       y = 1,
-      label = round(NT.corr, digits = 4),
+      label = round(corr.NT, digits = 4),
       col = 'NT'
     ),
     hjust = 0,
@@ -67,7 +41,7 @@ eval_compare <-
     aes(
       x = 0,
       y = 0.8,
-      label = round(AA.corr, digits = 4),
+      label = round(corr.AA, digits = 4),
       col = 'AA'
     ),
     hjust = 0,
@@ -113,11 +87,12 @@ eval_compare <-
     title = plot_title,
     caption = plot_caption
   ) +
-  facet_grid(
-    name ~ combination
-  ) +
   scale_color_manual(
     values = c('#1f78b4', '#d95f02')
+  ) +
+  facet_grid(
+    rows = vars(name),
+    cols = vars(combination)
   )
 
 jpeg(output_filename, width = 3000, height = 4000, res = 300)
