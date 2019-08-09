@@ -23,6 +23,7 @@ set -o errexit
 set -o nounset
 
 SUBSET_ID='all'
+NUM_RANDOM=0
 
 filesArray=(
     "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_20428_TCRB.tsv"
@@ -53,7 +54,7 @@ cd immuno_probs_${SLURM_ARRAY_TASK_ID}
 
 # Extract the data files from the Brusko data file
 FILE_BASENAME=`basename ${filesArray[${SLURM_ARRAY_TASK_ID}]}`
-immuno-probs -threads ${OMP_NUM_THREADS} -out-name 'converted' -config-file '../../../../immuno_probs_config.ini' convert -ref V '../../../../human_TRB/TRBV.fasta' -ref J '../../../../human_TRB/TRBJ.fasta' -seqs "../../../../${FILE_BASENAME}"
+immuno-probs -threads ${OMP_NUM_THREADS} -out-name 'converted' -config-file '../../../../immuno_probs_config.ini' convert -ref V '../../../../human_TRB/TRBV.fasta' -ref J '../../../../human_TRB/TRBJ.fasta' -seqs "../../../../${FILE_BASENAME}" -n-random ${NUM_RANDOM}
 
 # Create a model (params and marginals) for each data extract
 mkdir model
