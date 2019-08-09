@@ -30,7 +30,7 @@ mv model model_combined
 UNPRODUCTIVE_MODELS="-model combined ../../../../model_combined/unproductive_params.txt ../../../../model_combined/unproductive_marginals.txt"
 PRODUCTIVE_MODELS="-model combined ../../../../model_combined/productive_params.txt ../../../../model_combined/productive_marginals.txt"
 ALL_MODELS="-model combined ../../../../model_combined/all_params.txt ../../../../model_combined/all_marginals.txt"
-NUMBER_OF_FILES=`ls "${SLURM_SUBMIT_DIR}/5files_data_extract_and_models" | wc -l`
+NUMBER_OF_FILES=`ls "${SLURM_SUBMIT_DIR}/process_5_files/${SUBSET_ID}/data_extract_and_models" | wc -l`
 NUMBER_OF_FILES=`expr ${NUMBER_OF_FILES} - 1`
 for i in $(seq 0 $NUMBER_OF_FILES)
 do

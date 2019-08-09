@@ -29,14 +29,7 @@ SUBSET_ID='all'
 # Copy over files to work dir
 cd ${SCRATCH}
 cp "${SLURM_SUBMIT_DIR}/TcrDataComparison/immuno_probs_config.ini" .
-cp "${SLURM_SUBMIT_DIR}/TcrDataComparison/python/SequenceDataExtractor.py" .
 cp -r "${SLURM_SUBMIT_DIR}/human_TRB" .
-mkdir data
-cp "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_20428_TCRB.tsv" data/.
-cp "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_2195_TCRB.tsv" data/.
-cp "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_7693_TCRB.tsv" data/.
-cp "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_12471_TCRB.tsv" data/.
-cp "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_8014_TCRB.tsv" data/.
 
 # Mark the output dir for automatic copying to $SLURM_SUBMIT_DIR afterwards
 savefile process_5_files
@@ -49,8 +42,20 @@ cd ${SUBSET_ID}
 mkdir combined_data_extract_and_models
 cd combined_data_extract_and_models
 
-# Extract the data files from the Brusko data file
-python ../../../SequenceDataExtractor.py --num-threads ${OMP_NUM_THREADS} "../../../data" '../../../human_TRB/TRBV.fasta' '../../../human_TRB/TRBJ.fasta' '\t'
+# Combine the data extracts from the previous models
+NUMBER_OF_FILES=`ls "${SLURM_SUBMIT_DIR}/process_5_files/${SUBSET_ID}/data_extract_and_models" | wc -l`
+NUMBER_OF_FILES=`expr ${NUMBER_OF_FILES} - 1`
+for i in $(seq 0 $NUMBER_OF_FILES)
+do
+    if [ i == 0 ]; then
+        cp "${SLURM_SUBMIT_DIR}/process_5_files/${SUBSET_ID}/data_extract_and_models/immuno_probs_${i}/*.tsv" .
+    else
+        tail -n +2 -q "${SLURM_SUBMIT_DIR}/process_5_files/${SUBSET_ID}/data_extract_and_models/immuno_probs_${i}/sequence_data_extractor_productive.tsv" >> sequence_data_extractor_productive.tsv
+        tail -n +2 -q "${SLURM_SUBMIT_DIR}/process_5_files/${SUBSET_ID}/data_extract_and_models/immuno_probs_${i}/sequence_data_extractor_unproductive.tsv" >> sequence_data_extractor_unproductive.tsv
+        tail -n +2 -q "${SLURM_SUBMIT_DIR}/process_5_files/${SUBSET_ID}/data_extract_and_models/immuno_probs_${i}/sequence_data_extractor_all.tsv" >> sequence_data_extractor_all.tsv
+        tail -n +2 -q "${SLURM_SUBMIT_DIR}/process_5_files/${SUBSET_ID}/data_extract_and_models/immuno_probs_${i}/sequence_data_extractor_CDR3.tsv" >> sequence_data_extractor_CDR3.tsv
+    fi
+done
 
 # Create a model (params and marginals) for each data extract
 mkdir model
