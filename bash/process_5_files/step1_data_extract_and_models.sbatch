@@ -35,7 +35,6 @@ filesArray=(
 # Copy over files to work dir
 cd ${SCRATCH}
 cp "${SLURM_SUBMIT_DIR}/TcrDataComparison/immuno_probs_config.ini" .
-cp "${SLURM_SUBMIT_DIR}/TcrDataComparison/python/SequenceDataExtractor.py" .
 cp -r "${SLURM_SUBMIT_DIR}/human_TRB" .
 cp ${filesArray[${SLURM_ARRAY_TASK_ID}]} .
 
@@ -54,22 +53,22 @@ cd immuno_probs_${SLURM_ARRAY_TASK_ID}
 
 # Extract the data files from the Brusko data file
 FILE_BASENAME=`basename ${filesArray[${SLURM_ARRAY_TASK_ID}]}`
-python ../../../../SequenceDataExtractor.py --num-threads ${OMP_NUM_THREADS} "../../../../${FILE_BASENAME}" '../../../../human_TRB/TRBV.fasta' '../../../../human_TRB/TRBJ.fasta' '\t'
+immuno-probs -threads ${OMP_NUM_THREADS} -out-name 'converted' -config-file '../../../../immuno_probs_config.ini' convert -ref V '../../../../human_TRB/TRBV.fasta' -ref J '../../../../human_TRB/TRBJ.fasta' -seqs "../../../../${FILE_BASENAME}"
 
 # Create a model (params and marginals) for each data extract
 mkdir model
 cd model
-immuno-probs -threads ${OMP_NUM_THREADS} -out-name 'unproductive' -config-file '../../../../../immuno_probs_config.ini' build -ref V '../../../../../human_TRB/TRBV.fasta' -ref D '../../../../../human_TRB/TRBD.fasta' -ref J '../../../../../human_TRB/TRBJ.fasta' -seqs '../sequence_data_extractor_unproductive.tsv' -n-iter 10 -type 'beta'
-immuno-probs -threads ${OMP_NUM_THREADS} -out-name 'productive' -config-file '../../../../../immuno_probs_config.ini' build -ref V '../../../../../human_TRB/TRBV.fasta' -ref D '../../../../../human_TRB/TRBD.fasta' -ref J '../../../../../human_TRB/TRBJ.fasta' -seqs '../sequence_data_extractor_productive.tsv' -n-iter 10 -type 'beta'
-immuno-probs -threads ${OMP_NUM_THREADS} -out-name 'all' -config-file '../../../../../immuno_probs_config.ini' build -ref V '../../../../../human_TRB/TRBV.fasta' -ref D '../../../../../human_TRB/TRBD.fasta' -ref J '../../../../../human_TRB/TRBJ.fasta' -seqs '../sequence_data_extractor_all.tsv' -n-iter 10 -type 'beta'
+immuno-probs -threads ${OMP_NUM_THREADS} -out-name 'unproductive' -config-file '../../../../../immuno_probs_config.ini' build -ref V '../../../../../human_TRB/TRBV.fasta' -ref D '../../../../../human_TRB/TRBD.fasta' -ref J '../../../../../human_TRB/TRBJ.fasta' -seqs '../converted_full_length_unproductive.tsv' -n-iter 10 -type 'beta'
+immuno-probs -threads ${OMP_NUM_THREADS} -out-name 'productive' -config-file '../../../../../immuno_probs_config.ini' build -ref V '../../../../../human_TRB/TRBV.fasta' -ref D '../../../../../human_TRB/TRBD.fasta' -ref J '../../../../../human_TRB/TRBJ.fasta' -seqs '../converted_full_length_productive.tsv' -n-iter 10 -type 'beta'
+immuno-probs -threads ${OMP_NUM_THREADS} -out-name 'all' -config-file '../../../../../immuno_probs_config.ini' build -ref V '../../../../../human_TRB/TRBV.fasta' -ref D '../../../../../human_TRB/TRBD.fasta' -ref J '../../../../../human_TRB/TRBJ.fasta' -seqs '../converted_full_length.tsv' -n-iter 10 -type 'beta'
 cd ../
 
 # Evaluate the CDR3 sequences with each model
 mkdir evaluate
 cd evaluate
-immuno-probs -threads ${OMP_NUM_THREADS} -out-name 'pgen_estimate_unproductive_CDR3' -config-file '../../../../../immuno_probs_config.ini' evaluate -custom-model '../model/unproductive_params.txt' '../model/unproductive_marginals.txt' -seqs '../sequence_data_extractor_CDR3.tsv' -type 'beta' -cdr3 -anchor V '../../../../../human_TRB/V_gene_CDR3_anchors.tsv' -anchor J '../../../../../human_TRB/J_gene_CDR3_anchors.tsv'
-immuno-probs -threads ${OMP_NUM_THREADS} -out-name 'pgen_estimate_productive_CDR3' -config-file '../../../../../immuno_probs_config.ini' evaluate -custom-model '../model/productive_params.txt' '../model/productive_marginals.txt' -seqs '../sequence_data_extractor_CDR3.tsv' -type 'beta' -cdr3 -anchor V '../../../../../human_TRB/V_gene_CDR3_anchors.tsv' -anchor J '../../../../../human_TRB/J_gene_CDR3_anchors.tsv'
-immuno-probs -threads ${OMP_NUM_THREADS} -out-name 'pgen_estimate_all_CDR3' -config-file '../../../../../immuno_probs_config.ini' evaluate -custom-model '../model/all_params.txt' '../model/all_marginals.txt' -seqs '../sequence_data_extractor_CDR3.tsv' -type 'beta' -cdr3 -anchor V '../../../../../human_TRB/V_gene_CDR3_anchors.tsv' -anchor J '../../../../../human_TRB/J_gene_CDR3_anchors.tsv'
+immuno-probs -threads ${OMP_NUM_THREADS} -out-name 'pgen_estimate_unproductive_CDR3' -config-file '../../../../../immuno_probs_config.ini' evaluate -custom-model '../model/unproductive_params.txt' '../model/unproductive_marginals.txt' -seqs '../converted_CDR3.tsv' -type 'beta' -cdr3 -anchor V '../../../../../human_TRB/V_gene_CDR3_anchors.tsv' -anchor J '../../../../../human_TRB/J_gene_CDR3_anchors.tsv'
+immuno-probs -threads ${OMP_NUM_THREADS} -out-name 'pgen_estimate_productive_CDR3' -config-file '../../../../../immuno_probs_config.ini' evaluate -custom-model '../model/productive_params.txt' '../model/productive_marginals.txt' -seqs '../converted_CDR3.tsv' -type 'beta' -cdr3 -anchor V '../../../../../human_TRB/V_gene_CDR3_anchors.tsv' -anchor J '../../../../../human_TRB/J_gene_CDR3_anchors.tsv'
+immuno-probs -threads ${OMP_NUM_THREADS} -out-name 'pgen_estimate_all_CDR3' -config-file '../../../../../immuno_probs_config.ini' evaluate -custom-model '../model/all_params.txt' '../model/all_marginals.txt' -seqs '../converted_CDR3.tsv' -type 'beta' -cdr3 -anchor V '../../../../../human_TRB/V_gene_CDR3_anchors.tsv' -anchor J '../../../../../human_TRB/J_gene_CDR3_anchors.tsv'
 cd ../
 
 # Exit succesfully
