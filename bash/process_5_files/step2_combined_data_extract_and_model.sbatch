@@ -54,7 +54,10 @@ NUMBER_OF_FILES=`expr ${NUMBER_OF_FILES} - 1`
 for i in $(seq 0 $NUMBER_OF_FILES)
 do
     if [ $i == 0 ]; then
-        cp "${SLURM_SUBMIT_DIR}/process_5_files/${SUBSET_ID}/data_extract_and_models/immuno_probs_${i}/*.tsv" .
+        cp "${SLURM_SUBMIT_DIR}/process_5_files/${SUBSET_ID}/data_extract_and_models/immuno_probs_${i}/converted_full_length_productive.tsv" .
+        cp "${SLURM_SUBMIT_DIR}/process_5_files/${SUBSET_ID}/data_extract_and_models/immuno_probs_${i}/converted_full_length_unproductive.tsv" .
+        cp "${SLURM_SUBMIT_DIR}/process_5_files/${SUBSET_ID}/data_extract_and_models/immuno_probs_${i}/converted_full_length.tsv" .
+        cp "${SLURM_SUBMIT_DIR}/process_5_files/${SUBSET_ID}/data_extract_and_models/immuno_probs_${i}/converted_CDR3.tsv" .
     else
         tail -n +2 -q "${SLURM_SUBMIT_DIR}/process_5_files/${SUBSET_ID}/data_extract_and_models/immuno_probs_${i}/converted_full_length_productive.tsv" >> converted_full_length_productive.tsv
         tail -n +2 -q "${SLURM_SUBMIT_DIR}/process_5_files/${SUBSET_ID}/data_extract_and_models/immuno_probs_${i}/converted_full_length_unproductive.tsv" >> converted_full_length_unproductive.tsv
