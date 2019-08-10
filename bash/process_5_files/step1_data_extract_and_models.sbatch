@@ -22,20 +22,11 @@ module load Python/2.7.15-intel-2018b
 set -o errexit
 set -o nounset
 
+# Change this value to '100000', '50000', '10000', '5000', '1000' or '500'
 SUBSET_ID='all'
+
+# Change this value to 100000, 50000, 10000, 5000, 1000' or 500
 NUM_RANDOM=0
-# SUBSET_ID='100000'
-# NUM_RANDOM=100000
-# SUBSET_ID='50000'
-# NUM_RANDOM=50000
-# SUBSET_ID='10000'
-# NUM_RANDOM=10000
-# SUBSET_ID='5000'
-# NUM_RANDOM=5000
-# SUBSET_ID='1000'
-# NUM_RANDOM=1000
-# SUBSET_ID='500'
-# NUM_RANDOM=500
 
 filesArray=(
     "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_20428_TCRB.tsv"

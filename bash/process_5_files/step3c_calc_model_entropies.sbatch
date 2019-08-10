@@ -18,13 +18,8 @@ module load Python/2.7.15-intel-2018b
 set -o errexit
 set -o nounset
 
+# Change this value to '100000', '50000', '10000', '5000', '1000' or '500'
 SUBSET_ID='all'
-# SUBSET_ID='100000'
-# SUBSET_ID='50000'
-# SUBSET_ID='10000'
-# SUBSET_ID='5000'
-# SUBSET_ID='1000'
-# SUBSET_ID='500'
 
 # Copy over files to work dir
 cd ${SCRATCH}
