@@ -29,10 +29,10 @@ SUBSET_ID='all'
 NUM_RANDOM=0
 
 filesArray=(
-    "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_20428_TCRB.tsv"
+    "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_18343_TCRB.tsv"
     "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_2195_TCRB.tsv"
-    "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_7693_TCRB.tsv"
-    "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_12471_TCRB.tsv"
+    "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_21582_TCRB.tsv"
+    "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_22340_TCRB.tsv"
     "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_8014_TCRB.tsv"
 )
 
