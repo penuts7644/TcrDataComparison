@@ -25,6 +25,12 @@ set -o errexit
 set -o nounset
 
 SUBSET_ID='all'
+# SUBSET_ID='100000'
+# SUBSET_ID='50000'
+# SUBSET_ID='10000'
+# SUBSET_ID='5000'
+# SUBSET_ID='1000'
+# SUBSET_ID='500'
 
 # Copy over files to work dir
 cd ${SCRATCH}
@@ -47,7 +53,7 @@ NUMBER_OF_FILES=`ls "${SLURM_SUBMIT_DIR}/process_5_files/${SUBSET_ID}/data_extra
 NUMBER_OF_FILES=`expr ${NUMBER_OF_FILES} - 1`
 for i in $(seq 0 $NUMBER_OF_FILES)
 do
-    if [ i == 0 ]; then
+    if [ $i == 0 ]; then
         cp "${SLURM_SUBMIT_DIR}/process_5_files/${SUBSET_ID}/data_extract_and_models/immuno_probs_${i}/*.tsv" .
     else
         tail -n +2 -q "${SLURM_SUBMIT_DIR}/process_5_files/${SUBSET_ID}/data_extract_and_models/immuno_probs_${i}/converted_full_length_productive.tsv" >> converted_full_length_productive.tsv

@@ -25,6 +25,12 @@ set -o errexit
 set -o nounset
 
 SUBSET_ID='all'
+# SUBSET_ID='100000'
+# SUBSET_ID='50000'
+# SUBSET_ID='10000'
+# SUBSET_ID='5000'
+# SUBSET_ID='1000'
+# SUBSET_ID='500'
 
 # Copy over files to work dir
 cd ${SCRATCH}
