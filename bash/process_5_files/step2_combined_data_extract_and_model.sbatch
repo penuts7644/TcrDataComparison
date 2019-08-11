@@ -49,17 +49,24 @@ NUMBER_OF_FILES=`expr ${NUMBER_OF_FILES} - 1`
 for i in $(seq 0 $NUMBER_OF_FILES)
 do
     if [ $i == 0 ]; then
-        cp "${SLURM_SUBMIT_DIR}/process_5_files/${SUBSET_ID}/data_extract_and_models/immuno_probs_${i}/converted_full_length_productive.tsv" .
-        cp "${SLURM_SUBMIT_DIR}/process_5_files/${SUBSET_ID}/data_extract_and_models/immuno_probs_${i}/converted_full_length_unproductive.tsv" .
-        cp "${SLURM_SUBMIT_DIR}/process_5_files/${SUBSET_ID}/data_extract_and_models/immuno_probs_${i}/converted_full_length.tsv" .
-        cp "${SLURM_SUBMIT_DIR}/process_5_files/${SUBSET_ID}/data_extract_and_models/immuno_probs_${i}/converted_CDR3.tsv" .
+        cp "${SLURM_SUBMIT_DIR}/process_5_files/${SUBSET_ID}/data_extract_and_models/immuno_probs_${i}/converted_full_length_productive.tsv" 1.tsv
+        cp "${SLURM_SUBMIT_DIR}/process_5_files/${SUBSET_ID}/data_extract_and_models/immuno_probs_${i}/converted_full_length_unproductive.tsv" 2.tsv
+        cp "${SLURM_SUBMIT_DIR}/process_5_files/${SUBSET_ID}/data_extract_and_models/immuno_probs_${i}/converted_full_length.tsv" 3.tsv
+        cp "${SLURM_SUBMIT_DIR}/process_5_files/${SUBSET_ID}/data_extract_and_models/immuno_probs_${i}/converted_CDR3.tsv" 4.tsv
     else
-        tail -n +2 -q "${SLURM_SUBMIT_DIR}/process_5_files/${SUBSET_ID}/data_extract_and_models/immuno_probs_${i}/converted_full_length_productive.tsv" >> converted_full_length_productive.tsv
-        tail -n +2 -q "${SLURM_SUBMIT_DIR}/process_5_files/${SUBSET_ID}/data_extract_and_models/immuno_probs_${i}/converted_full_length_unproductive.tsv" >> converted_full_length_unproductive.tsv
-        tail -n +2 -q "${SLURM_SUBMIT_DIR}/process_5_files/${SUBSET_ID}/data_extract_and_models/immuno_probs_${i}/converted_full_length.tsv" >> converted_full_length.tsv
-        tail -n +2 -q "${SLURM_SUBMIT_DIR}/process_5_files/${SUBSET_ID}/data_extract_and_models/immuno_probs_${i}/converted_CDR3.tsv" >> converted_CDR3.tsv
+        tail -n +2 -q "${SLURM_SUBMIT_DIR}/process_5_files/${SUBSET_ID}/data_extract_and_models/immuno_probs_${i}/converted_full_length_productive.tsv" >> 1.tsv
+        tail -n +2 -q "${SLURM_SUBMIT_DIR}/process_5_files/${SUBSET_ID}/data_extract_and_models/immuno_probs_${i}/converted_full_length_unproductive.tsv" >> 2.tsv
+        tail -n +2 -q "${SLURM_SUBMIT_DIR}/process_5_files/${SUBSET_ID}/data_extract_and_models/immuno_probs_${i}/converted_full_length.tsv" >> 3.tsv
+        tail -n +2 -q "${SLURM_SUBMIT_DIR}/process_5_files/${SUBSET_ID}/data_extract_and_models/immuno_probs_${i}/converted_CDR3.tsv" >> 4.tsv
     fi
 done
+
+# Remove the sequence index column to prevent issues
+cut -f 2- 1.tsv > converted_full_length_productive.tsv
+cut -f 2- 2.tsv > converted_full_length_unproductive.tsv
+cut -f 2- 3.tsv > converted_full_length.tsv
+cut -f 2- 4.tsv > converted_CDR3.tsv
+rm 1.tsv 2.tsv 3.tsv 4.tsv
 
 # Create a model (params and marginals) for each data extract
 mkdir model
