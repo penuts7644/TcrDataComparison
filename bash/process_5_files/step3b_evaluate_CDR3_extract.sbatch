@@ -6,7 +6,7 @@
 
 #SBATCH --array=0-4
 
-#SBATCH --time=0-02:00:00
+#SBATCH --time=0-05:00:00
 
 #SBATCH --nodes=5 --ntasks-per-node=1 --cpus-per-task=32
 
