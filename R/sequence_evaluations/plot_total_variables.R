@@ -2,7 +2,7 @@
 # GENERAL
 # ----------
 library(reshape2)
-SUBSET_ID <- 'all'
+SUBSET_ID <- 'all' # Change this value to '100000', '50000', '10000', '5000', '1000' or '500'
 
 # ----------
 # PLOT VARIABLES
