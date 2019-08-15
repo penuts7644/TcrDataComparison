@@ -41,7 +41,7 @@ entr_compare <-
     axis.title.y = element_text(
       size = 15
     ),
-    axis.text.y=element_text(
+    axis.text.y = element_text(
       size = 11
     ),
     legend.text = element_text(

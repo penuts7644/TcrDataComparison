@@ -90,7 +90,7 @@ eval_compare <-
       angle = 45,
       hjust = 1
     ),
-    axis.text.y=element_text(
+    axis.text.y = element_text(
       size = 11
     ),
     strip.text.x = element_text(
