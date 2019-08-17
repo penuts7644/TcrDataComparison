@@ -59,7 +59,6 @@ process_model <- function(type) {
 # ----------
 models <- process_model('productive')
 plot_title <- 'Normalized AA and NT sequence pgen compared between models'
-plot_caption <- 'Subject-specific, combined and default models compared against each other. The models (except default) were trained using the\nproductive sequences. All models evaluated the same combined data file that is also used for training the combined model.\nSpearman correlation method is used for the upper-right plots.'
 output_filename <- paste('~/Downloads/process_5_files/', SUBSET_ID, '/evaluated_CDR3/evaluated_seqs_productive_rplot_', SUBSET_ID, '.png', sep = '')
 
 # ----------
@@ -67,7 +66,6 @@ output_filename <- paste('~/Downloads/process_5_files/', SUBSET_ID, '/evaluated_
 # ----------
 models <- process_model('unproductive')
 plot_title <- 'Normalized AA and NT sequence pgen compared between models'
-plot_caption <- 'Subject-specific, combined and default models compared against each other. The models (except default) were trained using the\nunproductive sequences. All models evaluated the same combined data file that is also used for training the combined model.\nSpearman correlation method is used for the upper-right plots.'
 output_filename <- paste('~/Downloads/process_5_files/', SUBSET_ID, '/evaluated_CDR3/evaluated_seqs_unproductive_rplot_', SUBSET_ID, '.png', sep = '')
 
 # ----------
@@ -75,5 +73,4 @@ output_filename <- paste('~/Downloads/process_5_files/', SUBSET_ID, '/evaluated_
 # ----------
 models <- process_model('all')
 plot_title <- 'Normalized AA and NT sequence pgen compared between models'
-plot_caption <- 'Subject-specific, combined and default models compared against each other. The models (except default) were trained using all\nsequences (productive and unproductive). All models evaluated the same combined data file that is also used for training the\ncombined model. Spearman correlation method is used for the upper-right plots.'
 output_filename <- paste('~/Downloads/process_5_files/', SUBSET_ID, '/evaluated_CDR3/evaluated_seqs_all_rplot_', SUBSET_ID, '.png', sep = '')

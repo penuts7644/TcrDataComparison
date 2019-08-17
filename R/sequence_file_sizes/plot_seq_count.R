@@ -27,13 +27,9 @@ size_compare <-
     position = position_dodge(0.9),
     size = 5
   ) +
-  theme(
+  theme_bw(
     plot.title = element_text(
       size = 20
-    ),
-    plot.caption = element_text(
-      hjust = 0,
-      size = 15
     ),
     axis.title.x = element_blank(),
     axis.text.x = element_blank(),
@@ -55,8 +51,7 @@ size_compare <-
   ) +
   ylim(0, 1) +
   labs(
-    title = plot_title,
-    caption = plot_caption
+    title = plot_title
   ) +
   scale_fill_brewer(
     palette = 'GnBu'

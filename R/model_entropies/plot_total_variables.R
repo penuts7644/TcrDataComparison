@@ -9,8 +9,7 @@ SUBSET_ID <- 'all' # Change this value to '100000', '50000', '10000', '5000', '1
 # PLOT VARIABLES
 # ----------
 plot_title <- 'Normalized subject-specific complete model entropies'
-plot_caption <- 'Subject-specific models compared against other subject-specific and combined models that were trained using productive,\nunproductive or all sequences from each dataset.'
-plot_y <- 'combined KL divergence\n(complete models)'
+plot_y <- 'combined KL divergence (complete models) (bits)'
 output_filename <- paste('~/Downloads/process_5_files/', SUBSET_ID, '/model_entropies/entropy_total_rplot_', SUBSET_ID, '.png', sep = '')
 
 # ----------
@@ -34,8 +33,8 @@ models <- melt(list(
 ))
 models <- models[models$Var1 != models$Var2, ]
 models <- models[models$Var1 != 'combined', ]
-models$L2 <- 'subject'
-models$L2[models$Var2 == 'combined'] <- 'combined'
+models$L2 <- 'subject - subject'
+models$L2[models$Var2 == 'combined'] <- 'subject - combined'
 models <- models[order(models$L2, decreasing = TRUE), ]
 models[, 3] <- apply(models[3], 2, normalize)
 rm(productive, unproductive, all)

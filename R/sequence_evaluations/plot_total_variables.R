@@ -8,7 +8,6 @@ SUBSET_ID <- 'all' # Change this value to '100000', '50000', '10000', '5000', '1
 # PLOT VARIABLES
 # ----------
 plot_title <- 'Normalized AA and NT sequence pgen compared for each model version'
-plot_caption <- 'Subject-specific and combined models compared against their respective trained model versions.\nEach model has been trained with either productive, unproductive or all (productive and\nunproductive) sequences. All models evaluated the same combined data file that is also used for\ntraining the combined model. Spearman correlation method is used for computing the correlations.'
 output_filename <- paste('~/Downloads/process_5_files/', SUBSET_ID, '/evaluated_CDR3/evaluated_seqs_total_rplot_', SUBSET_ID, '.png', sep = '')
 
 # ----------

@@ -50,13 +50,9 @@ eval_compare <-
     fontface = "bold",
     show.legend = FALSE
   ) +
-  theme(
+  theme_bw(
     plot.title = element_text(
       size = 20
-    ),
-    plot.caption = element_text(
-      hjust = 0,
-      size = 15
     ),
     legend.text = element_text(
       size = 15
@@ -84,8 +80,7 @@ eval_compare <-
   xlim(0, 1) +
   ylim(0, 1) +
   labs(
-    title = plot_title,
-    caption = plot_caption
+    title = plot_title
   ) +
   scale_color_manual(
     values = c('#1f78b4', '#d95f02')

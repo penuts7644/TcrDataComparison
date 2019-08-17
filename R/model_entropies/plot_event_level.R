@@ -24,13 +24,9 @@ entr_compare <-
     aes(color = L2),
     alpha = 0.8
   ) +
-  theme(
+  theme_bw(
     plot.title = element_text(
       size = 20
-    ),
-    plot.caption = element_text(
-      hjust = 0,
-      size = 15
     ),
     axis.title.x = element_blank(),
     axis.text.x = element_text(
@@ -54,7 +50,6 @@ entr_compare <-
   ylim(0, 1) +
   labs(
     title = plot_title,
-    caption = plot_caption,
     y = plot_y
   ) +
   scale_color_manual(

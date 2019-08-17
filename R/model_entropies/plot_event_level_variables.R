@@ -66,8 +66,8 @@ process_model <- function(type) {
   rm(V, D, J, V_trim_3, D_trim_3, D_trim_5, J_trim_5, insert_length_VD, insert_length_DJ, dinuc_markov_VD, dinuc_markov_DJ)
   models <- models[models$Var1 != models$Var2, ]
   models <- models[models$Var1 != 'combined', ]
-  models$L2 <- 'subject'
-  models$L2[models$Var2 == 'combined'] <- 'combined'
+  models$L2 <- 'subject - subject'
+  models$L2[models$Var2 == 'combined'] <- 'subject - combined'
   models <- models[order(models$L2, decreasing = TRUE), ]
   models[, 3] <- apply(models[3], 2, normalize)
   return (models)
@@ -78,8 +78,7 @@ process_model <- function(type) {
 # ----------
 models <- process_model('productive')
 plot_title <- 'Normalized subject-specific event-level entropies'
-plot_caption <- 'Subject-specific models compared against other subject-specific and combined models that were trained using productive\nsequences from each dataset.'
-plot_y <- 'combined KL divergence'
+plot_y <- 'combined KL divergence (bits)'
 output_filename <- paste('~/Downloads/process_5_files/', SUBSET_ID, '/model_entropies/entropy_event_productive_rplot_', SUBSET_ID, '.png', sep = '')
 
 # ----------
@@ -87,8 +86,7 @@ output_filename <- paste('~/Downloads/process_5_files/', SUBSET_ID, '/model_entr
 # ----------
 models <- process_model('unproductive')
 plot_title <- 'Normalized subject-specific event-level entropies'
-plot_caption <- 'Subject-specific models compared against other subject-specific and combined models that were trained using unproductive\nsequences from each dataset.'
-plot_y <- 'combined KL divergence'
+plot_y <- 'combined KL divergence (bits)'
 output_filename <- paste('~/Downloads/process_5_files/', SUBSET_ID, '/model_entropies/entropy_event_unproductive_rplot_', SUBSET_ID, '.png', sep = '')
 
 # ----------
@@ -96,6 +94,5 @@ output_filename <- paste('~/Downloads/process_5_files/', SUBSET_ID, '/model_entr
 # ----------
 models <- process_model('all')
 plot_title <- 'Normalized subject-specific event-level entropies'
-plot_caption <- 'Subject-specific models compared against other subject-specific and combined models that were trained using all sequences\n(productive and unproductive) from each dataset.'
-plot_y <- 'combined KL divergence'
+plot_y <- 'combined KL divergence (bits)'
 output_filename <- paste('~/Downloads/process_5_files/', SUBSET_ID, '/model_entropies/entropy_event_all_rplot_', SUBSET_ID, '.png', sep = '')

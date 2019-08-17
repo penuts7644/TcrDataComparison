@@ -2,7 +2,6 @@
 # PLOT VARIABLES
 # ----------
 plot_title <- 'Training sequence count for subject-specific models'
-plot_caption <- 'The number of sequences used for training subject-specific models. The sequence counts are categorised for each sequence origin\n(productive, unproductive or all) and the subsample size of the trainings data. Each plot has been normalized against itself.'
 output_filename <- '~/Downloads/process_5_files/sequence_counts_rplot.png'
 
 # ----------

@@ -77,13 +77,9 @@ eval_compare <-
     progress = TRUE,
     legend = grab_legend(legend_plot)
   ) +
-  theme(
+  theme_bw(
     plot.title = element_text(
       size = 20
-    ),
-    plot.caption = element_text(
-      hjust = 0,
-      size = 15
     ),
     axis.text.x = element_text(
       size = 11,
@@ -103,8 +99,7 @@ eval_compare <-
     strip.placement = 'outside'
   ) +
   labs(
-    title = plot_title,
-    caption = plot_caption
+    title = plot_title
   )
 
 jpeg(output_filename, width = 4000, height = 4000, res = 300)
