@@ -4,13 +4,11 @@
 
 #SBATCH --job-name=ImmunoProbs
 
-#SBATCH --time=0-01:00:00
+#SBATCH --time=0-02:00:00
 
-#SBATCH --partition=bigmem
+#SBATCH --qos=preproc
 
-#SBATCH --nodes=1 --ntasks-per-node=1 --cpus-per-task=32
-
-#SBATCH --mem-per-cpu=8G
+#SBATCH --ntasks-per-node=1 --cpus-per-task=32
 
 # Set up job environment, load modules and setup python
 module restore system
