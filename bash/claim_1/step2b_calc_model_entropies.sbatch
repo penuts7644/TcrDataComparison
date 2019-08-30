@@ -30,11 +30,10 @@ NUMBER_OF_FILES=`ls "${SLURM_SUBMIT_DIR}/claim_1/models" | wc -l`
 NUMBER_OF_FILES=`expr ${NUMBER_OF_FILES} - 1`
 for i in $(seq 0 $NUMBER_OF_FILES)
 do
-    cp -r "${SLURM_SUBMIT_DIR}/claim_1/models/subject_${i}/model" .
-    mv model "model_${i}"
-    UNPRODUCTIVE_MODELS+="-model ${i} ../../../model_${i}/unproductive_params.txt ../../../model_${i}/unproductive_marginals.txt "
-    PRODUCTIVE_MODELS+="-model ${i} ../../../model_${i}/productive_params.txt ../../../model_${i}/productive_marginals.txt "
-    ALL_MODELS+="-model ${i} ../../../model_${i}/all_params.txt ../../../model_${i}/all_marginals.txt "
+    cp -r "${SLURM_SUBMIT_DIR}/claim_1/models/subject_${i}" .
+    UNPRODUCTIVE_MODELS+="-model unproductive_${i} ../../subject_${i}/unproductive_params.txt ../../subject_${i}/unproductive_marginals.txt "
+    PRODUCTIVE_MODELS+="-model productive_${i} ../../subject_${i}/productive_params.txt ../../subject_${i}/productive_marginals.txt "
+    ALL_MODELS+="-model all_${i} ../../subject_${i}/all_params.txt ../../subject_${i}/all_marginals.txt "
 done
 
 # Mark the output dir for automatic copying to $SLURM_SUBMIT_DIR afterwards
@@ -50,18 +49,7 @@ cd entropies
 ###########################
 # Calculate model entropies
 ###########################
-mkdir unproductive
-cd unproductive
-python ../../../model_processing/CalcModelEntropy.py --num-threads ${OMP_NUM_THREADS} ${UNPRODUCTIVE_MODELS}
-cd ../
-mkdir productive
-cd productive
-python ../../../model_processing/CalcModelEntropy.py --num-threads ${OMP_NUM_THREADS} ${PRODUCTIVE_MODELS}
-cd ../
-mkdir all
-cd all
-python ../../../model_processing/CalcModelEntropy.py --num-threads ${OMP_NUM_THREADS} ${ALL_MODELS}
-cd ../
+python ../../model_processing/CalcModelEntropy.py --num-threads ${OMP_NUM_THREADS} ${UNPRODUCTIVE_MODELS} ${PRODUCTIVE_MODELS} ${ALL_MODELS}
 
 
 # Exit succesfully
