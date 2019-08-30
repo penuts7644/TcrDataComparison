@@ -56,7 +56,7 @@ immuno-probs -threads ${OMP_NUM_THREADS} -out-name 'converted' -config-file '../
 
 # Create a model (params and marginals) for each data extract
 immuno-probs -threads ${OMP_NUM_THREADS} -out-name 'unproductive' -config-file '../../../immuno_probs_config.ini' build -ref V '../../../human_TRB/TRBV.fasta' -ref D '../../../human_TRB/TRBD.fasta' -ref J '../../../human_TRB/TRBJ.fasta' -seqs 'converted_full_length_unproductive.tsv' -n-iter 10 -type 'beta'
-immuno-probs -threads ${OMP_NUM_THREADS} -out-name 'productive' -config-file '../../../immuno_probs_config.ini' build -ref V '../../../human_TRB/TRBV.fasta' -ref D '../../../human_TRB/TRBD.fasta' -ref J '/../../../human_TRB/TRBJ.fasta' -seqs 'converted_full_length_productive.tsv' -n-iter 10 -type 'beta'
+immuno-probs -threads ${OMP_NUM_THREADS} -out-name 'productive' -config-file '../../../immuno_probs_config.ini' build -ref V '../../../human_TRB/TRBV.fasta' -ref D '../../../human_TRB/TRBD.fasta' -ref J '../../../human_TRB/TRBJ.fasta' -seqs 'converted_full_length_productive.tsv' -n-iter 10 -type 'beta'
 immuno-probs -threads ${OMP_NUM_THREADS} -out-name 'all' -config-file '../../../immuno_probs_config.ini' build -ref V '../../../human_TRB/TRBV.fasta' -ref D '../../../human_TRB/TRBD.fasta' -ref J '../../../human_TRB/TRBJ.fasta' -seqs 'converted_full_length.tsv' -n-iter 10 -type 'beta'
 
 
