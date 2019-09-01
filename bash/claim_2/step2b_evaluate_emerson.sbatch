@@ -3,7 +3,7 @@
 #SBATCH --account=nn9603k
 #SBATCH --job-name=ImmunoProbs
 #SBATCH --array=0-4
-#SBATCH --time=0-04:00:00
+#SBATCH --time=0-06:00:00
 #SBATCH --nodes=5 --ntasks-per-node=1 --cpus-per-task=32
 
 
@@ -22,11 +22,21 @@ set -o nounset
 # Specify job variables
 ###########################
 filesArray=(
+    "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_20803_TCRB.tsv"
+    "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_4276_TCRB.tsv"
+    "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_24036_TCRB.tsv"
+    "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_24273_TCRB.tsv"
+    "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_8469_TCRB.tsv"
     "${SLURM_SUBMIT_DIR}/Emerson2017/HIP05595.tsv"
     "${SLURM_SUBMIT_DIR}/Emerson2017/HIP14071.tsv"
     "${SLURM_SUBMIT_DIR}/Emerson2017/HIP13865.tsv"
     "${SLURM_SUBMIT_DIR}/Emerson2017/HIP10376.tsv"
     "${SLURM_SUBMIT_DIR}/Emerson2017/HIP13810.tsv"
+    "${SLURM_SUBMIT_DIR}/Peakman2018/reduced_18e4/T1D9_TN.tsv"
+    "${SLURM_SUBMIT_DIR}/Peakman2018/reduced_18e4/T1D10_TN.tsv"
+    "${SLURM_SUBMIT_DIR}/Peakman2018/reduced_18e4/T1D11_TN.tsv"
+    "${SLURM_SUBMIT_DIR}/Peakman2018/reduced_18e4/HD8_TN.tsv"
+    "${SLURM_SUBMIT_DIR}/Peakman2018/reduced_18e4/HD12_TN.tsv"
 )
 
 # Copy over files to work dir
