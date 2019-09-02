@@ -53,11 +53,11 @@ cp "${SLURM_SUBMIT_DIR}/TcrDataComparison/immuno_probs_config.ini" .
 cp -r "${SLURM_SUBMIT_DIR}/human_TRB" .
 
 # Mark the output dir for automatic copying to $SLURM_SUBMIT_DIR afterwards
-savefile claim_3
+savefile claim_3_and_4
 
 # Create the job dir for the output files
-mkdir claim_3
-cd claim_3
+mkdir claim_3_and_4
+cd claim_3_and_4
 mkdir evaluations
 cd evaluations
 mkdir ${projectArray[$SLURM_ARRAY_TASK_ID]}
@@ -82,7 +82,7 @@ immuno-probs -threads ${OMP_NUM_THREADS} -out-name 'converted' -config-file '../
 rm tmp_combined_dataset.tsv
 
 # In a loop copy over necessary model files and evaluate
-cp -r "${SLURM_SUBMIT_DIR}/claim_3/models/${projectArray[$SLURM_ARRAY_TASK_ID]}" model
+cp -r "${SLURM_SUBMIT_DIR}/claim_3_and_4/models/${projectArray[$SLURM_ARRAY_TASK_ID]}" model
 immuno-probs -threads ${OMP_NUM_THREADS} -out-name 'pgen_estimate_all_CDR3' -config-file '../../../immuno_probs_config.ini' evaluate -custom-model 'model/all_params.txt' 'model/all_marginals.txt' -seqs 'converted_CDR3.tsv' -type 'beta' -cdr3 -anchor V '../../../human_TRB/V_gene_CDR3_anchors.tsv' -anchor J '../../../human_TRB/J_gene_CDR3_anchors.tsv'
 rm -r model
 

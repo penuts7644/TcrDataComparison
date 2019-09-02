@@ -51,6 +51,8 @@ savefile claim_4
 # Create the job dir for the output files
 mkdir claim_4
 cd claim_4
+mkdir evaluations
+cd evaluations
 mkdir igor
 cd igor
 
@@ -69,12 +71,12 @@ do
 done
 
 # Extract the data files from the Brusko data file
-immuno-probs -threads ${OMP_NUM_THREADS} -out-name 'converted' -config-file '../../immuno_probs_config.ini' convert -ref V '../../human_TRB/TRBV.fasta' -ref J '../../human_TRB/TRBJ.fasta' -seqs tmp_combined_dataset.tsv
+immuno-probs -threads ${OMP_NUM_THREADS} -out-name 'converted' -config-file '../../../immuno_probs_config.ini' convert -ref V '../../../human_TRB/TRBV.fasta' -ref J '../../../human_TRB/TRBJ.fasta' -seqs tmp_combined_dataset.tsv
 rm tmp_combined_dataset.tsv
 
 # In a loop copy over necessary model files and evaluate
 cp -r "${SLURM_SUBMIT_DIR}/igor_human_TCRB_model" model
-immuno-probs -threads ${OMP_NUM_THREADS} -out-name 'pgen_estimate_all_CDR3' -config-file '../../immuno_probs_config.ini' evaluate -custom-model 'model/model_params.txt' 'model/model_marginals.txt' -seqs 'converted_CDR3.tsv' -type 'beta' -cdr3 -anchor V '../../human_TRB/V_gene_CDR3_anchors.tsv' -anchor J '../../human_TRB/J_gene_CDR3_anchors.tsv'
+immuno-probs -threads ${OMP_NUM_THREADS} -out-name 'pgen_estimate_all_CDR3' -config-file '../../../immuno_probs_config.ini' evaluate -custom-model 'model/model_params.txt' 'model/model_marginals.txt' -seqs 'converted_CDR3.tsv' -type 'beta' -cdr3 -anchor V '../../../human_TRB/V_gene_CDR3_anchors.tsv' -anchor J '../../../human_TRB/J_gene_CDR3_anchors.tsv'
 rm -r model
 
 
