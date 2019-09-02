@@ -1,0 +1,90 @@
+#!/bin/bash
+
+#SBATCH --account=nn9603k
+#SBATCH --job-name=ImmunoProbs
+#SBATCH --array=0-4
+#SBATCH --time=1-00:00:00
+#SBATCH --nodes=5 --ntasks-per-node=1 --cpus-per-task=32
+
+
+###########################
+# Load necessary modules
+###########################
+module restore system
+module use .local/easybuild/modules/all
+module load IGoR/1.3.0-GCC-7.3.0-2.30
+module load Python/2.7.15-intel-2018b
+set -o errexit
+set -o nounset
+
+
+###########################
+# Specify job variables
+###########################
+filesArray=(
+    "${SLURM_SUBMIT_DIR}/BruskoT1D/subset/Brusko_18343_TCRB.tsv"
+    "${SLURM_SUBMIT_DIR}/BruskoT1D/subset/Brusko_2195_TCRB.tsv"
+    "${SLURM_SUBMIT_DIR}/BruskoT1D/subset/Brusko_21582_TCRB.tsv"
+    "${SLURM_SUBMIT_DIR}/BruskoT1D/subset/Brusko_22340_TCRB.tsv"
+    "${SLURM_SUBMIT_DIR}/BruskoT1D/subset/Brusko_8014_TCRB.tsv"
+)
+
+subsampleArrayText=(
+    'all'
+    '100000'
+    '50000'
+    '10000'
+    '5000'
+    '1000'
+    '500'
+)
+
+subsampleArrayNumber=(
+    0
+    100000
+    50000
+    10000
+    5000
+    1000
+    500
+)
+
+# Copy over files to work dir
+cd ${SCRATCH}
+cp "${SLURM_SUBMIT_DIR}/TcrDataComparison/immuno_probs_config.ini" .
+cp -r "${SLURM_SUBMIT_DIR}/human_TRB" .
+cp ${filesArray[${SLURM_ARRAY_TASK_ID}]} .
+BASENAME=`basename ${filesArray[${SLURM_ARRAY_TASK_ID}]}`
+
+# Mark the output dir for automatic copying to $SLURM_SUBMIT_DIR afterwards
+savefile claim_5
+
+# Create the job dir for the output files
+mkdir claim_5
+cd claim_5
+mkdir models
+cd models
+mkdir subject_${SLURM_ARRAY_TASK_ID}
+cd subject_${SLURM_ARRAY_TASK_ID}
+
+
+###########################
+# Build model files
+###########################
+# Make models for each subsample size
+for i in "${!subsampleArrayText[@]}"
+do
+    mkdir "${subsampleArrayText[$i]}"
+    cd "${subsampleArrayText[$i]}"
+
+    # Extract the data files from data file and make model
+    immuno-probs -threads ${OMP_NUM_THREADS} -out-name 'converted' -config-file '../../../../immuno_probs_config.ini' convert -ref V '../../../../human_TRB/TRBV.fasta' -ref J '../../../../human_TRB/TRBJ.fasta' -seqs "../../../../${FILE_BASENAME}" -n-random "${subsampleArrayNumber[$i]}"
+
+    # Create a model (params and marginals)
+    immuno-probs -threads ${OMP_NUM_THREADS} -out-name 'all' -config-file '../../../../immuno_probs_config.ini' build -ref V '../../../../human_TRB/TRBV.fasta' -ref D '../../../../human_TRB/TRBD.fasta' -ref J '../../../../human_TRB/TRBJ.fasta' -seqs 'converted_full_length.tsv' -n-iter 10 -type 'beta'
+    cd ../
+done
+
+
+# Exit succesfully
+exit 0
