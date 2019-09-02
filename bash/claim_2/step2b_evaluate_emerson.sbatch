@@ -22,11 +22,11 @@ set -o nounset
 # Specify job variables
 ###########################
 filesArray=(
-    "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_20803_TCRB.tsv"
-    "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_4276_TCRB.tsv"
-    "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_24036_TCRB.tsv"
-    "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_24273_TCRB.tsv"
-    "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_8469_TCRB.tsv"
+    "${SLURM_SUBMIT_DIR}/BruskoT1D/subset/Brusko_20803_TCRB.tsv"
+    "${SLURM_SUBMIT_DIR}/BruskoT1D/subset/Brusko_4276_TCRB.tsv"
+    "${SLURM_SUBMIT_DIR}/BruskoT1D/subset/Brusko_24036_TCRB.tsv"
+    "${SLURM_SUBMIT_DIR}/BruskoT1D/subset/Brusko_24273_TCRB.tsv"
+    "${SLURM_SUBMIT_DIR}/BruskoT1D/subset/Brusko_8469_TCRB.tsv"
     "${SLURM_SUBMIT_DIR}/Emerson2017/HIP05595.tsv"
     "${SLURM_SUBMIT_DIR}/Emerson2017/HIP14071.tsv"
     "${SLURM_SUBMIT_DIR}/Emerson2017/HIP13865.tsv"

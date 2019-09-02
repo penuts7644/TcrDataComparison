@@ -29,11 +29,11 @@ SUBSET_ID='all'
 NUM_RANDOM=0
 
 filesArray=(
-    "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_18343_TCRB.tsv"
-    "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_2195_TCRB.tsv"
-    "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_21582_TCRB.tsv"
-    "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_22340_TCRB.tsv"
-    "${SLURM_SUBMIT_DIR}/BruskoT1D/PB/MC/Brusko_8014_TCRB.tsv"
+    "${SLURM_SUBMIT_DIR}/BruskoT1D/subset/Brusko_18343_TCRB.tsv"
+    "${SLURM_SUBMIT_DIR}/BruskoT1D/subset/Brusko_2195_TCRB.tsv"
+    "${SLURM_SUBMIT_DIR}/BruskoT1D/subset/Brusko_21582_TCRB.tsv"
+    "${SLURM_SUBMIT_DIR}/BruskoT1D/subset/Brusko_22340_TCRB.tsv"
+    "${SLURM_SUBMIT_DIR}/BruskoT1D/subset/Brusko_8014_TCRB.tsv"
 )
 
 # Copy over files to work dir
