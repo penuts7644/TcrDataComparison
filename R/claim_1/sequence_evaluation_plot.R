@@ -104,8 +104,7 @@ eval_compare <-
     )
   ) +
   geom_point(
-    size = 2,
-    alpha = 0.4,
+    size = 2
   ) +
   geom_smooth(
     size = 1,

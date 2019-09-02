@@ -91,8 +91,7 @@ entr_compare <-
     aes(
       color = `Frame type`,
       shape = `Frame type`
-    ),
-    alpha = 1
+    )
   ) +
   theme_bw() +
   theme(
