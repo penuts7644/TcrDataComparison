@@ -78,7 +78,7 @@ do
     cd "${subsampleArrayText[$i]}"
 
     # Extract the data files from data file and make model
-    immuno-probs -threads ${OMP_NUM_THREADS} -out-name 'converted' -config-file '../../../../immuno_probs_config.ini' convert -ref V '../../../../human_TRB/TRBV.fasta' -ref J '../../../../human_TRB/TRBJ.fasta' -seqs "../../../../${FILE_BASENAME}" -n-random "${subsampleArrayNumber[$i]}"
+    immuno-probs -threads ${OMP_NUM_THREADS} -out-name 'converted' -config-file '../../../../immuno_probs_config.ini' convert -ref V '../../../../human_TRB/TRBV.fasta' -ref J '../../../../human_TRB/TRBJ.fasta' -seqs "../../../../${BASENAME}" -n-random "${subsampleArrayNumber[$i]}"
 
     # Create a model (params and marginals)
     immuno-probs -threads ${OMP_NUM_THREADS} -out-name 'all' -config-file '../../../../immuno_probs_config.ini' build -ref V '../../../../human_TRB/TRBV.fasta' -ref D '../../../../human_TRB/TRBD.fasta' -ref J '../../../../human_TRB/TRBJ.fasta' -seqs 'converted_full_length.tsv' -n-iter 10 -type 'beta'

@@ -3,7 +3,7 @@
 # ----------
 library(GGally)
 library(reshape2)
-PROJECTS <- c('brusko', 'emerson', 'peakman')
+MODELS <- c('subject_0', 'subject_1', 'subject_2', 'subject_3', 'subject_4')
 
 # ----------
 # FUNCTIONS FOR PRE-PROCESSING
@@ -12,30 +12,27 @@ normalize <- function(x) {
   return ((x - min(x)) / (max(x) - min(x)))
 }
 
-process_model <- function(project) {
+process_model <- function(model) {
   cc <- c(NA, rep("NULL", 6), rep(NA, 2))
-  model_0 <- melt(data.frame(read.table(paste('~/Downloads/claim_2/evaluations/', project, '/subject_0/pgen_estimate_all_CDR3.tsv', sep = ''), header=TRUE, row.names=1, sep='\t', check.names=FALSE, colClasses=cc)))
-  model_1 <- melt(data.frame(read.table(paste('~/Downloads/claim_2/evaluations/', project, '/subject_1/pgen_estimate_all_CDR3.tsv', sep = ''), header=TRUE, row.names=1, sep='\t', check.names=FALSE, colClasses=cc)))
-  model_2 <- melt(data.frame(read.table(paste('~/Downloads/claim_2/evaluations/', project, '/subject_2/pgen_estimate_all_CDR3.tsv', sep = ''), header=TRUE, row.names=1, sep='\t', check.names=FALSE, colClasses=cc)))
-  model_3 <- melt(data.frame(read.table(paste('~/Downloads/claim_2/evaluations/', project, '/subject_3/pgen_estimate_all_CDR3.tsv', sep = ''), header=TRUE, row.names=1, sep='\t', check.names=FALSE, colClasses=cc)))
-  model_4 <- melt(data.frame(read.table(paste('~/Downloads/claim_2/evaluations/', project, '/subject_4/pgen_estimate_all_CDR3.tsv', sep = ''), header=TRUE, row.names=1, sep='\t', check.names=FALSE, colClasses=cc)))
+  model_all <- melt(data.frame(read.table(paste('~/Downloads/claim_5/evaluations/', model, '/all/pgen_estimate_all_CDR3.tsv', sep = ''), header=TRUE, row.names=1, sep='\t', check.names=FALSE, colClasses=cc)))
+  model_100000 <- melt(data.frame(read.table(paste('~/Downloads/claim_5/evaluations/', model, '/100000/pgen_estimate_all_CDR3.tsv', sep = ''), header=TRUE, row.names=1, sep='\t', check.names=FALSE, colClasses=cc)))
+  model_50000 <- melt(data.frame(read.table(paste('~/Downloads/claim_5/evaluations/', model, '/50000/pgen_estimate_all_CDR3.tsv', sep = ''), header=TRUE, row.names=1, sep='\t', check.names=FALSE, colClasses=cc)))
+  model_10000 <- melt(data.frame(read.table(paste('~/Downloads/claim_5/evaluations/', model, '/10000/pgen_estimate_all_CDR3.tsv', sep = ''), header=TRUE, row.names=1, sep='\t', check.names=FALSE, colClasses=cc)))
+  model_5000 <- melt(data.frame(read.table(paste('~/Downloads/claim_5/evaluations/', model, '/5000/pgen_estimate_all_CDR3.tsv', sep = ''), header=TRUE, row.names=1, sep='\t', check.names=FALSE, colClasses=cc)))
+  model_1000 <- melt(data.frame(read.table(paste('~/Downloads/claim_5/evaluations/', model, '/1000/pgen_estimate_all_CDR3.tsv', sep = ''), header=TRUE, row.names=1, sep='\t', check.names=FALSE, colClasses=cc)))
+  model_500 <- melt(data.frame(read.table(paste('~/Downloads/claim_5/evaluations/', model, '/500/pgen_estimate_all_CDR3.tsv', sep = ''), header=TRUE, row.names=1, sep='\t', check.names=FALSE, colClasses=cc)))
   models <- na.omit(do.call('cbind', list(
-    model_0, model_1[2], model_2[2], model_3[2], model_4[2]
+    model_all, model_100000[2], model_50000[2], model_10000[2], model_5000[2], model_1000[2], model_500[2]
   )))
-  rm(cc, model_0, model_1, model_2, model_3, model_4)
-  names(models) <- c('type', '0', '1', '2', '3', '4')
+  rm(cc, model_all, model_100000, model_50000, model_10000, model_5000, model_1000, model_500)
+  names(models) <- c('type', 'all', '100000', '50000', '10000', '5000', '1000', '500')
   models$type <- as.character(models$type)
   models$type[models$type == 'nt_pgen_estimate'] <- 'NT'
   models$type[models$type == 'aa_pgen_estimate'] <- 'AA'
   models$type <- as.factor(models$type)
   models[models$type == 'NT', -1] <- apply(models[models$type == 'NT', -1], 2, normalize)
   models[models$type == 'AA', -1] <- apply(models[models$type == 'AA', -1], 2, normalize)
-  names(models)[1] <- "Sequence type"
-  names(models)[2] <- "disease 1"
-  names(models)[3] <- "disease 2"
-  names(models)[4] <- "disease 3"
-  names(models)[5] <- "control 1"
-  names(models)[6] <- "control 2"
+  names(model)[1] <- "Sequence type"
   models <- models[sample(nrow(models)), ]
   return (models)
 }
@@ -85,16 +82,16 @@ lower_plot_fn <- function(data, mapping, ...){
     )
 }
 
-for (project in PROJECTS) {
-
+for (model in MODELS) {
+  
   # ----------
   # EXTRACTING THE DATA
   # ----------
-  models <- process_model(project)
+  models <- process_model(model)
   plot_y <- 'Pgen score (normalized)'
   plot_x <- 'Pgen score (normalized)'
-  output_filename <- paste('~/Downloads/claim_2/subject_evaluation_plot_', project, '.png', sep = '')
-
+  output_filename <- paste('~/Downloads/claim_5/subsample_evaluation_plot_', model, '.png', sep = '')
+  
   # ----------
   # MAKING THE PLOTS
   # ----------
@@ -125,7 +122,7 @@ for (project in PROJECTS) {
     scale_color_brewer(
       palette = 'Dark2'
     )
-
+  
   eval_compare <-
     ggpairs(
       models,
@@ -171,7 +168,7 @@ for (project in PROJECTS) {
       y = plot_y,
       x = plot_x
     )
-
+  
   jpeg(output_filename, width = 4000, height = 4000, res = 300)
   print(eval_compare)
   dev.off()
