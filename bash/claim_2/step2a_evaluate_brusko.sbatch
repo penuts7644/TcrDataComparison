@@ -27,16 +27,6 @@ filesArray=(
     "${SLURM_SUBMIT_DIR}/BruskoT1D/subset/Brusko_24036_TCRB.tsv"
     "${SLURM_SUBMIT_DIR}/BruskoT1D/subset/Brusko_24273_TCRB.tsv"
     "${SLURM_SUBMIT_DIR}/BruskoT1D/subset/Brusko_8469_TCRB.tsv"
-    "${SLURM_SUBMIT_DIR}/Emerson2017/HIP05595.tsv"
-    "${SLURM_SUBMIT_DIR}/Emerson2017/HIP14071.tsv"
-    "${SLURM_SUBMIT_DIR}/Emerson2017/HIP13865.tsv"
-    "${SLURM_SUBMIT_DIR}/Emerson2017/HIP10376.tsv"
-    "${SLURM_SUBMIT_DIR}/Emerson2017/HIP13810.tsv"
-    "${SLURM_SUBMIT_DIR}/Peakman2018/reduced_18e4/T1D9_TN.tsv"
-    "${SLURM_SUBMIT_DIR}/Peakman2018/reduced_18e4/T1D10_TN.tsv"
-    "${SLURM_SUBMIT_DIR}/Peakman2018/reduced_18e4/T1D11_TN.tsv"
-    "${SLURM_SUBMIT_DIR}/Peakman2018/reduced_18e4/HD8_TN.tsv"
-    "${SLURM_SUBMIT_DIR}/Peakman2018/reduced_18e4/HD12_TN.tsv"
 )
 
 # Copy over files to work dir
