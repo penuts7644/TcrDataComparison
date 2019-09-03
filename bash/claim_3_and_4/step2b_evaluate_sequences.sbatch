@@ -46,11 +46,11 @@ cp "${SLURM_SUBMIT_DIR}/TcrDataComparison/immuno_probs_config.ini" .
 cp -r "${SLURM_SUBMIT_DIR}/human_TRB" .
 
 # Mark the output dir for automatic copying to $SLURM_SUBMIT_DIR afterwards
-savefile claim_4
+savefile claim_3_and_4
 
 # Create the job dir for the output files
-mkdir claim_4
-cd claim_4
+mkdir claim_3_and_4
+cd claim_3_and_4
 mkdir evaluations
 cd evaluations
 mkdir igor
