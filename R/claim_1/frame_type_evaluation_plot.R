@@ -35,7 +35,7 @@ process_model <- function(x, y, combination, name) {
 # ----------
 plot_y <- 'Pgen score (normalized)'
 plot_x <- 'Pgen score (normalized)'
-output_filename <- '~/Downloads/claim_1/sequence_evaluation_plot.png'
+output_filename <- '~/Downloads/claim_1/frame_type_evaluation_plot.png'
 
 # ----------
 # MODEL DATA
@@ -100,18 +100,20 @@ eval_compare <-
       x = X,
       y = Y,
       color = `Sequence type`,
-      shape = `Sequence type`
+      shape = `Sequence type`,
+      linetype = `Sequence type`
     )
   ) +
   geom_point(
-    size = 2
+    size = 1.6,
+    alpha = 0.2,
+    show.legend = FALSE
   ) +
   geom_smooth(
-    size = 1,
+    size = 1.2,
     method = lm,
     se = FALSE,
-    fullrange = TRUE,
-    show.legend = FALSE
+    fullrange = TRUE
   ) +
   geom_label(
     aes(

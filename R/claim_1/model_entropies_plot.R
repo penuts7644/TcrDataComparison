@@ -32,8 +32,8 @@ process_entropies <- function(data) {
 # ----------
 # PLOT VARIABLES
 # ----------
-plot_y <- 'Combined KL divergence (bits)'
-plot_x <- 'Event levels'
+plot_y <- 'KL divergence (bits)'
+plot_x <- 'Immune receptor component or event'
 output_filename <- '~/Downloads/claim_1/model_entropies_plot.png'
 
 # ----------
