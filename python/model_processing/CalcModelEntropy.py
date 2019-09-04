@@ -40,6 +40,30 @@ def _parse_commandline():
     return parser.parse_args()
 
 
+def compute_model_entropy(parameters, marginals):
+    """Computes the entropy for a given IGoR model.
+
+    Parameters
+    ----------
+    parameters : str
+        The model paramters file path.
+    marginals : str
+        The model marginals file path.
+
+    Returns
+    -------
+    float
+        The entropy value for the given in model.
+
+    """
+    # Read in the generative model.
+    model = _genmodel.GenModel(parameters, marginals)
+
+    # Calculate the entropy between the two models.
+    entropy = _entropy.compute_model_entropy(model)
+    return entropy
+
+
 def compare_models(args):
     """Compares two IGoR models and returns the divergence value.
 
@@ -145,11 +169,24 @@ def main():
             matrix_df[value[1]][value[0]] = value[2]
 
         # Writes the new dataframe to a CSV file.
-        output_filename = os.path.join(
-            os.getcwd(), 'calc_model_entropy_{}.tsv'.format(name))
-        pandas.DataFrame.to_csv(matrix_df, path_or_buf=output_filename,
+        output_filename_1 = os.path.join(
+            os.getcwd(), 'calc_model_dkl_{}.tsv'.format(name))
+        pandas.DataFrame.to_csv(matrix_df, path_or_buf=output_filename_1,
                                 sep="\t", na_rep="NA", index=True)
-        print("Written '{}' file".format(output_filename))
+        print("Written '{}' file".format(output_filename_1))
+
+    # Compute the entropies for each given model.
+    model_entropies = pandas.DataFrame(columns=['id', 'entropy'])
+    output_filename_2 = os.path.join(os.getcwd(), 'calc_model_entropy.tsv')
+    for model in args.model:
+        entropy = compute_model_entropy(model[1], model[2])
+        model_entropies = model_entropies.append({
+            'id': model[0],
+            'entropy': entropy
+        }, ignore_index=True)
+    pandas.DataFrame.to_csv(model_entropies, path_or_buf=output_filename_2,
+                            sep="\t", na_rep="NA", index=True)
+    print("Written '{}' file".format(output_filename_2))
 
 
 if __name__ == "__main__":
