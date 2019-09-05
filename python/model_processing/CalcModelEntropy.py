@@ -40,7 +40,7 @@ def _parse_commandline():
     return parser.parse_args()
 
 
-def compute_model_entropy(parameters, marginals):
+def compute_model_entropy(parameters, marginals, type_list=None):
     """Computes the entropy for a given IGoR model.
 
     Parameters
@@ -49,6 +49,8 @@ def compute_model_entropy(parameters, marginals):
         The model paramters file path.
     marginals : str
         The model marginals file path.
+    type_list : list, optional
+        List of event types to combine for calculating the entropy.
 
     Returns
     -------
@@ -60,7 +62,7 @@ def compute_model_entropy(parameters, marginals):
     model = _genmodel.GenModel(parameters, marginals)
 
     # Calculate the entropy between the two models.
-    entropy = _entropy.compute_model_entropy(model)
+    entropy = _entropy.compute_model_entropy(model, type_list=type_list)
     return entropy
 
 
@@ -176,16 +178,21 @@ def main():
         print("Written '{}' file".format(output_filename_1))
 
     # Compute the entropies for each given model.
-    model_entropies = pandas.DataFrame(columns=['id', 'entropy'])
+    model_entropies = pandas.DataFrame(columns=['id', 'event', 'entropy'])
     output_filename_2 = os.path.join(os.getcwd(), 'calc_model_entropy.tsv')
     for model in args.model:
-        entropy = compute_model_entropy(model[1], model[2])
-        model_entropies = model_entropies.append({
-            'id': model[0],
-            'entropy': entropy
-        }, ignore_index=True)
+
+        # For each event type (and combined model) calculate DKL.
+        for name, event_types in dkl_comparisons.iteritems():
+            entropy = compute_model_entropy(
+                model[1], model[2], type_list=event_types)
+            model_entropies = model_entropies.append({
+                'id': model[0],
+                'event': name,
+                'entropy': entropy
+            }, ignore_index=True)
     pandas.DataFrame.to_csv(model_entropies, path_or_buf=output_filename_2,
-                            sep="\t", na_rep="NA", index=True)
+                            sep="\t", na_rep="NA", index=False)
     print("Written '{}' file".format(output_filename_2))
 
 

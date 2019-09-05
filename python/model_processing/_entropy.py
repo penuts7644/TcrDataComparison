@@ -373,9 +373,15 @@ def compute_models_dkl(model1, model2, type_list=None):
     return total_dkl
 
 
-def compute_model_entropy(model):
+def compute_model_entropy(model, type_list=None):
     """Compute the recombination entropy of the supplied GenModel."""
     total_entropy = 0
-    for event in model.events:
-        total_entropy += compute_event_entropy(event.name, model)
+    if type_list:
+        for event in model.events:
+            for value in type_list:
+                if re.search(value, event.name):
+                    total_entropy += compute_event_entropy(event.name, model)
+    else:
+        for event in model.events:
+            total_entropy += compute_event_entropy(event.name, model)
     return total_entropy
