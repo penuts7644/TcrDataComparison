@@ -24,26 +24,26 @@ set -o nounset
 # Specify job variables
 ###########################
 filesArray=(
-    "${SLURM_SUBMIT_DIR}/BruskoT1D/subset/Brusko_20803_TCRB.tsv"
-    "${SLURM_SUBMIT_DIR}/BruskoT1D/subset/Brusko_4276_TCRB.tsv"
-    "${SLURM_SUBMIT_DIR}/BruskoT1D/subset/Brusko_24036_TCRB.tsv"
-    "${SLURM_SUBMIT_DIR}/BruskoT1D/subset/Brusko_24273_TCRB.tsv"
-    "${SLURM_SUBMIT_DIR}/BruskoT1D/subset/Brusko_8469_TCRB.tsv"
-    "${SLURM_SUBMIT_DIR}/Emerson2017/HIP05595.tsv"
-    "${SLURM_SUBMIT_DIR}/Emerson2017/HIP14071.tsv"
-    "${SLURM_SUBMIT_DIR}/Emerson2017/HIP13865.tsv"
-    "${SLURM_SUBMIT_DIR}/Emerson2017/HIP10376.tsv"
-    "${SLURM_SUBMIT_DIR}/Emerson2017/HIP13810.tsv"
-    "${SLURM_SUBMIT_DIR}/Peakman2018/reduced_18e4/T1D9_TN.tsv"
-    "${SLURM_SUBMIT_DIR}/Peakman2018/reduced_18e4/T1D10_TN.tsv"
-    "${SLURM_SUBMIT_DIR}/Peakman2018/reduced_18e4/T1D11_TN.tsv"
-    "${SLURM_SUBMIT_DIR}/Peakman2018/reduced_18e4/HD8_TN.tsv"
-    "${SLURM_SUBMIT_DIR}/Peakman2018/reduced_18e4/HD12_TN.tsv"
+    "${SLURM_SUBMIT_DIR}/Emerson2017/reduced_15e4/HIP05832.tsv"
+    "${SLURM_SUBMIT_DIR}/Emerson2017/reduced_15e4/HIP09051.tsv"
+    "${SLURM_SUBMIT_DIR}/Emerson2017/reduced_15e4/HIP13809.tsv"
+    "${SLURM_SUBMIT_DIR}/Emerson2017/reduced_15e4/HIP08816.tsv"
+    "${SLURM_SUBMIT_DIR}/Emerson2017/reduced_15e4/HIP08346.tsv"
+    "${SLURM_SUBMIT_DIR}/DeJong2018/reduced_15e4/Tofa-CD8-T05-24.tsv"
+    "${SLURM_SUBMIT_DIR}/DeJong2018/reduced_15e4/Tofa-CD8-T07-24.tsv"
+    "${SLURM_SUBMIT_DIR}/DeJong2018/reduced_15e4/Tofa-CD8-T11-24.tsv"
+    "${SLURM_SUBMIT_DIR}/DeJong2018/reduced_15e4/healthy_control_3_CD8.tsv"
+    "${SLURM_SUBMIT_DIR}/DeJong2018/reduced_15e4/healthy_control_4_CD8.tsv"
+    "${SLURM_SUBMIT_DIR}/Peakman2018/reduced_15e4/T1D9_CM.tsv"
+    "${SLURM_SUBMIT_DIR}/Peakman2018/reduced_15e4/T1D10_CM.tsv"
+    "${SLURM_SUBMIT_DIR}/Peakman2018/reduced_15e4/T1D11_CM.tsv"
+    "${SLURM_SUBMIT_DIR}/Peakman2018/reduced_15e4/HD10_CM.tsv"
+    "${SLURM_SUBMIT_DIR}/Peakman2018/reduced_15e4/HD14_CM.tsv"
 )
 
 projectArray=(
-    'brusko'
     'emerson'
+    'dejong'
     'peakman'
 )
 
@@ -77,7 +77,7 @@ do
     fi
 done
 
-# Extract the data files from the Brusko data file
+# Extract the data files from the data file
 immuno-probs -threads ${OMP_NUM_THREADS} -out-name 'converted' -config-file '../../../immuno_probs_config.ini' convert -ref V '../../../human_TRB/TRBV.fasta' -ref J '../../../human_TRB/TRBJ.fasta' -seqs tmp_combined_dataset.tsv
 rm tmp_combined_dataset.tsv
 

@@ -22,11 +22,11 @@ set -o nounset
 # Specify job variables
 ###########################
 filesArray=(
-    "${SLURM_SUBMIT_DIR}/Peakman2018/reduced_18e4/T1D9_TN.tsv"
-    "${SLURM_SUBMIT_DIR}/Peakman2018/reduced_18e4/T1D10_TN.tsv"
-    "${SLURM_SUBMIT_DIR}/Peakman2018/reduced_18e4/T1D11_TN.tsv"
-    "${SLURM_SUBMIT_DIR}/Peakman2018/reduced_18e4/HD8_TN.tsv"
-    "${SLURM_SUBMIT_DIR}/Peakman2018/reduced_18e4/HD12_TN.tsv"
+    "${SLURM_SUBMIT_DIR}/Peakman2018/reduced_15e4/T1D9_CM.tsv"
+    "${SLURM_SUBMIT_DIR}/Peakman2018/reduced_15e4/T1D10_CM.tsv"
+    "${SLURM_SUBMIT_DIR}/Peakman2018/reduced_15e4/T1D11_CM.tsv"
+    "${SLURM_SUBMIT_DIR}/Peakman2018/reduced_15e4/HD10_CM.tsv"
+    "${SLURM_SUBMIT_DIR}/Peakman2018/reduced_15e4/HD14_CM.tsv"
 )
 
 # Copy over files to work dir
@@ -53,7 +53,7 @@ cd subject_${SLURM_ARRAY_TASK_ID}
 ###########################
 # Build model files
 ###########################
-# Extract the data files from the Brusko data file
+# Extract the data files from the data file
 immuno-probs -threads ${OMP_NUM_THREADS} -out-name 'converted' -config-file '../../../../immuno_probs_config.ini' convert -ref V '../../../../human_TRB/TRBV.fasta' -ref J '../../../../human_TRB/TRBJ.fasta' -seqs "../../../../${BASENAME}"
 
 # Create a model (params and marginals) for each data extract

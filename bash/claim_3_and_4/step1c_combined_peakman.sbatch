@@ -23,11 +23,11 @@ set -o nounset
 # Specify job variables
 ###########################
 filesArray=(
-    "${SLURM_SUBMIT_DIR}/Peakman2018/reduced_18e4/T1D9_TN.tsv"
-    "${SLURM_SUBMIT_DIR}/Peakman2018/reduced_18e4/T1D10_TN.tsv"
-    "${SLURM_SUBMIT_DIR}/Peakman2018/reduced_18e4/T1D11_TN.tsv"
-    "${SLURM_SUBMIT_DIR}/Peakman2018/reduced_18e4/HD8_TN.tsv"
-    "${SLURM_SUBMIT_DIR}/Peakman2018/reduced_18e4/HD12_TN.tsv"
+    "${SLURM_SUBMIT_DIR}/Peakman2018/reduced_15e4/T1D9_CM.tsv"
+    "${SLURM_SUBMIT_DIR}/Peakman2018/reduced_15e4/T1D10_CM.tsv"
+    "${SLURM_SUBMIT_DIR}/Peakman2018/reduced_15e4/T1D11_CM.tsv"
+    "${SLURM_SUBMIT_DIR}/Peakman2018/reduced_15e4/HD10_CM.tsv"
+    "${SLURM_SUBMIT_DIR}/Peakman2018/reduced_15e4/HD14_CM.tsv"
 )
 
 cd ${SCRATCH}

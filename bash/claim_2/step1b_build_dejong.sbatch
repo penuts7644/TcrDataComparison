@@ -22,11 +22,11 @@ set -o nounset
 # Specify job variables
 ###########################
 filesArray=(
-    "${SLURM_SUBMIT_DIR}/Emerson2017/HIP05595.tsv"
-    "${SLURM_SUBMIT_DIR}/Emerson2017/HIP14071.tsv"
-    "${SLURM_SUBMIT_DIR}/Emerson2017/HIP13865.tsv"
-    "${SLURM_SUBMIT_DIR}/Emerson2017/HIP10376.tsv"
-    "${SLURM_SUBMIT_DIR}/Emerson2017/HIP13810.tsv"
+    "${SLURM_SUBMIT_DIR}/DeJong2018/reduced_15e4/Tofa-CD8-T05-24.tsv"
+    "${SLURM_SUBMIT_DIR}/DeJong2018/reduced_15e4/Tofa-CD8-T07-24.tsv"
+    "${SLURM_SUBMIT_DIR}/DeJong2018/reduced_15e4/Tofa-CD8-T11-24.tsv"
+    "${SLURM_SUBMIT_DIR}/DeJong2018/reduced_15e4/healthy_control_3_CD8.tsv"
+    "${SLURM_SUBMIT_DIR}/DeJong2018/reduced_15e4/healthy_control_4_CD8.tsv"
 )
 
 # Copy over files to work dir
@@ -44,8 +44,8 @@ mkdir claim_2
 cd claim_2
 mkdir models
 cd models
-mkdir emerson
-cd emerson
+mkdir dejong
+cd dejong
 mkdir subject_${SLURM_ARRAY_TASK_ID}
 cd subject_${SLURM_ARRAY_TASK_ID}
 
@@ -53,7 +53,7 @@ cd subject_${SLURM_ARRAY_TASK_ID}
 ###########################
 # Build model files
 ###########################
-# Extract the data files from the Brusko data file
+# Extract the data files from the data file
 immuno-probs -threads ${OMP_NUM_THREADS} -out-name 'converted' -config-file '../../../../immuno_probs_config.ini' convert -ref V '../../../../human_TRB/TRBV.fasta' -ref J '../../../../human_TRB/TRBJ.fasta' -seqs "../../../../${BASENAME}"
 
 # Create a model (params and marginals) for each data extract

@@ -22,11 +22,11 @@ set -o nounset
 # Specify job variables
 ###########################
 filesArray=(
-    "${SLURM_SUBMIT_DIR}/BruskoT1D/subset/Brusko_20803_TCRB.tsv"
-    "${SLURM_SUBMIT_DIR}/BruskoT1D/subset/Brusko_4276_TCRB.tsv"
-    "${SLURM_SUBMIT_DIR}/BruskoT1D/subset/Brusko_24036_TCRB.tsv"
-    "${SLURM_SUBMIT_DIR}/BruskoT1D/subset/Brusko_24273_TCRB.tsv"
-    "${SLURM_SUBMIT_DIR}/BruskoT1D/subset/Brusko_8469_TCRB.tsv"
+    "${SLURM_SUBMIT_DIR}/DeJong2018/reduced_15e4/Tofa-CD8-T05-24.tsv"
+    "${SLURM_SUBMIT_DIR}/DeJong2018/reduced_15e4/Tofa-CD8-T07-24.tsv"
+    "${SLURM_SUBMIT_DIR}/DeJong2018/reduced_15e4/Tofa-CD8-T11-24.tsv"
+    "${SLURM_SUBMIT_DIR}/DeJong2018/reduced_15e4/healthy_control_3_CD8.tsv"
+    "${SLURM_SUBMIT_DIR}/DeJong2018/reduced_15e4/healthy_control_4_CD8.tsv"
 )
 
 # Copy over files to work dir
@@ -42,8 +42,8 @@ mkdir claim_2
 cd claim_2
 mkdir evaluations
 cd evaluations
-mkdir brusko
-cd brusko
+mkdir dejong
+cd dejong
 mkdir subject_${SLURM_ARRAY_TASK_ID}
 cd subject_${SLURM_ARRAY_TASK_ID}
 
@@ -61,12 +61,12 @@ do
     fi
 done
 
-# Extract the data files from the Brusko data file
+# Extract the data files from the data file
 immuno-probs -threads ${OMP_NUM_THREADS} -out-name 'converted' -config-file '../../../../immuno_probs_config.ini' convert -ref V '../../../../human_TRB/TRBV.fasta' -ref J '../../../../human_TRB/TRBJ.fasta' -seqs tmp_combined_dataset.tsv
 rm tmp_combined_dataset.tsv
 
 # In a loop copy over necessary model files and evaluate
-cp -r "${SLURM_SUBMIT_DIR}/claim_2/models/brusko/subject_${SLURM_ARRAY_TASK_ID}" .
+cp -r "${SLURM_SUBMIT_DIR}/claim_2/models/dejong/subject_${SLURM_ARRAY_TASK_ID}" .
 immuno-probs -threads ${OMP_NUM_THREADS} -out-name 'pgen_estimate_all_CDR3' -config-file '../../../../immuno_probs_config.ini' evaluate -custom-model "subject_${SLURM_ARRAY_TASK_ID}/all_params.txt" "subject_${SLURM_ARRAY_TASK_ID}/all_marginals.txt" -seqs 'converted_CDR3.tsv' -type 'beta' -cdr3 -anchor V '../../../../human_TRB/V_gene_CDR3_anchors.tsv' -anchor J '../../../../human_TRB/J_gene_CDR3_anchors.tsv'
 rm -r subject_${SLURM_ARRAY_TASK_ID}
 

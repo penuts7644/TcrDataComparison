@@ -22,31 +22,31 @@ set -o nounset
 # Specify job variables
 ###########################
 filesArray=(
-    "${SLURM_SUBMIT_DIR}/BruskoT1D/subset/Brusko_20803_TCRB.tsv"
-    "${SLURM_SUBMIT_DIR}/BruskoT1D/subset/Brusko_4276_TCRB.tsv"
-    "${SLURM_SUBMIT_DIR}/BruskoT1D/subset/Brusko_24036_TCRB.tsv"
-    "${SLURM_SUBMIT_DIR}/BruskoT1D/subset/Brusko_24273_TCRB.tsv"
-    "${SLURM_SUBMIT_DIR}/BruskoT1D/subset/Brusko_8469_TCRB.tsv"
+    "${SLURM_SUBMIT_DIR}/Emerson2017/reduced_15e4/HIP05832.tsv"
+    "${SLURM_SUBMIT_DIR}/Emerson2017/reduced_15e4/HIP09051.tsv"
+    "${SLURM_SUBMIT_DIR}/Emerson2017/reduced_15e4/HIP13809.tsv"
+    "${SLURM_SUBMIT_DIR}/Emerson2017/reduced_15e4/HIP08816.tsv"
+    "${SLURM_SUBMIT_DIR}/Emerson2017/reduced_15e4/HIP08346.tsv"
 )
 
 subsampleArrayText=(
     'all'
-    '100000'
     '50000'
     '10000'
     '5000'
     '1000'
     '500'
+    '100'
 )
 
 subsampleArrayNumber=(
     0
-    100000
     50000
     10000
     5000
     1000
     500
+    100
 )
 
 # Copy over files to work dir
