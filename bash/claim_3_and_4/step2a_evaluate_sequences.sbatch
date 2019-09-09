@@ -5,7 +5,7 @@
 #SBATCH --array=0-2
 #SBATCH --time=1-00:00:00
 #SBATCH --partition=bigmem
-#SBATCH --nodes=3 --ntasks-per-node=1 --cpus-per-task=32
+#SBATCH --nodes=1 --ntasks-per-node=1 --cpus-per-task=32
 #SBATCH --mem-per-cpu=14G
 
 

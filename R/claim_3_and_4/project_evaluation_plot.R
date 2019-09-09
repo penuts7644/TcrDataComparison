@@ -137,6 +137,6 @@ eval_compare <-
     vars(combination)
   )
 
-jpeg(output_filename, width = 3000, height = 4000, res = 300)
+jpeg(output_filename, width = 4000, height = 4000, res = 300)
 eval_compare
 dev.off()

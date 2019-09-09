@@ -180,6 +180,6 @@ entr_compare <-
     nrow = 5
   )
 
-jpeg(output_filename, width = 3000, height = 4000, res = 300)
+jpeg(output_filename, width = 4000, height = 4000, res = 300)
 entr_compare
 dev.off()
