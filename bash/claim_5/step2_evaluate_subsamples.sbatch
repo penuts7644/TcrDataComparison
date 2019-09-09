@@ -31,12 +31,12 @@ filesArray=(
 
 subsampleArrayText=(
     'all'
-    '100000'
     '50000'
     '10000'
     '5000'
     '1000'
     '500'
+    '100'
 )
 
 # Copy over files to work dir
