@@ -25,7 +25,7 @@ process_model <- function(model) {
   model_500 <- melt(model_500[order(model_500$row_id), ][, 2:3])
   model_100 <- melt(model_100[order(model_100$row_id), ][, 2:3])
   models <- na.omit(do.call('cbind', list(
-    model_all, model_50000[2], model_10000[2], model_5000[2], model_1000[2], model_500[2], model_100[2],
+    model_all, model_50000[2], model_10000[2], model_5000[2], model_1000[2], model_500[2], model_100[2]
   )))
   rm(cc, model_all, model_50000, model_10000, model_5000, model_1000, model_500, model_100)
   names(models) <- c('type', 'all', '50000', '10000', '5000', '1000', '500', '100')
