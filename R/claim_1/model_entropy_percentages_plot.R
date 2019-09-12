@@ -23,7 +23,7 @@ process_entropies <- function(data, entropies) {
     tmp$L4[grepl(frame_list[i], tmp$Var2)] <- frame_list[i+1]
   }
   tmp <- transform(tmp, L5 = paste(L3, L4, sep=" - "))
-
+  
   tmp2 <- merge(entropies, entropies, by = 'event', sort = TRUE)
   tmp2 <- merge(tmp2, entropies, by = 'event', sort = TRUE)
   tmp2 <- subset(tmp2, `id.x` != `id.y` & `id.x` != `id` & `id.y` != `id`)
@@ -44,8 +44,7 @@ process_entropies <- function(data, entropies) {
     tmp2$L2[grepl(subject_list[i], tmp2$`id.x`)] <- subject_list[i+1]
   }
   tmp2 <- tmp2[, c(8, 1, 9)]
-  tmp2$L5 <- 'average'
-  names(tmp2) <- c('value', 'L1', 'L2', 'L5')
+  names(tmp2) <- c('value', 'L1', 'L2')
   tmp2$L1 <- as.character(tmp2$L1)
   tmp2$L1[tmp2$L1 == 'V'] <- 'V-gene'
   tmp2$L1[tmp2$L1 == 'D'] <- 'D-gene'
@@ -60,13 +59,15 @@ process_entropies <- function(data, entropies) {
   tmp2$L1[tmp2$L1 == 'dinuc_markov_DJ'] <- 'DinucMarkov DJ'
   tmp2$L1 <- as.factor(tmp2$L1)
   tmp2 <- tmp2[order(-tmp2$value), ]
-
+  
   tmp <- tmp[, c('value', 'L1', 'L2', 'L5')]
   tmp$L5[tmp$L5 == 'out - in'] <- 'in - out'
   tmp$L5[tmp$L5 == 'all - in'] <- 'in - all'
   tmp$L5[tmp$L5 == 'all - out'] <- 'out - all'
-  tmp <- tmp[sample(nrow(tmp)), ]
-  tmp <- rbind(tmp2, tmp)
+  for (i in 1:nrow(tmp)) {
+    tmp[i, 'value'] <- round((tmp[i, 'value'] / tmp2[tmp2$L1 == tmp[i, 'L1'] & tmp2$L2 == tmp[i, 'L2'], 'value']), digits = 4)
+  }
+  tmp <- tmp[order(match(tmp[, 'L1'], tmp2[, 'L1'])), ]
   names(tmp)[2] <- "Event level"
   names(tmp)[3] <- "Model ID"
   names(tmp)[4] <- "Model comparison"
@@ -76,9 +77,9 @@ process_entropies <- function(data, entropies) {
 # ----------
 # PLOT VARIABLES
 # ----------
-plot_y <- 'KL divergence (bits)'
+plot_y <- 'Entropy increase (percent)'
 plot_x <- 'Immune receptor component/event'
-output_filename <- '~/Downloads/claim_1/model_entropies_plot.png'
+output_filename <- '~/Downloads/claim_1/model_entropy_percentages_plot.png'
 
 # ----------
 # MODEL DATA
@@ -122,16 +123,26 @@ entr_compare <-
     dkl,
     aes(
       x = factor(`Event level`, levels = unique(`Event level`)),
-      y = value
+      y = value,
+      fill = `Model comparison`,
+      label = percent(value)
     )
   ) +
-  geom_jitter(
-    height = 0,
-    width = .3,
-    size = 3,
-    aes(
-      color = `Model comparison`
+  geom_col(
+    position = position_dodge2(
+      width = 0.8,
+      preserve = 'single'
     )
+  ) +
+  geom_text(
+    position = position_dodge2(
+      width = 0.9,
+      preserve = 'single'
+    ),
+    angle = 90,
+    vjust = 0.5,
+    hjust = -0.1,
+    size = 4
   ) +
   theme_bw() +
   theme(
@@ -167,14 +178,15 @@ entr_compare <-
   ) +
   scale_y_continuous(
     name = plot_y,
-    trans = 'log10',
-    labels = trans_format("log10", math_format(10^.x))
+    trans = 'sqrt',
+    limits = c(0, 2),
+    labels = percent
   ) +
   labs(
     x = plot_x
   ) +
-  scale_color_manual(
-    values = c('#000000', '#1b9e77', '#d95f02', '#7570b3')
+  scale_fill_manual(
+    values = c('#1b9e77', '#d95f02', '#7570b3')
   ) +
   facet_wrap(
     vars(`Model ID`),
@@ -184,3 +196,4 @@ entr_compare <-
 jpeg(output_filename, width = 4000, height = 4000, res = 300)
 entr_compare
 dev.off()
+

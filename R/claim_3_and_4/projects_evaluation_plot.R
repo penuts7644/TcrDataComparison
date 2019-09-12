@@ -7,10 +7,10 @@ library(ggplot2)
 # ----------
 # FUNCTIONS FOR PRE-PROCESSING
 # ----------
-process_model <- function(x, y, combination) {
-  newX <- melt(x[order(x$row_id), ][, 2:3], variable.name = 'type', value.name = 'X')
+process_model <- function(y, x, combination) {
   newY <- melt(y[order(y$row_id), ][, 2:3], variable.name = 'type', value.name = 'Y')
-  model <- na.omit(cbind(newX, newY['Y']))
+  newX <- melt(x[order(x$row_id), ][, 2:3], variable.name = 'type', value.name = 'X')
+  model <- na.omit(cbind(newY, newX['X']))
   model$type <- as.character(model$type)
   model$type[model$type == 'nt_pgen_estimate'] <- 'NT'
   model$type[model$type == 'aa_pgen_estimate'] <- 'AA'
@@ -35,12 +35,12 @@ output_filename <- '~/Downloads/claim_3_and_4/project_evaluation_plot.png'
 # ----------
 cc <- c(NA, "NULL", NA, rep("NULL", 4), rep(NA, 2))
 
-model_dejong <- data.frame(read.table('~/Downloads/claim_3_and_4/evaluations/dejong/pgen_estimate_productive_CDR3.tsv', header=TRUE, row.names=1, sep='\t', check.names=FALSE, colClasses=cc))
-model_emerson <- data.frame(read.table('~/Downloads/claim_3_and_4/evaluations/emerson/pgen_estimate_unproductive_CDR3.tsv', header=TRUE, row.names=1, sep='\t', check.names=FALSE, colClasses=cc))
+model_dejong <- data.frame(read.table('~/Downloads/claim_3_and_4/evaluations/dejong/pgen_estimate_all_CDR3.tsv', header=TRUE, row.names=1, sep='\t', check.names=FALSE, colClasses=cc))
+model_emerson <- data.frame(read.table('~/Downloads/claim_3_and_4/evaluations/emerson/pgen_estimate_all_CDR3.tsv', header=TRUE, row.names=1, sep='\t', check.names=FALSE, colClasses=cc))
 model_peakman <- data.frame(read.table('~/Downloads/claim_3_and_4/evaluations/peakman/pgen_estimate_all_CDR3.tsv', header=TRUE, row.names=1, sep='\t', check.names=FALSE, colClasses=cc))
-model_b_e <- process_model(model_dejong, model_emerson, 'project 1 (X) - project 2 (Y)')
-model_b_p <- process_model(model_dejong, model_peakman, 'project 1 (X) - project 3 (Y)')
-model_e_p <- process_model(model_emerson, model_peakman, 'project 2 (X) - project 3 (Y)')
+model_b_e <- process_model(model_dejong, model_emerson, 'project 1 (left) - project 2 (bottom)')
+model_b_p <- process_model(model_dejong, model_peakman, 'project 1 (left) - project 3 (bottom)')
+model_e_p <- process_model(model_emerson, model_peakman, 'project 2 (left) - project 3 (bottom)')
 models <- as.data.frame(do.call("rbind", list(model_b_e, model_b_p, model_e_p)))
 rm(cc, model_dejong, model_emerson, model_peakman, model_b_e, model_b_p, model_e_p)
 
@@ -57,6 +57,12 @@ eval_compare <-
       linetype = `Sequence type`
     )
   ) +
+  geom_abline(
+    intercept = 0,
+    slope = 1,
+    color = 'gray',
+    size = 0.2
+  ) +
   geom_point(
     size = 1,
     alpha = 0.4,
@@ -71,7 +77,7 @@ eval_compare <-
   geom_label(
     aes(
       x = 0,
-      y = 1,
+      y = ((max(models$Y) / 5) * 4.9),
       label = round(corr.NT, digits = 4),
       col = 'NT'
     ),
@@ -84,7 +90,7 @@ eval_compare <-
   geom_label(
     aes(
       x = 0,
-      y = 0.8,
+      y = ((max(models$Y) / 5) * 3.3),
       label = round(corr.AA, digits = 4),
       col = 'AA'
     ),
@@ -126,17 +132,21 @@ eval_compare <-
     legend.position = 'top',
     legend.direction = 'horizontal'
   ) +
-  labs(
-    y = plot_y,
-    x = plot_x
+  scale_x_sqrt(
+    name = plot_x,
+    limits = c(0, max(pmax(models$Y, models$X)))
+  ) +
+  scale_y_sqrt(
+    name = plot_y,
+    limits = c(0, max(pmax(models$Y, models$X)))
   ) +
   scale_color_manual(
-    values = c('#ca0020', '#000000')
+    values = c('#ca0020', '#0571b0')
   ) +
   facet_wrap(
     vars(combination)
   )
 
-jpeg(output_filename, width = 4000, height = 4000, res = 300)
+jpeg(output_filename, width = 4000, height = 2000, res = 300)
 eval_compare
 dev.off()

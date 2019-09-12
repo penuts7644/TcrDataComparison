@@ -57,7 +57,7 @@ upper_plot_fn <- function(data, mapping, ...){
     )
   ) +
   scale_color_manual(
-    values = c('#ca0020', '#000000')
+    values = c('#ca0020', '#0571b0')
   )
 }
 
@@ -66,19 +66,31 @@ lower_plot_fn <- function(data, mapping, ...){
     data = data,
     mapping = mapping
   ) +
-    geom_point(
-      size = 1,
-      alpha = 0.4
-    ) +
-    geom_smooth(
-      size = 1.2,
-      method = lm,
-      se = FALSE,
-      fullrange = TRUE
-    ) +
-    scale_color_manual(
-      values = c('#ca0020', '#000000')
-    )
+  geom_abline(
+    intercept = 0,
+    slope = 1,
+    color = 'gray',
+    size = 0.2
+  ) +
+  geom_point(
+    size = 1,
+    alpha = 0.4
+  ) +
+  geom_smooth(
+    size = 1.2,
+    method = lm,
+    se = FALSE,
+    fullrange = TRUE
+  ) +
+  scale_x_sqrt(
+     limits = c(0, max(pmax(data[, 2], data[, 3], data[, 4], data[, 5], data[, 6])))
+   ) +
+   scale_y_sqrt(
+     limits = c(0, max(pmax(data[, 2], data[, 3], data[, 4], data[, 5], data[, 6])))
+   ) +
+  scale_color_manual(
+    values = c('#ca0020', '#0571b0')
+  )
 }
 
 for (model in MODELS) {
@@ -119,7 +131,7 @@ for (model in MODELS) {
       legend.direction = 'horizontal'
     ) +
     scale_color_manual(
-      values = c('#ca0020', '#000000')
+      values = c('#ca0020', '#0571b0')
     )
 
   eval_compare <-
