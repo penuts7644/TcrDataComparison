@@ -31,7 +31,7 @@ NUMBER_OF_FILES=`expr ${NUMBER_OF_FILES} - 1`
 for i in $(seq 0 $NUMBER_OF_FILES)
 do
     cp -r "${SLURM_SUBMIT_DIR}/claim_2/models/emerson/subject_${i}" .
-    ALL_MODELS+="-model all_${i} ../../../subject_${i}/all_params.txt ../../../subject_${i}/all_marginals.txt "
+    ALL_MODELS+="-model ${i} ../../../subject_${i}/all_params.txt ../../../subject_${i}/all_marginals.txt "
 done
 
 # Mark the output dir for automatic copying to $SLURM_SUBMIT_DIR afterwards

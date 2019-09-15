@@ -90,7 +90,7 @@ eval_compare <-
   geom_label(
     aes(
       x = 0,
-      y = ((max(models$Y) / 5) * 3.3),
+      y = ((max(models$Y) / 5) * 4),
       label = round(corr.AA, digits = 4),
       col = 'AA'
     ),
