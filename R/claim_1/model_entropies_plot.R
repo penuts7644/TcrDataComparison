@@ -168,7 +168,7 @@ entr_compare <-
   scale_y_continuous(
     name = plot_y,
     trans = 'log10',
-    labels = trans_format("log10", math_format(1^.x))
+    labels = trans_format("log10", math_format(10^.x))
   ) +
   labs(
     x = plot_x

@@ -26,8 +26,8 @@ process_model <- function(y, x, combination) {
 # ----------
 # PLOT VARIABLES
 # ----------
-plot_y <- 'Pgen score'
-plot_x <- 'Pgen score'
+plot_y <- 'Generation probability score'
+plot_x <- 'Generation probability score'
 output_filename <- '~/Downloads/claim_3_and_4/project_evaluation_plot.png'
 
 # ----------

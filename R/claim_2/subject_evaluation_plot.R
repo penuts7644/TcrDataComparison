@@ -95,8 +95,8 @@ for (project in PROJECTS) {
   # EXTRACTING THE DATA
   # ----------
   models <- process_model(project)
-  plot_y <- 'Pgen score'
-  plot_x <- 'Pgen score'
+  plot_y <- 'Generation probability score'
+  plot_x <- 'Generation probability score'
   output_filename <- paste('~/Downloads/claim_2/subject_evaluation_plot_', project, '.png', sep = '')
 
   # ----------
