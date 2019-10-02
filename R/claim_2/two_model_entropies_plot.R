@@ -16,7 +16,7 @@ process_entropies <- function(data, entropies) {
     tmp$Var2[subject_list[i] == tmp$Var2] <- subject_list[i+1]
   }
   tmp <- transform(tmp, L2 = paste(Var1, Var2, sep=" - "))
-  
+
   tmp2 <- subset(entropies, id %in% c('2', '3'))
   tmp2 <- subset(tmp2, `event` != 'total')
   for (i in seq(1, length(subject_list), 2)) {
@@ -36,10 +36,10 @@ process_entropies <- function(data, entropies) {
   tmp2$event[tmp2$event == 'dinuc_markov_DJ'] <- 'DinucMarkov DJ'
   tmp2$event <- as.factor(tmp2$event)
   tmp2 <- tmp2[order(-tmp2$entropy), ]
-  
+
   # tmp$L2[tmp$L2 == 'control 1 - subject 3'] <- 'subject 3 - control 1'
   for (i in 1:nrow(tmp)) {
-    tmp[i, 'value'] <- round((tmp[i, 'value'] / tmp2[tmp2$event == tmp[i, 'L1'] & tmp2$id == tmp[i, 'Var1'], 'entropy']), digits = 4)
+    tmp[i, 'value'] <- round((tmp[i, 'value'] / tmp2[tmp2$event == tmp[i, 'L1'] & tmp2$id == tmp[i, 'Var1'], 'entropy']), digits = 2)
   }
   tmp <- tmp[, c('value', 'L1', 'L2')]
   tmp <- tmp[order(match(tmp[, 'L1'], tmp2[, 'event'])), ]
@@ -166,4 +166,3 @@ entr_compare <-
 jpeg(output_filename, width = 2000, height = 2000, res = 300)
 entr_compare
 dev.off()
-

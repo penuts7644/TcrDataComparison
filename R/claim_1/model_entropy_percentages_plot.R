@@ -23,7 +23,7 @@ process_entropies <- function(data, entropies) {
     tmp$L4[grepl(frame_list[i], tmp$Var2)] <- frame_list[i+1]
   }
   tmp <- transform(tmp, L5 = paste(L3, L4, sep=" - "))
-  
+
   tmp2 <- merge(entropies, entropies, by = 'event', sort = TRUE)
   tmp2 <- merge(tmp2, entropies, by = 'event', sort = TRUE)
   tmp2 <- subset(tmp2, `id.x` != `id.y` & `id.x` != `id` & `id.y` != `id`)
@@ -59,13 +59,13 @@ process_entropies <- function(data, entropies) {
   tmp2$L1[tmp2$L1 == 'dinuc_markov_DJ'] <- 'DinucMarkov DJ'
   tmp2$L1 <- as.factor(tmp2$L1)
   tmp2 <- tmp2[order(-tmp2$value), ]
-  
+
   tmp <- tmp[, c('value', 'L1', 'L2', 'L5')]
   tmp$L5[tmp$L5 == 'out - in'] <- 'in - out'
   tmp$L5[tmp$L5 == 'all - in'] <- 'in - all'
   tmp$L5[tmp$L5 == 'all - out'] <- 'out - all'
   for (i in 1:nrow(tmp)) {
-    tmp[i, 'value'] <- round((tmp[i, 'value'] / tmp2[tmp2$L1 == tmp[i, 'L1'] & tmp2$L2 == tmp[i, 'L2'], 'value']), digits = 4)
+    tmp[i, 'value'] <- round((tmp[i, 'value'] / tmp2[tmp2$L1 == tmp[i, 'L1'] & tmp2$L2 == tmp[i, 'L2'], 'value']), digits = 2)
   }
   tmp <- tmp[order(match(tmp[, 'L1'], tmp2[, 'L1'])), ]
   names(tmp)[2] <- "Event level"
@@ -196,4 +196,3 @@ entr_compare <-
 jpeg(output_filename, width = 4000, height = 4000, res = 300)
 entr_compare
 dev.off()
-

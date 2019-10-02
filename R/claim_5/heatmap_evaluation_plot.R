@@ -7,6 +7,7 @@ library(gtools)
 library(viridis)
 MODELS <- c('subject 1', 'subject 2', 'subject 3', 'control 1', 'control 2')
 SUBSAMPLES <- c('all', '50000', '10000', '5000', '1000', '500', '100')
+CORRELATION_METHOD <- 'pearson' # or 'spearman'
 
 # ----------
 # FUNCTIONS FOR PRE-PROCESSING
@@ -23,16 +24,17 @@ process_model <- function() {
   for(i in 1:nrow(corr)) {
     row_info <- unlist(strsplit(rownames(corr)[i], " - ", fixed = TRUE))
     model_row <- data.frame(read.table(paste('~/Downloads/claim_5/evaluations/', sn[row_info[1]], '/', row_info[2], '/pgen_estimate_all_CDR3.tsv', sep = ''), header=TRUE, row.names=1, sep='\t', check.names=FALSE, colClasses=cc))
-    model_row <- melt(model_row[order(model_row$row_id), ][, 2:3])
+    model_row <- melt(model_row, id.vars = 'row_id')
     for(j in 1:ncol(corr)) {
       if (i == j) {
         next
       } else if (is.na(corr[j, i])) {
         col_info <- unlist(strsplit(colnames(corr)[j], " - ", fixed = TRUE))
         model_col <- data.frame(read.table(paste('~/Downloads/claim_5/evaluations/', sn[col_info[1]], '/', col_info[2], '/pgen_estimate_all_CDR3.tsv', sep = ''), header=TRUE, row.names=1, sep='\t', check.names=FALSE, colClasses=cc))
-        model_col <- melt(model_col[order(model_col$row_id), ][, 2:3])
-        models <- na.omit(cbind(model_row, model_col[2]))
-        corr[i, j] <- cor(models[, 2], models[, 3], method = 'spearman')
+        model_col <- melt(model_col, id.vars = 'row_id')
+        models <- merge(model_row, model_col, by=c('row_id', 'variable'))
+        models <- models[!(models$row_id %in% models[is.na(models[, 3:4]), 'row_id']), ][, 2:4]
+        corr[i, j] <- cor(models[, 2], models[, 3], method = CORRELATION_METHOD)
       } else {
         corr[i, j] <- corr[j, i]
       }
@@ -48,8 +50,8 @@ process_model <- function() {
 correlations <- process_model()
 plot_y <- 'Subject - subsample combination'
 plot_x <- 'Subject - subsample combination'
-legend <- 'Spearman correlation score'
-output_filename <- '~/Downloads/claim_5/subsample_heatmap_plot.png'
+legend <- paste('Correlation score (', CORRELATION_METHOD, ')', sep = '')
+output_filename <- paste('~/Downloads/claim_5/subsample_heatmap_plot_', CORRELATION_METHOD, '.png', sep = '')
 
 # ----------
 # MAKING THE PLOTS
@@ -74,7 +76,9 @@ heat_compare <-
       size = 18
     ),
     legend.text = element_text(
-      size = 15
+      size = 15,
+      angle = 60,
+      hjust = 1
     ),
     axis.title.x = element_text(
       size = 18
@@ -109,5 +113,5 @@ heat_compare <-
   )
 
 jpeg(output_filename, width = 4000, height = 4000, res = 300)
-print(heat_compare)
+heat_compare
 dev.off()

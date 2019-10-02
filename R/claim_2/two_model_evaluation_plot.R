@@ -95,7 +95,6 @@ eval_compare <-
       size = 15
     ),
     legend.position = 'top',
-    # legend.direction = 'vertical'
     legend.direction = 'horizontal'
   ) +
   scale_x_sqrt(
@@ -105,6 +104,11 @@ eval_compare <-
   scale_y_sqrt(
     name = plot_y,
     limits = c(0, max(pmax(models$Y, models$X)))
+  ) +
+  guides(
+    colour = guide_legend(
+      override.aes = list(alpha = 1, size = 3)
+    )
   ) +
   scale_color_manual(
     values = c('#1b9e77', '#d95f02')
