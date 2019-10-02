@@ -43,7 +43,6 @@ filesArray=(
 # Copy over files to work dir
 cd ${SCRATCH}
 cp "${SLURM_SUBMIT_DIR}/TcrDataComparison/immuno_probs_config.ini" .
-cp -r "${SLURM_SUBMIT_DIR}/human_TRB" .
 
 # Mark the output dir for automatic copying to $SLURM_SUBMIT_DIR afterwards
 savefile claim_3_and_4
@@ -70,13 +69,15 @@ do
     fi
 done
 
+# Copy over necessary IGoR model files
+cp -r "${SLURM_SUBMIT_DIR}/human_TRB_IGoR" model
+
 # Extract the data files from the data file
-immuno-probs -threads ${OMP_NUM_THREADS} -out-name 'converted' -config-file '../../../immuno_probs_config.ini' convert -ref V '../../../human_TRB/TRBV.fasta' -ref J '../../../human_TRB/TRBJ.fasta' -seqs tmp_combined_dataset.tsv
+immuno-probs -threads ${OMP_NUM_THREADS} -out-name 'converted' -config-file '../../../immuno_probs_config.ini' convert -ref V 'model/TRBV.fasta' -ref J 'model/TRBJ.fasta' -seqs tmp_combined_dataset.tsv
 rm tmp_combined_dataset.tsv
 
-# In a loop copy over necessary model files and evaluate
-cp -r "${SLURM_SUBMIT_DIR}/igor_human_TCRB_model" model
-immuno-probs -threads ${OMP_NUM_THREADS} -out-name 'pgen_estimate_all_CDR3' -config-file '../../../immuno_probs_config.ini' evaluate -custom-model 'model/model_params.txt' 'model/model_marginals.txt' -seqs 'converted_CDR3.tsv' -type 'beta' -cdr3 -anchor V '../../../human_TRB/V_gene_CDR3_anchors.tsv' -anchor J '../../../human_TRB/J_gene_CDR3_anchors.tsv'
+# Evaluate the data with IGoR model
+immuno-probs -threads ${OMP_NUM_THREADS} -out-name 'pgen_estimate_all_CDR3' -config-file '../../../immuno_probs_config.ini' evaluate -custom-model 'model/model_params.txt' 'model/model_marginals.txt' -seqs 'converted_CDR3.tsv' -type 'beta' -cdr3 -anchor V 'model/V_gene_CDR3_anchors.tsv' -anchor J 'model/J_gene_CDR3_anchors.tsv'
 rm -r model
 
 
