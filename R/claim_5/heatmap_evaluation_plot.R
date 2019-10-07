@@ -5,6 +5,7 @@ library(GGally)
 library(reshape2)
 library(gtools)
 library(viridis)
+library(shadowtext)
 MODELS <- c('subject 1', 'subject 2', 'subject 3', 'control 1', 'control 2')
 SUBSAMPLES <- c('all', '50000', '10000', '5000', '1000', '500', '100')
 CORRELATION_METHOD <- 'pearson' # or 'spearman'
@@ -69,6 +70,12 @@ heat_compare <-
       fill = value
     )
   ) +
+  geom_shadowtext(
+    aes(
+      label = round(value, digits = 2)
+    ),
+    size = 1.4
+  ) +
   theme_bw() +
   theme(
     plot.title = element_blank(),
@@ -103,6 +110,7 @@ heat_compare <-
     legend.position = 'top',
     legend.direction = 'horizontal'
   ) +
+  
   labs(
     y = plot_y,
     x = plot_x

@@ -29,8 +29,8 @@ process_model <- function() {
   # models[models$origin.y == 'subject 3' & models$origin.x == 'control 1', 'origin.y'] <- 'both'
   models[models$origin.y == 'subject 3' & models$origin.x == 'control 1', 'origin.y'] <- 'other'
   models <- models[, c(1, 2, 4)]
-  names(models) <- c('Sequence origin', 'Y', 'X')
-  models <- models[models$`Sequence origin` != 'other', ]
+  names(models) <- c('Model', 'Y', 'X')
+  models <- models[models$`Model` != 'other', ]
   models <- models[sample(nrow(models)), ]
   return (models)
 }
@@ -52,7 +52,7 @@ eval_compare <-
     aes(
       x = X,
       y = Y,
-      color = `Sequence origin`
+      color = `Model`
     )
   ) +
   geom_abline(

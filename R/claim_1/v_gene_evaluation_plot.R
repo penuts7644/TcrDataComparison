@@ -27,7 +27,6 @@ process_model <- function(origin, y, x, combination, name) {
   rownames(v_genes) <- NULL
   v_genes$combination <- combination
   v_genes$name <- name
-  names(v_genes)[1] <- 'V-gene'
   v_genes <- v_genes[sample(nrow(v_genes)), ]
   return (v_genes)
 }
@@ -99,6 +98,12 @@ rm(model_4_origin, model_4_productive, model_4_unproductive, model_4_all, model_
 models <- do.call('rbind', list(model_0, model_1, model_2, model_3, model_4))
 rm(cc1, cc2, model_0, model_1, model_2, model_3, model_4)
 
+for (j in unique(models$v_gene_choice)) {
+  if (sum(models[models$v_gene_choice == j, c('Y', 'X')]) == 0) {
+    models <- models[models$v_gene_choice != j, ]
+  }
+}
+
 # ----------
 # MAKING THE PLOTS
 # ----------
@@ -108,7 +113,7 @@ eval_compare <-
     aes(
       x = X,
       y = Y,
-      color = reorder(`V-gene`, id)
+      color = reorder(v_gene_choice, id)
     )
   ) +
   geom_abline(

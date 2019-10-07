@@ -44,7 +44,7 @@ process_entropies <- function(data, entropies) {
   tmp <- tmp[, c('value', 'L1', 'L2')]
   tmp <- tmp[order(match(tmp[, 'L1'], tmp2[, 'event'])), ]
   names(tmp)[2] <- "Event level"
-  names(tmp)[3] <- "Model comparison"
+  names(tmp)[3] <- "Compare"
   return (tmp)
 }
 
@@ -98,7 +98,7 @@ entr_compare <-
     aes(
       x = factor(`Event level`, levels = unique(`Event level`)),
       y = value,
-      fill = `Model comparison`,
+      fill = `Compare`,
       label = percent(value)
     )
   ) +
@@ -148,7 +148,7 @@ entr_compare <-
       size = 15
     ),
     legend.position = "top",
-    legend.direction = "vertical"
+    legend.direction = "horizontal"
   ) +
   scale_y_continuous(
     name = plot_y,
