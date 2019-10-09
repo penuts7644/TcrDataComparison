@@ -49,6 +49,9 @@ process_model <- function() {
 # EXTRACTING THE DATA
 # ----------
 correlations <- process_model()
+correlations$Var1 <- factor(as.factor(correlations$Var1), levels = unique(sort(as.vector(correlations$Var1))))
+correlations$Var2 <- factor(as.factor(correlations$Var2), levels = unique(sort(as.vector(correlations$Var2))))
+
 plot_y <- 'Subject - subsample combination'
 plot_x <- 'Subject - subsample combination'
 legend <- paste('Correlation score (', CORRELATION_METHOD, ')', sep = '')
@@ -110,7 +113,6 @@ heat_compare <-
     legend.position = 'top',
     legend.direction = 'horizontal'
   ) +
-  
   labs(
     y = plot_y,
     x = plot_x

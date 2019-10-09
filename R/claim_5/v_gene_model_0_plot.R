@@ -105,11 +105,8 @@ eval_compare <-
     legend.direction = 'horizontal'
   ) +
   labs(
-    x = plot_x
-  ) +
-  scale_y_sqrt(
-    name = plot_y,
-    limits = c(0, max(models$value))
+    x = plot_x,
+    y = plot_y
   ) +
   scale_fill_brewer(
     palette = 'Dark2'
@@ -124,3 +121,4 @@ eval_compare <-
 jpeg(output_filename, width = 4000, height = 2000, res = 300)
 eval_compare
 dev.off()
+
