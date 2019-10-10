@@ -50,11 +50,15 @@ model_0_100 <- process_model('~/Downloads/claim_5/models/subject_0/100/all_margi
 models <- as.data.frame(do.call("rbind", list(model_0_all, model_0_50000, model_0_10000, model_0_5000, model_0_1000, model_0_500, model_0_100)))
 rm(model_0_all, model_0_50000, model_0_10000, model_0_5000, model_0_1000, model_0_500, model_0_100)
 
+sum_models <- data.frame()
 for (j in unique(models$gene)) {
   if (sum(models[models$gene == j, 'value']) == 0) {
     models <- models[models$gene != j, ]
   }
+  sum_models <- rbind(sum_models, data.frame(j, sum(models[models$gene == j, 'value'])))
 }
+names(sum_models) <- c('gene', 'sum')
+models <- models[models$gene %in% unique(sum_models[order(-sum_models$sum), 'gene'])[1:20], ]
 models$subsample <- factor(as.factor(models$subsample), levels = c("100", "500", "1000", "5000", "10000", "50000", "all"))
 
 # ----------
@@ -70,7 +74,8 @@ eval_compare <-
     )
   ) +
   geom_bar(
-    stat = 'identity'
+    stat = 'identity',
+    position = 'dodge'
   ) +
   theme_bw() +
   theme(
@@ -121,4 +126,3 @@ eval_compare <-
 jpeg(output_filename, width = 4000, height = 2000, res = 300)
 eval_compare
 dev.off()
-
