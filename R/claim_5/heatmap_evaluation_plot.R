@@ -49,8 +49,8 @@ process_model <- function() {
 # EXTRACTING THE DATA
 # ----------
 correlations <- process_model()
-correlations$Var1 <- factor(as.factor(correlations$Var1), levels = unique(sort(as.vector(correlations$Var1))))
-correlations$Var2 <- factor(as.factor(correlations$Var2), levels = unique(sort(as.vector(correlations$Var2))))
+correlations$Var1 <- factor(as.factor(correlations$Var1), levels = unique(mixedsort(as.vector(correlations$Var1))))
+correlations$Var2 <- factor(as.factor(correlations$Var2), levels = unique(mixedsort(as.vector(correlations$Var2))))
 
 plot_y <- 'Subject - subsample combination'
 plot_x <- 'Subject - subsample combination'
