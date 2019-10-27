@@ -11,13 +11,13 @@ CORRELATION_METHOD <- 'pearson' # or 'spearman'
 # ----------
 process_model <- function(model) {
   cc <- c(NA, "NULL", NA, rep("NULL", 4), rep(NA, 2))
-  model_all <- data.frame(read.table(paste('~/Downloads/claim_5/evaluations/', model, '/all/pgen_estimate_all_CDR3.tsv', sep = ''), header=TRUE, row.names=1, sep='\t', check.names=FALSE, colClasses=cc))
-  model_50000 <- data.frame(read.table(paste('~/Downloads/claim_5/evaluations/', model, '/50000/pgen_estimate_all_CDR3.tsv', sep = ''), header=TRUE, row.names=1, sep='\t', check.names=FALSE, colClasses=cc))
-  model_10000 <- data.frame(read.table(paste('~/Downloads/claim_5/evaluations/', model, '/10000/pgen_estimate_all_CDR3.tsv', sep = ''), header=TRUE, row.names=1, sep='\t', check.names=FALSE, colClasses=cc))
-  model_5000 <- data.frame(read.table(paste('~/Downloads/claim_5/evaluations/', model, '/5000/pgen_estimate_all_CDR3.tsv', sep = ''), header=TRUE, row.names=1, sep='\t', check.names=FALSE, colClasses=cc))
-  model_1000 <- data.frame(read.table(paste('~/Downloads/claim_5/evaluations/', model, '/1000/pgen_estimate_all_CDR3.tsv', sep = ''), header=TRUE, row.names=1, sep='\t', check.names=FALSE, colClasses=cc))
-  model_500 <- data.frame(read.table(paste('~/Downloads/claim_5/evaluations/', model, '/500/pgen_estimate_all_CDR3.tsv', sep = ''), header=TRUE, row.names=1, sep='\t', check.names=FALSE, colClasses=cc))
-  model_100 <- data.frame(read.table(paste('~/Downloads/claim_5/evaluations/', model, '/100/pgen_estimate_all_CDR3.tsv', sep = ''), header=TRUE, row.names=1, sep='\t', check.names=FALSE, colClasses=cc))
+  model_all <- data.frame(read.table(paste('~/Downloads/claim_4/evaluations/', model, '/all/pgen_estimate_all_CDR3.tsv', sep = ''), header=TRUE, row.names=1, sep='\t', check.names=FALSE, colClasses=cc))
+  model_50000 <- data.frame(read.table(paste('~/Downloads/claim_4/evaluations/', model, '/50000/pgen_estimate_all_CDR3.tsv', sep = ''), header=TRUE, row.names=1, sep='\t', check.names=FALSE, colClasses=cc))
+  model_10000 <- data.frame(read.table(paste('~/Downloads/claim_4/evaluations/', model, '/10000/pgen_estimate_all_CDR3.tsv', sep = ''), header=TRUE, row.names=1, sep='\t', check.names=FALSE, colClasses=cc))
+  model_5000 <- data.frame(read.table(paste('~/Downloads/claim_4/evaluations/', model, '/5000/pgen_estimate_all_CDR3.tsv', sep = ''), header=TRUE, row.names=1, sep='\t', check.names=FALSE, colClasses=cc))
+  model_1000 <- data.frame(read.table(paste('~/Downloads/claim_4/evaluations/', model, '/1000/pgen_estimate_all_CDR3.tsv', sep = ''), header=TRUE, row.names=1, sep='\t', check.names=FALSE, colClasses=cc))
+  model_500 <- data.frame(read.table(paste('~/Downloads/claim_4/evaluations/', model, '/500/pgen_estimate_all_CDR3.tsv', sep = ''), header=TRUE, row.names=1, sep='\t', check.names=FALSE, colClasses=cc))
+  model_100 <- data.frame(read.table(paste('~/Downloads/claim_4/evaluations/', model, '/100/pgen_estimate_all_CDR3.tsv', sep = ''), header=TRUE, row.names=1, sep='\t', check.names=FALSE, colClasses=cc))
   model_all <- melt(model_all, id.vars = 'row_id')
   model_50000 <- melt(model_50000, id.vars = 'row_id')
   model_10000 <- melt(model_10000, id.vars = 'row_id')
@@ -100,7 +100,7 @@ for (model in MODELS) {
   models <- process_model(model)
   plot_y <- 'Generation probability score'
   plot_x <- 'Generation probability score'
-  output_filename <- paste('~/Downloads/claim_5/subsample_evaluation_plot_', model, '_', CORRELATION_METHOD, '.png', sep = '')
+  output_filename <- paste('~/Downloads/claim_4/subsample_evaluation_plot_', model, '_', CORRELATION_METHOD, '.png', sep = '')
 
   # ----------
   # MAKING THE PLOTS

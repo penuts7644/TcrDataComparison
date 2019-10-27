@@ -65,20 +65,20 @@ for (i in 1:length(MODELS)) {
   plot_y <- paste('V-gene (', MODELS[i], ')', sep = '')
   plot_x <- paste('V-gene trim (3) (', MODELS[i], ')', sep = '')
   legend <- 'Probability score'
-  output_filename <- paste('~/Downloads/claim_5/v_gene_trim3_models_plot_', i - 1,'.png', sep = '')
+  output_filename <- paste('~/Downloads/claim_4/v_gene_trim3_models_plot_', i - 1,'.png', sep = '')
   
   # ----------
   # MODEL DATA
   # ----------
-  ref_v_genes <- process_v_reference(paste('~/Downloads/claim_5/models/subject_', i - 1,'/all/all_params.txt', sep = ''))
+  ref_v_genes <- process_v_reference(paste('~/Downloads/claim_4/models/subject_', i - 1,'/all/all_params.txt', sep = ''))
   
-  model_0_100 <- process_data(ref_v_genes, process_model(paste('~/Downloads/claim_5/models/subject_', i - 1,'/100/all_marginals.txt', sep = ''), paste('~/Downloads/claim_5/models/subject_', i - 1,'/100/all_params.txt', sep = '')), '100')
-  model_0_500 <- process_data(ref_v_genes, process_model(paste('~/Downloads/claim_5/models/subject_', i - 1,'/500/all_marginals.txt', sep = ''), paste('~/Downloads/claim_5/models/subject_', i - 1,'/500/all_params.txt', sep = '')), '500')
-  model_0_1000 <- process_data(ref_v_genes, process_model(paste('~/Downloads/claim_5/models/subject_', i - 1,'/1000/all_marginals.txt', sep = ''), paste('~/Downloads/claim_5/models/subject_', i - 1,'/1000/all_params.txt', sep = '')), '1000')
-  model_0_5000 <- process_data(ref_v_genes, process_model(paste('~/Downloads/claim_5/models/subject_', i - 1,'/5000/all_marginals.txt', sep = ''), paste('~/Downloads/claim_5/models/subject_', i - 1,'/5000/all_params.txt', sep = '')), '5000')
-  model_0_10000 <- process_data(ref_v_genes, process_model(paste('~/Downloads/claim_5/models/subject_', i - 1,'/10000/all_marginals.txt', sep = ''), paste('~/Downloads/claim_5/models/subject_', i - 1,'/10000/all_params.txt', sep = '')), '10000')
-  model_0_50000 <- process_data(ref_v_genes, process_model(paste('~/Downloads/claim_5/models/subject_', i - 1,'/50000/all_marginals.txt', sep = ''), paste('~/Downloads/claim_5/models/subject_', i - 1,'/50000/all_params.txt', sep = '')), '50000')
-  model_0_all <- process_data(ref_v_genes, process_model(paste('~/Downloads/claim_5/models/subject_', i - 1,'/all/all_marginals.txt', sep = ''), paste('~/Downloads/claim_5/models/subject_', i - 1,'/all/all_params.txt', sep = '')), 'all')
+  model_0_100 <- process_data(ref_v_genes, process_model(paste('~/Downloads/claim_4/models/subject_', i - 1,'/100/all_marginals.txt', sep = ''), paste('~/Downloads/claim_4/models/subject_', i - 1,'/100/all_params.txt', sep = '')), '100')
+  model_0_500 <- process_data(ref_v_genes, process_model(paste('~/Downloads/claim_4/models/subject_', i - 1,'/500/all_marginals.txt', sep = ''), paste('~/Downloads/claim_4/models/subject_', i - 1,'/500/all_params.txt', sep = '')), '500')
+  model_0_1000 <- process_data(ref_v_genes, process_model(paste('~/Downloads/claim_4/models/subject_', i - 1,'/1000/all_marginals.txt', sep = ''), paste('~/Downloads/claim_4/models/subject_', i - 1,'/1000/all_params.txt', sep = '')), '1000')
+  model_0_5000 <- process_data(ref_v_genes, process_model(paste('~/Downloads/claim_4/models/subject_', i - 1,'/5000/all_marginals.txt', sep = ''), paste('~/Downloads/claim_4/models/subject_', i - 1,'/5000/all_params.txt', sep = '')), '5000')
+  model_0_10000 <- process_data(ref_v_genes, process_model(paste('~/Downloads/claim_4/models/subject_', i - 1,'/10000/all_marginals.txt', sep = ''), paste('~/Downloads/claim_4/models/subject_', i - 1,'/10000/all_params.txt', sep = '')), '10000')
+  model_0_50000 <- process_data(ref_v_genes, process_model(paste('~/Downloads/claim_4/models/subject_', i - 1,'/50000/all_marginals.txt', sep = ''), paste('~/Downloads/claim_4/models/subject_', i - 1,'/50000/all_params.txt', sep = '')), '50000')
+  model_0_all <- process_data(ref_v_genes, process_model(paste('~/Downloads/claim_4/models/subject_', i - 1,'/all/all_marginals.txt', sep = ''), paste('~/Downloads/claim_4/models/subject_', i - 1,'/all/all_params.txt', sep = '')), 'all')
   
   models <- as.data.frame(do.call("rbind", list(model_0_100, model_0_500, model_0_1000, model_0_5000, model_0_10000, model_0_50000, model_0_all)))
   rm(ref_v_genes, model_0_100, model_0_500, model_0_1000, model_0_5000, model_0_10000, model_0_50000, model_0_all)

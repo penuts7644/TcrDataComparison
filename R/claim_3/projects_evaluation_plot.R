@@ -36,22 +36,21 @@ process_model <- function(y, x, combination) {
 # ----------
 plot_y <- 'Generation probability score'
 plot_x <- 'Generation probability score'
-output_filename <- paste('~/Downloads/claim_3_and_4/igor_evaluation_plot_', CORRELATION_METHOD,'.png', sep = '')
+output_filename <- paste('~/Downloads/claim_3/project_evaluation_plot_', CORRELATION_METHOD, '.png', sep = '')
 
 # ----------
 # MODEL DATA
 # ----------
 cc <- c(NA, "NULL", NA, rep("NULL", 4), rep(NA, 2))
 
-model_dejong <- data.frame(read.table('~/Downloads/claim_3_and_4/evaluations/dejong/pgen_estimate_all_CDR3.tsv', header=TRUE, row.names=1, sep='\t', check.names=FALSE, colClasses=cc))
-model_emerson <- data.frame(read.table('~/Downloads/claim_3_and_4/evaluations/emerson/pgen_estimate_all_CDR3.tsv', header=TRUE, row.names=1, sep='\t', check.names=FALSE, colClasses=cc))
-model_peakman <- data.frame(read.table('~/Downloads/claim_3_and_4/evaluations/peakman/pgen_estimate_all_CDR3.tsv', header=TRUE, row.names=1, sep='\t', check.names=FALSE, colClasses=cc))
-model_igor <- data.frame(read.table('~/Downloads/claim_3_and_4/evaluations/igor/pgen_estimate_all_CDR3.tsv', header=TRUE, row.names=1, sep='\t', check.names=FALSE, colClasses=cc))
-model_b_i <- process_model(model_dejong, model_igor, 'project 1 (left) - IGoR (bottom)')
-model_e_i <- process_model(model_emerson, model_igor, 'project 2 (left) - IGoR (bottom)')
-model_p_i <- process_model(model_peakman, model_igor, 'project 3 (left) - IGoR (bottom)')
-models <- as.data.frame(do.call("rbind", list(model_b_i, model_e_i, model_p_i)))
-rm(cc, model_dejong, model_emerson, model_peakman, model_igor, model_b_i, model_e_i, model_p_i)
+model_dejong <- data.frame(read.table('~/Downloads/claim_3/evaluations/dejong/pgen_estimate_all_CDR3.tsv', header=TRUE, row.names=1, sep='\t', check.names=FALSE, colClasses=cc))
+model_emerson <- data.frame(read.table('~/Downloads/claim_3/evaluations/emerson/pgen_estimate_all_CDR3.tsv', header=TRUE, row.names=1, sep='\t', check.names=FALSE, colClasses=cc))
+model_peakman <- data.frame(read.table('~/Downloads/claim_3/evaluations/peakman/pgen_estimate_all_CDR3.tsv', header=TRUE, row.names=1, sep='\t', check.names=FALSE, colClasses=cc))
+model_b_e <- process_model(model_dejong, model_emerson, 'project 1 (left) - project 2 (bottom)')
+model_b_p <- process_model(model_dejong, model_peakman, 'project 1 (left) - project 3 (bottom)')
+model_e_p <- process_model(model_emerson, model_peakman, 'project 2 (left) - project 3 (bottom)')
+models <- as.data.frame(do.call("rbind", list(model_b_e, model_b_p, model_e_p)))
+rm(cc, model_dejong, model_emerson, model_peakman, model_b_e, model_b_p, model_e_p)
 
 # ----------
 # MAKING THE PLOTS

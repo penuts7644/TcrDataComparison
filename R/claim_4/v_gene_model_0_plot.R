@@ -35,18 +35,18 @@ process_model <- function(marginals, params, subsample) {
 plot_y <- 'V-gene probability score'
 plot_x <- 'V-gene'
 legend <- 'Subsample'
-output_filename <- '~/Downloads/claim_5/v_gene_model_0_plot.png'
+output_filename <- '~/Downloads/claim_4/v_gene_model_0_plot.png'
 
 # ----------
 # MODEL DATA
 # ----------
-model_0_all <- process_model('~/Downloads/claim_5/models/subject_0/all/all_marginals.txt', '~/Downloads/claim_5/models/subject_0/all/all_params.txt', 'all')
-model_0_50000 <- process_model('~/Downloads/claim_5/models/subject_0/50000/all_marginals.txt', '~/Downloads/claim_5/models/subject_0/50000/all_params.txt', '50000')
-model_0_10000 <- process_model('~/Downloads/claim_5/models/subject_0/10000/all_marginals.txt', '~/Downloads/claim_5/models/subject_0/10000/all_params.txt', '10000')
-model_0_5000 <- process_model('~/Downloads/claim_5/models/subject_0/5000/all_marginals.txt', '~/Downloads/claim_5/models/subject_0/5000/all_params.txt', '5000')
-model_0_1000 <- process_model('~/Downloads/claim_5/models/subject_0/1000/all_marginals.txt', '~/Downloads/claim_5/models/subject_0/1000/all_params.txt', '1000')
-model_0_500 <- process_model('~/Downloads/claim_5/models/subject_0/500/all_marginals.txt', '~/Downloads/claim_5/models/subject_0/500/all_params.txt', '500')
-model_0_100 <- process_model('~/Downloads/claim_5/models/subject_0/100/all_marginals.txt', '~/Downloads/claim_5/models/subject_0/100/all_params.txt', '100')
+model_0_all <- process_model('~/Downloads/claim_4/models/subject_0/all/all_marginals.txt', '~/Downloads/claim_4/models/subject_0/all/all_params.txt', 'all')
+model_0_50000 <- process_model('~/Downloads/claim_4/models/subject_0/50000/all_marginals.txt', '~/Downloads/claim_4/models/subject_0/50000/all_params.txt', '50000')
+model_0_10000 <- process_model('~/Downloads/claim_4/models/subject_0/10000/all_marginals.txt', '~/Downloads/claim_4/models/subject_0/10000/all_params.txt', '10000')
+model_0_5000 <- process_model('~/Downloads/claim_4/models/subject_0/5000/all_marginals.txt', '~/Downloads/claim_4/models/subject_0/5000/all_params.txt', '5000')
+model_0_1000 <- process_model('~/Downloads/claim_4/models/subject_0/1000/all_marginals.txt', '~/Downloads/claim_4/models/subject_0/1000/all_params.txt', '1000')
+model_0_500 <- process_model('~/Downloads/claim_4/models/subject_0/500/all_marginals.txt', '~/Downloads/claim_4/models/subject_0/500/all_params.txt', '500')
+model_0_100 <- process_model('~/Downloads/claim_4/models/subject_0/100/all_marginals.txt', '~/Downloads/claim_4/models/subject_0/100/all_params.txt', '100')
 models <- as.data.frame(do.call("rbind", list(model_0_all, model_0_50000, model_0_10000, model_0_5000, model_0_1000, model_0_500, model_0_100)))
 rm(model_0_all, model_0_50000, model_0_10000, model_0_5000, model_0_1000, model_0_500, model_0_100)
 

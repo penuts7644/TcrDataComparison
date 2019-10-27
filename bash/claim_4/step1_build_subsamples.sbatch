@@ -58,11 +58,11 @@ cp ${filesArray[${SLURM_ARRAY_TASK_ID}]} .
 BASENAME=`basename ${filesArray[${SLURM_ARRAY_TASK_ID}]}`
 
 # Mark the output dir for automatic copying to $SLURM_SUBMIT_DIR afterwards
-savefile claim_5
+savefile claim_4
 
 # Create the job dir for the output files
-mkdir claim_5
-cd claim_5
+mkdir claim_4
+cd claim_4
 mkdir models
 cd models
 mkdir subject_${SLURM_ARRAY_TASK_ID}

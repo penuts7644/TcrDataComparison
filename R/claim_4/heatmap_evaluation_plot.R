@@ -24,14 +24,14 @@ process_model <- function() {
   rownames(corr) <- comb
   for(i in 1:nrow(corr)) {
     row_info <- unlist(strsplit(rownames(corr)[i], " - ", fixed = TRUE))
-    model_row <- data.frame(read.table(paste('~/Downloads/claim_5/evaluations/', sn[row_info[1]], '/', row_info[2], '/pgen_estimate_all_CDR3.tsv', sep = ''), header=TRUE, row.names=1, sep='\t', check.names=FALSE, colClasses=cc))
+    model_row <- data.frame(read.table(paste('~/Downloads/claim_4/evaluations/', sn[row_info[1]], '/', row_info[2], '/pgen_estimate_all_CDR3.tsv', sep = ''), header=TRUE, row.names=1, sep='\t', check.names=FALSE, colClasses=cc))
     model_row <- melt(model_row, id.vars = 'row_id')
     for(j in 1:ncol(corr)) {
       if (i == j) {
         next
       } else if (is.na(corr[j, i])) {
         col_info <- unlist(strsplit(colnames(corr)[j], " - ", fixed = TRUE))
-        model_col <- data.frame(read.table(paste('~/Downloads/claim_5/evaluations/', sn[col_info[1]], '/', col_info[2], '/pgen_estimate_all_CDR3.tsv', sep = ''), header=TRUE, row.names=1, sep='\t', check.names=FALSE, colClasses=cc))
+        model_col <- data.frame(read.table(paste('~/Downloads/claim_4/evaluations/', sn[col_info[1]], '/', col_info[2], '/pgen_estimate_all_CDR3.tsv', sep = ''), header=TRUE, row.names=1, sep='\t', check.names=FALSE, colClasses=cc))
         model_col <- melt(model_col, id.vars = 'row_id')
         models <- merge(model_row, model_col, by=c('row_id', 'variable'))
         models <- models[!(models$row_id %in% models[is.na(models[, 3:4]), 'row_id']), ][, 2:4]
@@ -55,7 +55,7 @@ correlations$Var2 <- factor(as.factor(correlations$Var2), levels = unique(mixeds
 plot_y <- 'Subject - subsample combination'
 plot_x <- 'Subject - subsample combination'
 legend <- paste('Correlation score (', CORRELATION_METHOD, ')', sep = '')
-output_filename <- paste('~/Downloads/claim_5/subsample_heatmap_plot_', CORRELATION_METHOD, '.png', sep = '')
+output_filename <- paste('~/Downloads/claim_4/subsample_heatmap_plot_', CORRELATION_METHOD, '.png', sep = '')
 
 # ----------
 # MAKING THE PLOTS

@@ -23,11 +23,11 @@ set -o nounset
 # Specify job variables
 ###########################
 filesArray=(
-    "${SLURM_SUBMIT_DIR}/Emerson2017/reduced_15e4/HIP05832.tsv"
-    "${SLURM_SUBMIT_DIR}/Emerson2017/reduced_15e4/HIP09051.tsv"
-    "${SLURM_SUBMIT_DIR}/Emerson2017/reduced_15e4/HIP13809.tsv"
-    "${SLURM_SUBMIT_DIR}/Emerson2017/reduced_15e4/HIP08816.tsv"
-    "${SLURM_SUBMIT_DIR}/Emerson2017/reduced_15e4/HIP08346.tsv"
+    "${SLURM_SUBMIT_DIR}/DeJong2018/reduced_15e4/Tofa-CD8-T05-24.tsv"
+    "${SLURM_SUBMIT_DIR}/DeJong2018/reduced_15e4/Tofa-CD8-T07-24.tsv"
+    "${SLURM_SUBMIT_DIR}/DeJong2018/reduced_15e4/Tofa-CD8-T11-24.tsv"
+    "${SLURM_SUBMIT_DIR}/DeJong2018/reduced_15e4/healthy_control_3_CD8.tsv"
+    "${SLURM_SUBMIT_DIR}/DeJong2018/reduced_15e4/healthy_control_4_CD8.tsv"
 )
 
 cd ${SCRATCH}
@@ -35,15 +35,15 @@ cp "${SLURM_SUBMIT_DIR}/TcrDataComparison/immuno_probs_config.ini" .
 cp -r "${SLURM_SUBMIT_DIR}/human_TRB" .
 
 # Mark the output dir for automatic copying to $SLURM_SUBMIT_DIR afterwards
-savefile claim_3_and_4
+savefile claim_3
 
 # Create the job dir for the output files
-mkdir claim_3_and_4
-cd claim_3_and_4
+mkdir claim_3
+cd claim_3
 mkdir models
 cd models
-mkdir emerson
-cd emerson
+mkdir dejong
+cd dejong
 
 
 ###########################
@@ -59,7 +59,7 @@ do
     fi
 done
 
-# Extract the data files from the emerson data file
+# Extract the data files from the data file
 immuno-probs -threads ${OMP_NUM_THREADS} -out-name 'converted' -config-file '../../../immuno_probs_config.ini' convert -ref V '../../../human_TRB/TRBV.fasta' -ref J '../../../human_TRB/TRBJ.fasta' -seqs tmp_combined_dataset.tsv
 rm tmp_combined_dataset.tsv
 
