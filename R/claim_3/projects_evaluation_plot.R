@@ -45,12 +45,12 @@ cc <- c(NA, "NULL", NA, rep("NULL", 4), rep(NA, 2))
 
 model_emerson <- data.frame(read.table('~/Downloads/claim_3/evaluations/emerson/pgen_estimate_all_CDR3.tsv', header=TRUE, row.names=1, sep='\t', check.names=FALSE, colClasses=cc))
 model_dejong <- data.frame(read.table('~/Downloads/claim_3/evaluations/dejong/pgen_estimate_all_CDR3.tsv', header=TRUE, row.names=1, sep='\t', check.names=FALSE, colClasses=cc))
-model_peakman <- data.frame(read.table('~/Downloads/claim_3/evaluations/peakman/pgen_estimate_all_CDR3.tsv', header=TRUE, row.names=1, sep='\t', check.names=FALSE, colClasses=cc))
+model_gomez <- data.frame(read.table('~/Downloads/claim_3/evaluations/gomez/pgen_estimate_all_CDR3.tsv', header=TRUE, row.names=1, sep='\t', check.names=FALSE, colClasses=cc))
 model_e_j <- process_model(model_emerson, model_dejong, 'study 1 (left) - study 2 (bottom)')
-model_e_p <- process_model(model_emerson, model_peakman, 'study 1 (left) - study 3 (bottom)')
-model_j_p <- process_model(model_dejong, model_peakman, 'study 2 (left) - study 3 (bottom)')
-models <- as.data.frame(do.call("rbind", list(model_e_j, model_e_p, model_j_p)))
-rm(cc, model_dejong, model_emerson, model_peakman, model_e_j, model_e_p, model_j_p)
+model_e_g <- process_model(model_emerson, model_gomez, 'study 1 (left) - study 3 (bottom)')
+model_j_g <- process_model(model_dejong, model_gomez, 'study 2 (left) - study 3 (bottom)')
+models <- as.data.frame(do.call("rbind", list(model_e_j, model_e_g, model_j_g)))
+rm(cc, model_dejong, model_emerson, model_gomez, model_e_j, model_e_g, model_j_g)
 
 # ----------
 # MAKING THE PLOTS

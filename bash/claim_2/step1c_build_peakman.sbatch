@@ -23,11 +23,11 @@ set -o nounset
 # Specify job variables
 ###########################
 filesArray=(
-    "${SLURM_SUBMIT_DIR}/Peakman2018/reduced_15e4/T1D9_CM.tsv"
-    "${SLURM_SUBMIT_DIR}/Peakman2018/reduced_15e4/T1D10_CM.tsv"
-    "${SLURM_SUBMIT_DIR}/Peakman2018/reduced_15e4/T1D11_CM.tsv"
-    "${SLURM_SUBMIT_DIR}/Peakman2018/reduced_15e4/HD10_CM.tsv"
-    "${SLURM_SUBMIT_DIR}/Peakman2018/reduced_15e4/HD14_CM.tsv"
+    "${SLURM_SUBMIT_DIR}/Gomez2018/reduced_15e4/T1D9_CM.tsv"
+    "${SLURM_SUBMIT_DIR}/Gomez2018/reduced_15e4/T1D10_CM.tsv"
+    "${SLURM_SUBMIT_DIR}/Gomez2018/reduced_15e4/T1D11_CM.tsv"
+    "${SLURM_SUBMIT_DIR}/Gomez2018/reduced_15e4/HD10_CM.tsv"
+    "${SLURM_SUBMIT_DIR}/Gomez2018/reduced_15e4/HD14_CM.tsv"
 )
 
 # Copy over files to work dir
@@ -45,8 +45,8 @@ mkdir claim_2
 cd claim_2
 mkdir models
 cd models
-mkdir peakman
-cd peakman
+mkdir gomez
+cd gomez
 mkdir subject_${SLURM_ARRAY_TASK_ID}
 cd subject_${SLURM_ARRAY_TASK_ID}
 

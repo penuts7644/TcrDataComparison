@@ -23,11 +23,11 @@ set -o nounset
 # Specify job variables
 ###########################
 filesArray=(
-    "${SLURM_SUBMIT_DIR}/Peakman2018/reduced_15e4/T1D9_CM.tsv"
-    "${SLURM_SUBMIT_DIR}/Peakman2018/reduced_15e4/T1D10_CM.tsv"
-    "${SLURM_SUBMIT_DIR}/Peakman2018/reduced_15e4/T1D11_CM.tsv"
-    "${SLURM_SUBMIT_DIR}/Peakman2018/reduced_15e4/HD10_CM.tsv"
-    "${SLURM_SUBMIT_DIR}/Peakman2018/reduced_15e4/HD14_CM.tsv"
+    "${SLURM_SUBMIT_DIR}/Gomez2018/reduced_15e4/T1D9_CM.tsv"
+    "${SLURM_SUBMIT_DIR}/Gomez2018/reduced_15e4/T1D10_CM.tsv"
+    "${SLURM_SUBMIT_DIR}/Gomez2018/reduced_15e4/T1D11_CM.tsv"
+    "${SLURM_SUBMIT_DIR}/Gomez2018/reduced_15e4/HD10_CM.tsv"
+    "${SLURM_SUBMIT_DIR}/Gomez2018/reduced_15e4/HD14_CM.tsv"
 )
 
 cd ${SCRATCH}
@@ -42,8 +42,8 @@ mkdir claim_3
 cd claim_3
 mkdir models
 cd models
-mkdir peakman
-cd peakman
+mkdir gomez
+cd gomez
 
 
 ###########################
@@ -59,7 +59,7 @@ do
     fi
 done
 
-# Extract the data files from the peakman data file
+# Extract the data files from the gomez data file
 immuno-probs -threads ${OMP_NUM_THREADS} -out-name 'converted' -config-file '../../../immuno_probs_config.ini' convert -ref V '../../../human_TRB/TRBV.fasta' -ref J '../../../human_TRB/TRBJ.fasta' -seqs tmp_combined_dataset.tsv
 rm tmp_combined_dataset.tsv
 

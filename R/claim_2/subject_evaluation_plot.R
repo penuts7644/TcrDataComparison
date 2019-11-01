@@ -3,7 +3,7 @@
 # ----------
 library(GGally)
 library(reshape2)
-PROJECTS <- c('dejong', 'emerson', 'peakman')
+PROJECTS <- c('dejong', 'emerson', 'gomez')
 CORRELATION_METHOD <- 'pearson' # or 'spearman'
 
 # ----------
